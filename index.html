@@ -1,157 +1,362 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <title>Tsaqif Mukhayyar</title>
-    <meta
-      content="Student who love programming. Skilled on: PHP, Python"
-      name="Description"
-    />
-    <meta
-      content="tsaqif mukhayyar, muhammad tsaqif mukhayyar, mukhayyar, tsaqif, tsaqif programmer, mukhayyar programmer, backend programmer, engineer"
-      name="Keywords"
-    />
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  </head>
-  <body style="background-color: grey;">
-    <div class="container">
-      <div class="navbar">
-        <a href="/"><i class="fas fa-home"></i></a>
-        <a href="portfolio.html"><i class="fas fa-suitcase"></i></a>
-      </div>
-      <section id="hero">
-        <div class="hero-container">
-          <div class="hero-box">
-            <div class="hero-text">
-              <h6>
-                  Kenalkan saya, <br>
-                  Muhammad Tsaqif Mukhayyar
-              </h6>
-              <p>Freelance Web Developer, Penulis Blog, dan Social Media Desainer
-              </p>
-            </div>
-            <div class="hero-image">
-              <img src="profile-pic.png" alt="">
-          </div>
-          </div>
-        </div>
-      </section>
-      <section id="modules">
-        <h3 class="section-title">
-            Skill yang dikuasai
-        </h3>
-        <div class="launcher-menu-grid"> 
-            <a href="#" class="launcher-menu-item">
-                <div class="launcher-menu-item-container">
-                    <div class="launcher-menu-item-image">
-                        <i class="fa-brands fa-laravel"></i>
-                    </div>
-                    <div class="launcher-menu-item-label">Laravel</div>
-                    <div class="launcher-menu-item-label">1.5 Years Experience</div>
-                </div>
-            </a>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <title>Tsaqif Mukhayyar</title>
+  <meta name="description" content="Muhammad Tsaqif Mukhayyar — Software Engineer. Deep tech, aerospace, computer vision, full-stack.">
+  <meta name="keywords" content="tsaqif mukhayyar, software engineer, backend, deep tech, aerospace, EEPISAT, portfolio">
+  <link rel="sitemap" type="application/xml" href="sitemap.xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-            <a href="#" class="launcher-menu-item">
-                <div class="launcher-menu-item-container">
-                    <div class="launcher-menu-item-image">
-                        <i class="fa-brands fa-php"></i>
-                    </div>
-                    <div class="launcher-menu-item-label">PHP</div>
-                    <div class="launcher-menu-item-label">1.5 Years Experience</div>
-                </div>
-            </a>   
+    body {
+      background: #faf8f0;
+      font-family: 'Patrick Hand', cursive;
+      color: #2c2c2c;
+      font-size: 18px;
+      line-height: 1.8;
+    }
 
-            <a href="#" class="launcher-menu-item">
-                <div class="launcher-menu-item-container">
-                    <div class="launcher-menu-item-image">
-                      <i class="fa-brands fa-node-js"></i>
-                    </div>
-                    <div class="launcher-menu-item-label">Node.Js</div>
-                    <div class="launcher-menu-item-label">3 Month Experience</div>
-                </div>
-            </a>
+    .notebook {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff;
+      min-height: 100vh;
+      border-left: 3px solid #e8c4c4;
+      border-right: 1px solid #e0ddd5;
+      padding: 40px 50px 60px 70px;
+      position: relative;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.05), -2px 0 8px rgba(0,0,0,0.05);
+      background-image:
+        repeating-linear-gradient(
+          transparent,
+          transparent 31px,
+          #e0ddd5 31px,
+          #e0ddd5 32px
+        );
+      background-position-y: 8px;
+    }
 
-            <a href="#" class="launcher-menu-item">
-                <div class="launcher-menu-item-container">
-                    <div class="launcher-menu-item-image">
-                      <i class="fa-brands fa-js"></i>
-                    </div>
-                    <div class="launcher-menu-item-label">JQuery</div>
-                    <div class="launcher-menu-item-label">5 Month Experience</div>
-                </div>
-            </a>       
-            <a href="#" class="launcher-menu-item">
-                <div class="launcher-menu-item-container">
-                    <div class="launcher-menu-item-image">
-                      <img src="mysql-logo.png" alt="">
-                    </div>
-                    <div class="launcher-menu-item-label">MySQL</div>
-                    <div class="launcher-menu-item-label">1.5 Years Experience</div>
-                </div>
-            </a>       
-            <a href="#" class="launcher-menu-item">
-                <div class="launcher-menu-item-container">
-                    <div class="launcher-menu-item-image">
-                      <i class="fa-brands fa-aws"></i>
-                    </div>
-                    <div class="launcher-menu-item-label">AWS</div>
-                    <div class="launcher-menu-item-label">5 Month Experience</div>
-                </div>
-            </a>       
-        </div>
-      </section>
-      <!-- <div class="switch-card">
-        <div class="form-group-switch">
-            <h4>Download CV</h4>
-            <div class="switch-group">
-                <label class="switch">
-                    <a href="" download=""><i class="fas fa-download"></i></a>
-                </label>
-            </div>
-        </div>
-      </div> -->
-      <footer>
-        <div class="social">
-            <ul class="social-list">
-                <li>
-                    <a href="//github.com/mukhayyar">
-                        <i class="fab fa-github"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="//instagram.com/tsaqifmukhayyar">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="//linkedin.com/in/tsaqifmukhayyar/">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="//twitter.com/MukhayyarTsaqif">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="//medium.com/@tsaqifmukhayyar">
-                        <i class="fab fa-medium"></i>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <hr class="footer-divider">
-        <div class="footer-copyright">
-            <span>
-                © 2021 - 2022
-                <a href="//instagram.com/tsaqifmukhayyar">Muhammad Tsaqif Mukhayyar</a>.
-            </span>
-            <span>All Right Reserved.</span>
-        </div>
-    </footer>
-    </div>
-  </body>
+    /* Red margin line */
+    .notebook::before {
+      content: '';
+      position: absolute;
+      left: 55px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #e8c4c4;
+      opacity: 0.6;
+    }
+
+    /* Hole punches */
+    .notebook::after {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 80px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #faf8f0;
+      border: 2px solid #d0cdc5;
+      box-shadow:
+        0 200px 0 0 #faf8f0,
+        0 200px 0 2px #d0cdc5,
+        0 400px 0 0 #faf8f0,
+        0 400px 0 2px #d0cdc5,
+        0 600px 0 0 #faf8f0,
+        0 600px 0 2px #d0cdc5;
+    }
+
+    h1 {
+      font-family: 'Caveat', cursive;
+      font-size: 3em;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 0;
+      line-height: 1.3;
+    }
+
+    h2 {
+      font-family: 'Caveat', cursive;
+      font-size: 1.8em;
+      font-weight: 600;
+      color: #16213e;
+      margin-top: 24px;
+      margin-bottom: 4px;
+      text-decoration: underline;
+      text-decoration-color: #e8c4c4;
+      text-underline-offset: 4px;
+    }
+
+    h3 {
+      font-family: 'Caveat', cursive;
+      font-size: 1.4em;
+      color: #0f3460;
+      margin-top: 16px;
+    }
+
+    .subtitle {
+      font-size: 1.1em;
+      color: #666;
+      margin-bottom: 16px;
+    }
+
+    p { margin-bottom: 8px; }
+
+    a {
+      color: #0f3460;
+      text-decoration: none;
+      border-bottom: 1px dashed #0f3460;
+    }
+    a:hover { color: #e94560; border-color: #e94560; }
+
+    .tag {
+      display: inline-block;
+      background: #f0ece3;
+      border: 1px solid #d5d0c4;
+      border-radius: 3px;
+      padding: 1px 8px;
+      margin: 2px 3px;
+      font-size: 0.85em;
+      color: #555;
+    }
+
+    .exp-item {
+      margin-bottom: 20px;
+      padding-left: 16px;
+      border-left: 2px solid #e0ddd5;
+    }
+
+    .exp-item .role {
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+
+    .exp-item .company {
+      color: #0f3460;
+      font-weight: 600;
+    }
+
+    .exp-item .dates {
+      font-size: 0.85em;
+      color: #999;
+    }
+
+    .exp-item .win {
+      color: #2c7a3a;
+      margin: 2px 0;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px dashed #d0cdc5;
+      margin: 24px 0;
+    }
+
+    .links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 12px 0;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px 24px;
+      margin: 8px 0;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 0.85em;
+      color: #aaa;
+      margin-top: 40px;
+      padding-top: 16px;
+    }
+
+    .crossed { text-decoration: line-through; color: #bbb; }
+
+    .arrow { color: #e94560; }
+
+    /* Mobile */
+    @media (max-width: 640px) {
+      .notebook {
+        padding: 30px 20px 40px 35px;
+        border-left-width: 2px;
+      }
+      .notebook::before { left: 25px; }
+      .notebook::after { display: none; }
+      h1 { font-size: 2.2em; }
+      h2 { font-size: 1.5em; }
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="notebook">
+
+  <h1>Muhammad Tsaqif Mukhayyar</h1>
+  <p class="subtitle">Software Engineer &mdash; Surabaya, Indonesia</p>
+
+  <p>Engineer across software, hardware, and research. Building deep tech in Indonesia. <span class="crossed">PHP dev</span> <span class="arrow">&rarr;</span> full-stack engineer with aerospace dreams.</p>
+
+  <div class="links">
+    <a href="https://linkedin.com/in/tsaqifmukhayyar">LinkedIn</a>
+    <a href="https://github.com/mukhayyar">GitHub</a>
+    <a href="mailto:m3g3nz2@gmail.com">Email</a>
+  </div>
+
+  <hr class="divider">
+
+  <h2>About</h2>
+  <p>Final-year engineering student at Politeknik Elektronika Negeri Surabaya (PENS). Splitting time between computer vision research, industrial deep tech software engineering, and SaaS products for Indonesian market.</p>
+  <p>I think of my career as &pi;-shaped &mdash; deep in software, deep in hardware, with systems thinking connecting them.</p>
+  <p>Open to: deep tech, aerospace, computer vision, first-principles engineering.</p>
+
+  <hr class="divider">
+
+  <h2>Skills</h2>
+  <p>
+    <span class="tag">TypeScript</span>
+    <span class="tag">Python</span>
+    <span class="tag">Rust</span>
+    <span class="tag">Go</span>
+    <span class="tag">C/C++</span>
+    <span class="tag">React</span>
+    <span class="tag">Hono</span>
+    <span class="tag">Bun</span>
+    <span class="tag">FastAPI</span>
+    <span class="tag">PostgreSQL</span>
+    <span class="tag">Docker</span>
+    <span class="tag">AWS</span>
+    <span class="tag">Tailwind</span>
+    <span class="tag">Three.js</span>
+    <span class="tag">Embedded/RF</span>
+    <span class="tag">Computer Vision</span>
+    <span class="tag">IoT</span>
+    <span class="tag">Firmware (Teensy/ESP32)</span>
+  </p>
+
+  <hr class="divider">
+
+  <h2>Experience</h2>
+
+  <div class="exp-item">
+    <p><span class="role">Software Developer</span> @ <span class="company">OptiControl</span></p>
+    <p class="dates">Jan 2026 &ndash; Present &middot; Selangor, Malaysia</p>
+  </div>
+
+  <div class="exp-item">
+    <p><span class="role">Product Engineer</span> @ <span class="company">AITOMA</span></p>
+    <p class="dates">Dec 2025 &ndash; Jan 2026 &middot; Surabaya</p>
+  </div>
+
+  <div class="exp-item">
+    <p><span class="role">Product Engineer</span> @ <span class="company">Petruck.id</span></p>
+    <p class="dates">Jul 2025 &ndash; Jan 2026 &middot; Jakarta</p>
+    <p class="win">~ Built AI business analytics agent with LLMs + dynamic SQL + Plotly.js</p>
+    <p class="win">~ Key dev in "war room" for critical incident response</p>
+    <p class="win">~ Google Sheets integration for data sync</p>
+  </div>
+
+  <div class="exp-item">
+    <p><span class="role">Software Developer Intern</span> @ <span class="company">PT Infoglobal Teknologi Semesta</span></p>
+    <p class="dates">Jan 2025 &ndash; Jun 2025 &middot; Surabaya</p>
+    <p class="win">~ Migrated legacy system to clean architecture</p>
+    <p class="win">~ 20% faster data fetch (async FastAPI), 90% LCP improvement</p>
+    <p class="win">~ Built custom OpenProject integration</p>
+  </div>
+
+  <hr class="divider">
+
+  <h2>EEPISAT <span style="font-size:0.7em; color:#999;">(3 yrs 10 mos)</span></h2>
+
+  <div class="exp-item">
+    <p><span class="role">R&D Project Manager</span></p>
+    <p class="dates">Sep 2025 &ndash; Present</p>
+    <p class="win">~ CanSat firmware (Teensy 4.1) &mdash; paragliding mission with autonomous servo control</p>
+    <p class="win">~ Rocket avionics firmware (Teensy 4.0 + Arduino Nano)</p>
+    <p class="win">~ Portable GCS on Raspberry Pi with Flutter-pi</p>
+    <p class="win">~ Launch pad controller (ESP32 + relays)</p>
+  </div>
+
+  <div class="exp-item">
+    <p><span class="role">Team Leader</span></p>
+    <p class="dates">Sep 2024 &ndash; Sep 2025</p>
+    <p class="win">~ 22nd &rarr; 11th place worldwide CanSat Competition</p>
+    <p class="win">~ Teknofest 2025 Top 15 Finalist (Model Satellite)</p>
+    <p class="win">~ CanSat Kit &mdash; Top 4 at Indonesia Aerospace Hackathon</p>
+    <p class="win">~ Presented at APRSAF-30 in Perth, Australia</p>
+    <p class="win">~ Secured partnership with PT Pasifik Satelit Nusantara</p>
+  </div>
+
+  <div class="exp-item">
+    <p><span class="role">Head of Software</span></p>
+    <p class="dates">Sep 2022 &ndash; Sep 2023</p>
+    <p class="win">~ Ground station app (C# + WPF) for telemetry</p>
+    <p class="win">~ Moxon Yagi Antenna &mdash; 4km stable link (XBee Pro S3B)</p>
+    <p class="win">~ 99% data integrity during flight</p>
+    <p class="win">~ Presented at APRSAF-29 in Jakarta</p>
+  </div>
+
+  <hr class="divider">
+
+  <h2>Awards</h2>
+  <p>~ 2nd Place CanSat Competition 2023</p>
+  <p>~ 1st Place Cloud Computing WILKER IV JATIM</p>
+  <p>~ 3rd Place Computer Networking</p>
+  <p>~ Best Team Member &mdash; Project BEE (Pusan National University)</p>
+  <p>~ 3rd Place Team Project &mdash; Project BEE</p>
+
+  <hr class="divider">
+
+  <h2>Education</h2>
+  <div class="exp-item">
+    <p><span class="role">B.ASc Informatics Engineering</span></p>
+    <p class="company">Politeknik Elektronika Negeri Surabaya (PENS)</p>
+    <p class="dates">Aug 2022 &ndash; Aug 2026</p>
+  </div>
+  <div class="exp-item">
+    <p><span class="role">High School Diploma, Software Engineering</span></p>
+    <p class="company">SMK Telekomunikasi Darul 'Ulum</p>
+    <p class="dates">Jun 2019 &ndash; 2022</p>
+  </div>
+
+  <hr class="divider">
+
+  <h2>Certifications</h2>
+  <p>
+    <span class="tag">AWS Generative AI</span>
+    <span class="tag">AWS Security</span>
+    <span class="tag">AWS Compute</span>
+    <span class="tag">HackerRank Problem Solving</span>
+    <span class="tag">Cyber Security 101</span>
+  </p>
+
+  <hr class="divider">
+
+  <h2>Contact</h2>
+  <div class="contact-grid">
+    <p>Email: <a href="mailto:m3g3nz2@gmail.com">m3g3nz2@gmail.com</a></p>
+    <p>GitHub: <a href="https://github.com/mukhayyar">mukhayyar</a></p>
+    <p>LinkedIn: <a href="https://linkedin.com/in/tsaqifmukhayyar">tsaqifmukhayyar</a></p>
+    <p>Location: Surabaya, Indonesia</p>
+  </div>
+
+  <div class="footer">
+    <p>~ written on a notebook, 2026 ~</p>
+  </div>
+
+</div>
+
+</body>
 </html>
