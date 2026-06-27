@@ -1,0 +1,100 @@
+[
+  {
+    "type": "book",
+    "title": "The Lean Startup",
+    "author": "Eric Ries",
+    "tag": "startup",
+    "note": "Build-measure-learn. Ship fast, validate faster."
+  },
+  {
+    "type": "book",
+    "title": "Zero to One",
+    "author": "Peter Thiel",
+    "tag": "thinking",
+    "note": "Monopoly > competition. Create new things, don't copy."
+  },
+  {
+    "type": "book",
+    "title": "Clean Architecture",
+    "author": "Robert C. Martin",
+    "tag": "engineering",
+    "note": "Dependencies point inward. Frameworks are details."
+  },
+  {
+    "type": "book",
+    "title": "Designing Data-Intensive Applications",
+    "author": "Martin Kleppmann",
+    "tag": "engineering",
+    "note": "The bible for distributed systems thinking."
+  },
+  {
+    "type": "book",
+    "title": "The Hard Thing About Hard Things",
+    "author": "Ben Horowitz",
+    "tag": "leadership",
+    "note": "No formula for hard decisions. Just make them."
+  },
+  {
+    "type": "book",
+    "title": "Atomic Habits",
+    "author": "James Clear",
+    "tag": "growth",
+    "note": "1% better daily. Systems > goals."
+  },
+  {
+    "type": "book",
+    "title": "Elon Musk",
+    "author": "Walter Isaacson",
+    "tag": "thinking",
+    "note": "First-principles reasoning applied to rockets and everything."
+  },
+  {
+    "type": "book",
+    "title": "The Pragmatic Programmer",
+    "author": "Hunt & Thomas",
+    "tag": "engineering",
+    "note": "DRY, orthogonality, tracer bullets. Timeless craft."
+  },
+  {
+    "type": "podcast",
+    "title": "Lex Fridman Podcast",
+    "author": "Lex Fridman",
+    "tag": "thinking",
+    "note": "Deep conversations on AI, science, philosophy. Long-form gold."
+  },
+  {
+    "type": "podcast",
+    "title": "Acquired",
+    "author": "Ben Gilbert & David Rosenthal",
+    "tag": "startup",
+    "note": "How great companies became great. 3-hour deep dives."
+  },
+  {
+    "type": "podcast",
+    "title": "The Changelog",
+    "author": "Changelog Media",
+    "tag": "engineering",
+    "note": "Open source, developer tools, engineering culture."
+  },
+  {
+    "type": "podcast",
+    "title": "Syntax",
+    "author": "Wes Bos & Scott Tolinski",
+    "tag": "engineering",
+    "note": "Web dev tips. Practical, no fluff."
+  },
+  {
+    "type": "podcast",
+    "title": "How I Built This",
+    "author": "Guy Raz / NPR",
+    "tag": "startup",
+    "note": "Founder stories. The messy reality behind the success."
+  },
+  {
+    "type": "podcast",
+    "title": "Darknet Diaries",
+    "author": "Jack Rhysider",
+    "tag": "security",
+    "note": "True cybersecurity stories. Hacking, social engineering, espionage."
+  }
+]

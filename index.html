@@ -70,6 +70,18 @@
     .pub-item .venue{font-size:.9em;color:#2c7a3a;font-weight:600}
     .pub-item .excerpt{font-size:.9em;color:#666;margin:4px 0;font-style:italic}
     .pub-item .pub-meta{font-size:.8em;color:#999;margin-top:4px}
+    .shelf-item{display:flex;gap:14px;margin-bottom:16px;padding:12px;background:#faf8f0;border-radius:4px;border:1px solid #e0ddd5;transition:transform .2s}
+    .shelf-item:hover{transform:translateX(4px)}
+    .shelf-icon{font-size:1.8em;line-height:1;width:36px;text-align:center;flex-shrink:0}
+    .shelf-details{flex:1}
+    .shelf-details .title{font-weight:600;color:#1a1a2e;font-size:1.05em}
+    .shelf-details .author{font-size:.85em;color:#0f3460}
+    .shelf-details .note{font-size:.85em;color:#666;font-style:italic;margin-top:2px}
+    .shelf-tag{display:inline-block;font-size:.7em;padding:1px 6px;border-radius:3px;margin-left:6px;font-weight:600;vertical-align:middle}
+    .shelf-tag-startup{background:#fff3cd;color:#856404}.shelf-tag-thinking{background:#d4edda;color:#155724}
+    .shelf-tag-engineering{background:#cce5ff;color:#004085}.shelf-tag-leadership{background:#f8d7da;color:#721c24}
+    .shelf-tag-growth{background:#e2d9f3;color:#4a1d8e}.shelf-tag-security{background:#333;color:#0f0}
+    .shelf-section-title{font-family:'Caveat',cursive;font-size:1.5em;color:#16213e;margin:20px 0 10px;display:flex;align-items:center;gap:8px}
     .reveal{opacity:0;transform:translateY(15px)}.reveal.active{opacity:1;transform:translateY(0);transition:opacity .5s,transform .5s}
     .ink-reveal{clip-path:inset(0 100% 0 0);transition:clip-path .8s ease-out}.ink-reveal.written{clip-path:inset(0 0 0 0)}
     @media(max-width:900px){
@@ -110,12 +122,14 @@
       <div class="page-tab" data-page="projects">Projects</div>
       <div class="page-tab" data-page="achievements">Achievements</div>
       <div class="page-tab" data-page="writing">Writing</div>
+      <div class="page-tab" data-page="bookshelf">Bookshelf</div>
     </div>
     <div class="notebook">
       <div class="page active" id="page-main"></div>
       <div class="page" id="page-projects"></div>
       <div class="page" id="page-achievements"></div>
       <div class="page" id="page-writing"></div>
+      <div class="page" id="page-bookshelf"></div>
     </div>
   </div>
 
@@ -137,10 +151,10 @@ async function load(file) {
 }
 
 async function init() {
-  const [profile, experience, eepisat, projects, achievements, publications, blog, postits] = await Promise.all([
+  const [profile, experience, eepisat, projects, achievements, publications, blog, postits, bookshelf] = await Promise.all([
     load('profile.json'), load('experience.json'), load('eepisat.json'),
     load('projects.json'), load('achievements.json'), load('publications.json'),
-    load('blog.json'), load('postits.json')
+    load('blog.json'), load('postits.json'), load('bookshelf.json')
   ]);
 
   // ===== POST-ITS =====
@@ -266,6 +280,34 @@ async function init() {
     <div class="footer"><p>~ add more in data/blog.json ~</p></div>
   `;
 
+  // ===== PAGE: BOOKSHELF =====
+  const books = bookshelf.filter(b => b.type === 'book');
+  const pods = bookshelf.filter(b => b.type === 'podcast');
+
+  function renderShelfItem(item) {
+    const icon = item.type === 'book' ? '\ud83d\udcd6' : '\ud83c\udfa7';
+    return `<div class="shelf-item">
+      <div class="shelf-icon">${icon}</div>
+      <div class="shelf-details">
+        <p class="title">${item.title} <span class="shelf-tag shelf-tag-${item.tag}">${item.tag}</span></p>
+        <p class="author">${item.author}</p>
+        <p class="note">"${item.note}"</p>
+      </div>
+    </div>`;
+  }
+
+  $('#page-bookshelf').innerHTML = `
+    <h1>Bookshelf</h1>
+    <p class="subtitle">Books and podcasts that shaped how I think</p>
+    <hr class="divider">
+    <div class="shelf-section-title">\ud83d\udcda Books</div>
+    ${books.map(renderShelfItem).join('')}
+    <hr class="divider">
+    <div class="shelf-section-title">\ud83c\udfa7 Podcasts</div>
+    ${pods.map(renderShelfItem).join('')}
+    <div class="footer"><p>~ add more in data/bookshelf.json ~</p></div>
+  `;
+
   // ===== ANIMATIONS =====
   // Tabs
   $$('.page-tab').forEach(tab => {
@@ -374,7 +416,7 @@ async function init() {
 
 function initReveals(container){
   // Mark sections for pencil ink-reveal (desktop) or instant reveal (mobile)
-  const els=container.querySelectorAll('h2,.exp-item,.links,.contact-grid,.footer,.project-card,.achievement,.pub-item');
+  const els=container.querySelectorAll('h2,.exp-item,.links,.contact-grid,.footer,.project-card,.achievement,.pub-item,.shelf-item,.shelf-section-title');
   const useInk = window.innerWidth > 900;
 
   els.forEach((el,i)=>{
