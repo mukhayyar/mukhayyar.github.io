@@ -20,60 +20,112 @@
       color: #2c2c2c;
       font-size: 18px;
       line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    /* ===== NOTEBOOK ===== */
+    .notebook-wrapper {
+      max-width: 820px;
+      margin: 20px auto;
+      perspective: 2000px;
+      position: relative;
     }
 
     .notebook {
-      max-width: 800px;
-      margin: 0 auto;
       background: #fff;
-      min-height: 100vh;
       border-left: 3px solid #e8c4c4;
       border-right: 1px solid #e0ddd5;
       padding: 40px 50px 60px 70px;
       position: relative;
-      box-shadow: 2px 0 8px rgba(0,0,0,0.05), -2px 0 8px rgba(0,0,0,0.05);
-      background-image:
-        repeating-linear-gradient(
-          transparent,
-          transparent 31px,
-          #e0ddd5 31px,
-          #e0ddd5 32px
-        );
+      box-shadow: 4px 4px 15px rgba(0,0,0,0.1), -2px 0 8px rgba(0,0,0,0.03);
+      background-image: repeating-linear-gradient(transparent, transparent 31px, #e0ddd5 31px, #e0ddd5 32px);
       background-position-y: 8px;
+      min-height: 100vh;
     }
 
-    /* Red margin line */
     .notebook::before {
       content: '';
       position: absolute;
       left: 55px;
-      top: 0;
-      bottom: 0;
+      top: 0; bottom: 0;
       width: 2px;
       background: #e8c4c4;
       opacity: 0.6;
     }
 
-    /* Hole punches */
     .notebook::after {
       content: '';
       position: absolute;
-      left: 15px;
-      top: 80px;
-      width: 20px;
-      height: 20px;
+      left: 15px; top: 80px;
+      width: 20px; height: 20px;
       border-radius: 50%;
       background: #faf8f0;
       border: 2px solid #d0cdc5;
-      box-shadow:
-        0 200px 0 0 #faf8f0,
-        0 200px 0 2px #d0cdc5,
-        0 400px 0 0 #faf8f0,
-        0 400px 0 2px #d0cdc5,
-        0 600px 0 0 #faf8f0,
-        0 600px 0 2px #d0cdc5;
+      box-shadow: 0 200px 0 0 #faf8f0, 0 200px 0 2px #d0cdc5,
+                  0 400px 0 0 #faf8f0, 0 400px 0 2px #d0cdc5,
+                  0 600px 0 0 #faf8f0, 0 600px 0 2px #d0cdc5;
     }
 
+    /* ===== PAGE TABS ===== */
+    .page-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    .page-tab {
+      font-family: 'Caveat', cursive;
+      font-size: 1.2em;
+      font-weight: 600;
+      padding: 8px 20px 6px;
+      background: #f5f0e5;
+      border: 1px solid #d0cdc5;
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      color: #888;
+      position: relative;
+      top: 1px;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .page-tab:hover { background: #faf5ea; color: #555; }
+
+    .page-tab.active {
+      background: #fff;
+      color: #1a1a2e;
+      border-bottom: 1px solid #fff;
+      z-index: 11;
+    }
+
+    /* ===== PAGE CONTENT ===== */
+    .page {
+      display: none;
+      opacity: 0;
+    }
+
+    .page.active {
+      display: block;
+      opacity: 1;
+    }
+
+    /* ===== PENCIL ===== */
+    .pencil {
+      position: fixed;
+      z-index: 100;
+      pointer-events: none;
+      filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.15));
+      opacity: 0;
+    }
+
+    .pencil svg { width: 50px; height: 240px; }
+
+    @media (max-width: 768px) { .pencil { display: none; } }
+
+    /* ===== TYPOGRAPHY ===== */
     h1 {
       font-family: 'Caveat', cursive;
       font-size: 3em;
@@ -95,26 +147,10 @@
       text-underline-offset: 4px;
     }
 
-    h3 {
-      font-family: 'Caveat', cursive;
-      font-size: 1.4em;
-      color: #0f3460;
-      margin-top: 16px;
-    }
-
-    .subtitle {
-      font-size: 1.1em;
-      color: #666;
-      margin-bottom: 16px;
-    }
-
+    .subtitle { font-size: 1.1em; color: #666; margin-bottom: 16px; }
     p { margin-bottom: 8px; }
 
-    a {
-      color: #0f3460;
-      text-decoration: none;
-      border-bottom: 1px dashed #0f3460;
-    }
+    a { color: #0f3460; text-decoration: none; border-bottom: 1px dashed #0f3460; }
     a:hover { color: #e94560; border-color: #e94560; }
 
     .tag {
@@ -133,39 +169,13 @@
       padding-left: 16px;
       border-left: 2px solid #e0ddd5;
     }
+    .exp-item .role { font-weight: 600; color: #1a1a2e; }
+    .exp-item .company { color: #0f3460; font-weight: 600; }
+    .exp-item .dates { font-size: 0.85em; color: #999; }
+    .exp-item .win { color: #2c7a3a; margin: 2px 0; }
 
-    .exp-item .role {
-      font-weight: 600;
-      color: #1a1a2e;
-    }
-
-    .exp-item .company {
-      color: #0f3460;
-      font-weight: 600;
-    }
-
-    .exp-item .dates {
-      font-size: 0.85em;
-      color: #999;
-    }
-
-    .exp-item .win {
-      color: #2c7a3a;
-      margin: 2px 0;
-    }
-
-    .divider {
-      border: none;
-      border-top: 1px dashed #d0cdc5;
-      margin: 24px 0;
-    }
-
-    .links {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin: 12px 0;
-    }
+    .divider { border: none; border-top: 1px dashed #d0cdc5; margin: 24px 0; }
+    .links { display: flex; gap: 20px; flex-wrap: wrap; margin: 12px 0; }
 
     .contact-grid {
       display: grid;
@@ -174,272 +184,381 @@
       margin: 8px 0;
     }
 
-    .footer {
-      text-align: center;
-      font-size: 0.85em;
-      color: #aaa;
-      margin-top: 40px;
-      padding-top: 16px;
-    }
-
+    .footer { text-align: center; font-size: 0.85em; color: #aaa; margin-top: 40px; padding-top: 16px; }
     .crossed { text-decoration: line-through; color: #bbb; }
-
     .arrow { color: #e94560; }
 
-    /* Mobile */
+    /* ===== PROJECT CARDS ===== */
+    .project-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 16px 0;
+    }
+
+    .project-card {
+      background: #faf8f0;
+      border: 1px solid #e0ddd5;
+      border-radius: 4px;
+      padding: 14px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: default;
+    }
+
+    .project-card:hover {
+      transform: translateY(-2px) rotate(-0.5deg);
+      box-shadow: 3px 3px 8px rgba(0,0,0,0.08);
+    }
+
+    .project-card h3 {
+      font-family: 'Caveat', cursive;
+      font-size: 1.3em;
+      color: #0f3460;
+      margin: 0 0 4px;
+    }
+
+    .project-card .desc { font-size: 0.9em; color: #666; margin-bottom: 6px; }
+    .project-card .tech { font-size: 0.8em; color: #999; }
+
+    /* ===== ACHIEVEMENT ITEM ===== */
+    .achievement {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      padding: 10px;
+      background: #faf8f0;
+      border-radius: 4px;
+      border-left: 3px solid #f4c542;
+    }
+
+    .achievement .medal { font-size: 1.5em; line-height: 1; }
+    .achievement .details { flex: 1; }
+    .achievement .title { font-weight: 600; color: #1a1a2e; }
+    .achievement .meta { font-size: 0.85em; color: #999; }
+
+    /* ===== MOBILE ===== */
     @media (max-width: 640px) {
-      .notebook {
-        padding: 30px 20px 40px 35px;
-        border-left-width: 2px;
-      }
+      .notebook { padding: 30px 20px 40px 35px; border-left-width: 2px; }
       .notebook::before { left: 25px; }
       .notebook::after { display: none; }
       h1 { font-size: 2.2em; }
       h2 { font-size: 1.5em; }
       .contact-grid { grid-template-columns: 1fr; }
-    }
-    /* Pencil */
-    .pencil {
-      position: fixed;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%) rotate(-30deg);
-      z-index: 100;
-      pointer-events: none;
-      filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
-      transition: transform 0.1s ease-out;
+      .project-grid { grid-template-columns: 1fr; }
+      .page-tab { font-size: 1em; padding: 6px 12px; }
     }
 
-    .pencil svg {
-      width: 60px;
-      height: 280px;
+    /* ===== PAGE FLIP ===== */
+    .page-flip-enter {
+      animation: pageFlipIn 0.5s ease-out;
     }
 
-    /* Writing line that follows pencil */
-    .writing-line {
-      position: fixed;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent 10%, #2c2c2c 30%, #2c2c2c 70%, transparent 90%);
-      opacity: 0;
-      pointer-events: none;
-      z-index: 99;
+    @keyframes pageFlipIn {
+      0% { transform: rotateY(-90deg) scale(0.95); opacity: 0; transform-origin: left center; }
+      100% { transform: rotateY(0) scale(1); opacity: 1; }
     }
 
-    /* Reveal animation for sections */
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
-    .reveal.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Pencil scribble trail */
-    .scribble {
-      position: fixed;
-      pointer-events: none;
-      z-index: 98;
-      opacity: 0;
-    }
-
-    /* Hide pencil on small screens */
-    @media (max-width: 640px) {
-      .pencil { display: none; }
-    }
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(15px); }
+    .reveal.active { opacity: 1; transform: translateY(0); transition: opacity 0.5s, transform 0.5s; }
   </style>
 </head>
 <body>
 
-<!-- Pencil SVG -->
+<!-- Pencil -->
 <div class="pencil" id="pencil">
   <svg viewBox="0 0 60 280" xmlns="http://www.w3.org/2000/svg">
-    <!-- Eraser -->
     <rect x="15" y="0" width="30" height="25" rx="3" fill="#e8a0a0"/>
     <rect x="15" y="20" width="30" height="8" fill="#c0c0c0"/>
-    <!-- Body -->
     <rect x="15" y="28" width="30" height="200" fill="#f4c542"/>
-    <rect x="15" y="28" width="30" height="200" fill="url(#pencilGrad)"/>
-    <!-- Stripe -->
+    <rect x="15" y="28" width="30" height="200" fill="url(#pg)"/>
     <rect x="15" y="28" width="30" height="8" fill="#2a6e2a"/>
     <rect x="15" y="210" width="30" height="8" fill="#2a6e2a"/>
-    <!-- Metal ferrule -->
     <polygon points="15,228 45,228 38,258 22,258" fill="#c0c0c0"/>
     <line x1="18" y1="235" x2="42" y2="235" stroke="#a0a0a0" stroke-width="1"/>
     <line x1="20" y1="242" x2="40" y2="242" stroke="#a0a0a0" stroke-width="1"/>
-    <line x1="22" y1="249" x2="38" y2="249" stroke="#a0a0a0" stroke-width="1"/>
-    <!-- Tip -->
     <polygon points="22,258 38,258 30,280" fill="#f5deb3"/>
     <polygon points="28,272 32,272 30,280" fill="#333"/>
-    <!-- Gradient -->
     <defs>
-      <linearGradient id="pencilGrad" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stop-color="rgba(0,0,0,0.1)"/>
-        <stop offset="30%" stop-color="rgba(255,255,255,0.15)"/>
-        <stop offset="70%" stop-color="rgba(0,0,0,0)"/>
-        <stop offset="100%" stop-color="rgba(0,0,0,0.12)"/>
+      <linearGradient id="pg" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="rgba(0,0,0,0.08)"/>
+        <stop offset="30%" stop-color="rgba(255,255,255,0.12)"/>
+        <stop offset="100%" stop-color="rgba(0,0,0,0.1)"/>
       </linearGradient>
     </defs>
   </svg>
 </div>
 
-<div class="notebook">
-
-  <h1>Muhammad Tsaqif Mukhayyar</h1>
-  <p class="subtitle">Software Engineer &mdash; Surabaya, Indonesia</p>
-
-  <p>Engineer across software, hardware, and research. Building deep tech in Indonesia. <span class="crossed">PHP dev</span> <span class="arrow">&rarr;</span> full-stack engineer with aerospace dreams.</p>
-
-  <div class="links">
-    <a href="https://linkedin.com/in/tsaqifmukhayyar">LinkedIn</a>
-    <a href="https://github.com/mukhayyar">GitHub</a>
-    <a href="mailto:m3g3nz2@gmail.com">Email</a>
+<div class="notebook-wrapper">
+  <!-- Tabs -->
+  <div class="page-tabs">
+    <div class="page-tab active" data-page="main">About Me</div>
+    <div class="page-tab" data-page="projects">Projects</div>
+    <div class="page-tab" data-page="achievements">Achievements</div>
   </div>
 
-  <hr class="divider">
+  <div class="notebook">
 
-  <h2>About</h2>
-  <p>Final-year engineering student at Politeknik Elektronika Negeri Surabaya (PENS). Splitting time between computer vision research, industrial deep tech software engineering, and SaaS products for Indonesian market.</p>
-  <p>I think of my career as &pi;-shaped &mdash; deep in software, deep in hardware, with systems thinking connecting them.</p>
-  <p>Open to: deep tech, aerospace, computer vision, first-principles engineering.</p>
+    <!-- ===== PAGE: MAIN ===== -->
+    <div class="page active" id="page-main">
+      <h1>Muhammad Tsaqif Mukhayyar</h1>
+      <p class="subtitle">Software Engineer &mdash; Surabaya, Indonesia</p>
+      <p>Engineer across software, hardware, and research. Building deep tech in Indonesia. <span class="crossed">PHP dev</span> <span class="arrow">&rarr;</span> full-stack engineer with aerospace dreams.</p>
 
-  <hr class="divider">
+      <div class="links">
+        <a href="https://linkedin.com/in/tsaqifmukhayyar">LinkedIn</a>
+        <a href="https://github.com/mukhayyar">GitHub</a>
+        <a href="mailto:m3g3nz2@gmail.com">Email</a>
+      </div>
 
-  <h2>Skills</h2>
-  <p>
-    <span class="tag">TypeScript</span>
-    <span class="tag">Python</span>
-    <span class="tag">Rust</span>
-    <span class="tag">Go</span>
-    <span class="tag">C/C++</span>
-    <span class="tag">React</span>
-    <span class="tag">Hono</span>
-    <span class="tag">Bun</span>
-    <span class="tag">FastAPI</span>
-    <span class="tag">PostgreSQL</span>
-    <span class="tag">Docker</span>
-    <span class="tag">AWS</span>
-    <span class="tag">Tailwind</span>
-    <span class="tag">Three.js</span>
-    <span class="tag">Embedded/RF</span>
-    <span class="tag">Computer Vision</span>
-    <span class="tag">IoT</span>
-    <span class="tag">Firmware (Teensy/ESP32)</span>
-  </p>
+      <hr class="divider">
 
-  <hr class="divider">
+      <h2>About</h2>
+      <p>Final-year engineering student at PENS. Splitting time between computer vision research, industrial deep tech software engineering, and SaaS products for Indonesian market.</p>
+      <p>&pi;-shaped career &mdash; deep in software, deep in hardware, systems thinking connecting them.</p>
 
-  <h2>Experience</h2>
+      <hr class="divider">
 
-  <div class="exp-item">
-    <p><span class="role">Software Developer</span> @ <span class="company">OptiControl</span></p>
-    <p class="dates">Jan 2026 &ndash; Present &middot; Selangor, Malaysia</p>
+      <h2>Skills</h2>
+      <p>
+        <span class="tag">TypeScript</span><span class="tag">Python</span><span class="tag">Rust</span>
+        <span class="tag">Go</span><span class="tag">C/C++</span><span class="tag">React</span>
+        <span class="tag">Hono</span><span class="tag">Bun</span><span class="tag">FastAPI</span>
+        <span class="tag">PostgreSQL</span><span class="tag">Docker</span><span class="tag">AWS</span>
+        <span class="tag">Tailwind</span><span class="tag">Three.js</span><span class="tag">Embedded/RF</span>
+        <span class="tag">Computer Vision</span><span class="tag">IoT</span><span class="tag">Firmware</span>
+      </p>
+
+      <hr class="divider">
+
+      <h2>Experience</h2>
+      <div class="exp-item">
+        <p><span class="role">Software Developer</span> @ <span class="company">OptiControl</span></p>
+        <p class="dates">Jan 2026 &ndash; Present &middot; Selangor, Malaysia</p>
+      </div>
+      <div class="exp-item">
+        <p><span class="role">Product Engineer</span> @ <span class="company">AITOMA</span></p>
+        <p class="dates">Dec 2025 &ndash; Jan 2026 &middot; Surabaya</p>
+      </div>
+      <div class="exp-item">
+        <p><span class="role">Product Engineer</span> @ <span class="company">Petruck.id</span></p>
+        <p class="dates">Jul 2025 &ndash; Jan 2026 &middot; Jakarta</p>
+        <p class="win">~ AI business analytics agent (LLMs + dynamic SQL + Plotly.js)</p>
+        <p class="win">~ "War room" critical incident response</p>
+      </div>
+      <div class="exp-item">
+        <p><span class="role">Software Developer Intern</span> @ <span class="company">PT Infoglobal</span></p>
+        <p class="dates">Jan 2025 &ndash; Jun 2025 &middot; Surabaya</p>
+        <p class="win">~ Legacy migration to clean architecture</p>
+        <p class="win">~ 90% LCP improvement, 20% faster data fetch</p>
+      </div>
+
+      <hr class="divider">
+
+      <h2>EEPISAT <span style="font-size:0.7em; color:#999;">(3y 10m)</span></h2>
+      <div class="exp-item">
+        <p><span class="role">R&D Project Manager</span> <span class="dates">Sep 2025 &ndash; Present</span></p>
+        <p class="win">~ CanSat firmware &middot; Rocket avionics &middot; Portable GCS &middot; Launch pad</p>
+      </div>
+      <div class="exp-item">
+        <p><span class="role">Team Leader</span> <span class="dates">Sep 2024 &ndash; Sep 2025</span></p>
+        <p class="win">~ 22nd &rarr; 11th worldwide &middot; Teknofest Top 15 &middot; APRSAF-30 Perth</p>
+      </div>
+      <div class="exp-item">
+        <p><span class="role">Head of Software</span> <span class="dates">Sep 2022 &ndash; Sep 2023</span></p>
+        <p class="win">~ Ground station (C# WPF) &middot; 4km antenna link &middot; 99% data integrity</p>
+      </div>
+
+      <hr class="divider">
+
+      <h2>Education</h2>
+      <div class="exp-item">
+        <p><span class="role">B.ASc Informatics Engineering</span></p>
+        <p class="company">Politeknik Elektronika Negeri Surabaya (PENS)</p>
+        <p class="dates">Aug 2022 &ndash; Aug 2026</p>
+      </div>
+
+      <hr class="divider">
+
+      <h2>Contact</h2>
+      <div class="contact-grid">
+        <p>Email: <a href="mailto:m3g3nz2@gmail.com">m3g3nz2@gmail.com</a></p>
+        <p>GitHub: <a href="https://github.com/mukhayyar">mukhayyar</a></p>
+        <p>LinkedIn: <a href="https://linkedin.com/in/tsaqifmukhayyar">tsaqifmukhayyar</a></p>
+        <p>Location: Surabaya, Indonesia</p>
+      </div>
+
+      <div class="footer"><p>~ written on a notebook, 2026 ~</p></div>
+    </div>
+
+    <!-- ===== PAGE: PROJECTS ===== -->
+    <div class="page" id="page-projects">
+      <h1>Projects</h1>
+      <p class="subtitle">Things I've built &mdash; shipped or shipped-ish</p>
+
+      <hr class="divider">
+
+      <div class="project-grid">
+        <div class="project-card">
+          <h3>RocketHub</h3>
+          <p class="desc">Community rocket flight visualization platform. Upload OpenRocket data, 3D trajectory viewer, leaderboards.</p>
+          <p class="tech">React &middot; Three.js &middot; Express &middot; SQLite &middot; MapLibre</p>
+        </div>
+        <div class="project-card">
+          <h3>CanSat Firmware</h3>
+          <p class="desc">Autonomous paragliding mission firmware. BMP/IMU/GPS sensor fusion, servo actuator control.</p>
+          <p class="tech">C++ &middot; Teensy 4.1 &middot; XBee &middot; PID Control</p>
+        </div>
+        <div class="project-card">
+          <h3>Rocket Avionics</h3>
+          <p class="desc">Flight computer for sounding rocket. Real-time sensor processing, data logging, recovery deployment.</p>
+          <p class="tech">C++ &middot; Teensy 4.0 &middot; Arduino Nano &middot; IMU/GPS/BMP</p>
+        </div>
+        <div class="project-card">
+          <h3>Portable GCS</h3>
+          <p class="desc">Ground control station on Raspberry Pi. Real-time telemetry visualization for mission monitoring.</p>
+          <p class="tech">Flutter-pi &middot; Raspberry Pi OS Lite &middot; Serial</p>
+        </div>
+        <div class="project-card">
+          <h3>Petruck AI Analytics</h3>
+          <p class="desc">AI business consultant agent. Natural language &rarr; SQL &rarr; data visualization, zero predefined components.</p>
+          <p class="tech">LLMs &middot; Dynamic SQL &middot; Plotly.js &middot; Sandpack</p>
+        </div>
+        <div class="project-card">
+          <h3>Infoglobal Legacy Migration</h3>
+          <p class="desc">Modernized defense-sector legacy system. 90% LCP improvement, async FastAPI backend.</p>
+          <p class="tech">FastAPI &middot; React &middot; Zustand &middot; Shadcn/UI &middot; OpenProject</p>
+        </div>
+        <div class="project-card">
+          <h3>CanSat Kit</h3>
+          <p class="desc">Educational satellite kit for students. Top 4 Indonesia Aerospace Hackathon. Presented at APRSAF-30.</p>
+          <p class="tech">Hardware &middot; Education &middot; Space Outreach</p>
+        </div>
+        <div class="project-card">
+          <h3>HiFish IoT</h3>
+          <p class="desc">IoT aquaculture monitoring system. Built for SEIN FARM, Bandung. Led multinational team.</p>
+          <p class="tech">IoT &middot; Hardware &middot; Web &middot; Cross-country team</p>
+        </div>
+        <div class="project-card">
+          <h3>Ground Station (WPF)</h3>
+          <p class="desc">Desktop telemetry app for CanSat missions. Real-time data viz + command transmission.</p>
+          <p class="tech">C# &middot; WPF &middot; XBee Pro S3B &middot; MVVM</p>
+        </div>
+        <div class="project-card">
+          <h3>Moxon Yagi Antenna</h3>
+          <p class="desc">Custom-built directional antenna. Achieved 4km stable communication link for CanSat.</p>
+          <p class="tech">RF Engineering &middot; XBee &middot; 900MHz</p>
+        </div>
+      </div>
+
+      <div class="footer"><p>~ flip to another page &uarr; ~</p></div>
+    </div>
+
+    <!-- ===== PAGE: ACHIEVEMENTS ===== -->
+    <div class="page" id="page-achievements">
+      <h1>Achievements</h1>
+      <p class="subtitle">Competitions, awards, and milestones</p>
+
+      <hr class="divider">
+
+      <h2>Competition Results</h2>
+
+      <div class="achievement">
+        <div class="medal">&#x1F948;</div>
+        <div class="details">
+          <p class="title">2nd Place &mdash; CanSat Competition 2023</p>
+          <p class="meta">Worldwide &middot; Virginia, USA</p>
+        </div>
+      </div>
+      <div class="achievement">
+        <div class="medal">&#x1F3C6;</div>
+        <div class="details">
+          <p class="title">Teknofest 2025 &mdash; Top 15 Finalist</p>
+          <p class="meta">Model Satellite Competition &middot; Turkey</p>
+        </div>
+      </div>
+      <div class="achievement">
+        <div class="medal">&#x1F947;</div>
+        <div class="details">
+          <p class="title">1st Place &mdash; Cloud Computing WILKER IV JATIM</p>
+          <p class="meta">Regional &middot; East Java</p>
+        </div>
+      </div>
+      <div class="achievement">
+        <div class="medal">&#x1F949;</div>
+        <div class="details">
+          <p class="title">3rd Place &mdash; Computer Networking</p>
+          <p class="meta">National Competition</p>
+        </div>
+      </div>
+      <div class="achievement">
+        <div class="medal">&#11088;</div>
+        <div class="details">
+          <p class="title">Best Team Member &mdash; Project BEE</p>
+          <p class="meta">Pusan National University Fellowship &middot; Bandung</p>
+        </div>
+      </div>
+      <div class="achievement">
+        <div class="medal">&#x1F949;</div>
+        <div class="details">
+          <p class="title">3rd Place Team &mdash; Project BEE</p>
+          <p class="meta">IoT Aquaculture Challenge</p>
+        </div>
+      </div>
+      <div class="achievement">
+        <div class="medal">&#x1F4E1;</div>
+        <div class="details">
+          <p class="title">Top 4 &mdash; Indonesia Aerospace Hackathon</p>
+          <p class="meta">CanSat Kit &middot; Asosiasi Satelit Indonesia</p>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <h2>International Presentations</h2>
+
+      <div class="achievement">
+        <div class="medal">&#x1F30F;</div>
+        <div class="details">
+          <p class="title">APRSAF-30 &mdash; Perth, Australia</p>
+          <p class="meta">Space Education 4 All Working Groups &middot; 2025</p>
+        </div>
+      </div>
+      <div class="achievement">
+        <div class="medal">&#x1F30F;</div>
+        <div class="details">
+          <p class="title">APRSAF-29 &mdash; Jakarta, Indonesia</p>
+          <p class="meta">CanSat Research Presentation &middot; 2023</p>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <h2>Certifications</h2>
+      <p>
+        <span class="tag">AWS Generative AI</span>
+        <span class="tag">AWS Security</span>
+        <span class="tag">AWS Compute</span>
+        <span class="tag">HackerRank Problem Solving</span>
+        <span class="tag">Cyber Security 101</span>
+      </p>
+
+      <hr class="divider">
+
+      <h2>Industry Partnership</h2>
+      <div class="achievement">
+        <div class="medal">&#x1F91D;</div>
+        <div class="details">
+          <p class="title">PT Pasifik Satelit Nusantara (PSN)</p>
+          <p class="meta">Secured funding, study tours, networking for EEPISAT team</p>
+        </div>
+      </div>
+
+      <div class="footer"><p>~ flip to another page &uarr; ~</p></div>
+    </div>
+
   </div>
-
-  <div class="exp-item">
-    <p><span class="role">Product Engineer</span> @ <span class="company">AITOMA</span></p>
-    <p class="dates">Dec 2025 &ndash; Jan 2026 &middot; Surabaya</p>
-  </div>
-
-  <div class="exp-item">
-    <p><span class="role">Product Engineer</span> @ <span class="company">Petruck.id</span></p>
-    <p class="dates">Jul 2025 &ndash; Jan 2026 &middot; Jakarta</p>
-    <p class="win">~ Built AI business analytics agent with LLMs + dynamic SQL + Plotly.js</p>
-    <p class="win">~ Key dev in "war room" for critical incident response</p>
-    <p class="win">~ Google Sheets integration for data sync</p>
-  </div>
-
-  <div class="exp-item">
-    <p><span class="role">Software Developer Intern</span> @ <span class="company">PT Infoglobal Teknologi Semesta</span></p>
-    <p class="dates">Jan 2025 &ndash; Jun 2025 &middot; Surabaya</p>
-    <p class="win">~ Migrated legacy system to clean architecture</p>
-    <p class="win">~ 20% faster data fetch (async FastAPI), 90% LCP improvement</p>
-    <p class="win">~ Built custom OpenProject integration</p>
-  </div>
-
-  <hr class="divider">
-
-  <h2>EEPISAT <span style="font-size:0.7em; color:#999;">(3 yrs 10 mos)</span></h2>
-
-  <div class="exp-item">
-    <p><span class="role">R&D Project Manager</span></p>
-    <p class="dates">Sep 2025 &ndash; Present</p>
-    <p class="win">~ CanSat firmware (Teensy 4.1) &mdash; paragliding mission with autonomous servo control</p>
-    <p class="win">~ Rocket avionics firmware (Teensy 4.0 + Arduino Nano)</p>
-    <p class="win">~ Portable GCS on Raspberry Pi with Flutter-pi</p>
-    <p class="win">~ Launch pad controller (ESP32 + relays)</p>
-  </div>
-
-  <div class="exp-item">
-    <p><span class="role">Team Leader</span></p>
-    <p class="dates">Sep 2024 &ndash; Sep 2025</p>
-    <p class="win">~ 22nd &rarr; 11th place worldwide CanSat Competition</p>
-    <p class="win">~ Teknofest 2025 Top 15 Finalist (Model Satellite)</p>
-    <p class="win">~ CanSat Kit &mdash; Top 4 at Indonesia Aerospace Hackathon</p>
-    <p class="win">~ Presented at APRSAF-30 in Perth, Australia</p>
-    <p class="win">~ Secured partnership with PT Pasifik Satelit Nusantara</p>
-  </div>
-
-  <div class="exp-item">
-    <p><span class="role">Head of Software</span></p>
-    <p class="dates">Sep 2022 &ndash; Sep 2023</p>
-    <p class="win">~ Ground station app (C# + WPF) for telemetry</p>
-    <p class="win">~ Moxon Yagi Antenna &mdash; 4km stable link (XBee Pro S3B)</p>
-    <p class="win">~ 99% data integrity during flight</p>
-    <p class="win">~ Presented at APRSAF-29 in Jakarta</p>
-  </div>
-
-  <hr class="divider">
-
-  <h2>Awards</h2>
-  <p>~ 2nd Place CanSat Competition 2023</p>
-  <p>~ 1st Place Cloud Computing WILKER IV JATIM</p>
-  <p>~ 3rd Place Computer Networking</p>
-  <p>~ Best Team Member &mdash; Project BEE (Pusan National University)</p>
-  <p>~ 3rd Place Team Project &mdash; Project BEE</p>
-
-  <hr class="divider">
-
-  <h2>Education</h2>
-  <div class="exp-item">
-    <p><span class="role">B.ASc Informatics Engineering</span></p>
-    <p class="company">Politeknik Elektronika Negeri Surabaya (PENS)</p>
-    <p class="dates">Aug 2022 &ndash; Aug 2026</p>
-  </div>
-  <div class="exp-item">
-    <p><span class="role">High School Diploma, Software Engineering</span></p>
-    <p class="company">SMK Telekomunikasi Darul 'Ulum</p>
-    <p class="dates">Jun 2019 &ndash; 2022</p>
-  </div>
-
-  <hr class="divider">
-
-  <h2>Certifications</h2>
-  <p>
-    <span class="tag">AWS Generative AI</span>
-    <span class="tag">AWS Security</span>
-    <span class="tag">AWS Compute</span>
-    <span class="tag">HackerRank Problem Solving</span>
-    <span class="tag">Cyber Security 101</span>
-  </p>
-
-  <hr class="divider">
-
-  <h2>Contact</h2>
-  <div class="contact-grid">
-    <p>Email: <a href="mailto:m3g3nz2@gmail.com">m3g3nz2@gmail.com</a></p>
-    <p>GitHub: <a href="https://github.com/mukhayyar">mukhayyar</a></p>
-    <p>LinkedIn: <a href="https://linkedin.com/in/tsaqifmukhayyar">tsaqifmukhayyar</a></p>
-    <p>Location: Surabaya, Indonesia</p>
-  </div>
-
-  <div class="footer">
-    <p>~ written on a notebook, 2026 ~</p>
-  </div>
-
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -447,102 +566,105 @@
 <script>
 gsap.registerPlugin(ScrollTrigger);
 
+// ===== PAGE TABS =====
+const tabs = document.querySelectorAll('.page-tab');
+const pages = document.querySelectorAll('.page');
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.page;
+
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+
+    pages.forEach(p => {
+      p.classList.remove('active', 'page-flip-enter');
+    });
+
+    const page = document.getElementById('page-' + target);
+    page.classList.add('active', 'page-flip-enter');
+
+    // Re-trigger reveals on new page
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => initReveals(page), 100);
+  });
+});
+
+// ===== PENCIL =====
 const pencil = document.getElementById('pencil');
-let lastScrollY = 0;
-let pencilY = window.innerHeight / 2;
-let targetY = window.innerHeight / 2;
-let isWriting = false;
-let writeTimeout;
+const notebookWrapper = document.querySelector('.notebook-wrapper');
 
-// Pencil follows scroll with wobble
-window.addEventListener('scroll', () => {
-  const scrollDelta = window.scrollY - lastScrollY;
-  lastScrollY = window.scrollY;
+if (pencil && window.innerWidth > 768) {
+  // Position pencil relative to notebook right edge
+  function positionPencil() {
+    const rect = notebookWrapper.getBoundingClientRect();
+    const rightEdge = rect.right + 15;
+    pencil.style.left = Math.min(rightEdge, window.innerWidth - 70) + 'px';
+  }
 
-  isWriting = true;
-  clearTimeout(writeTimeout);
-  writeTimeout = setTimeout(() => { isWriting = false; }, 150);
+  let pencilY = 200;
+  let targetPencilY = 200;
+  let writing = false;
+  let writeTimer;
 
-  // Pencil moves with scroll direction
-  targetY = Math.max(100, Math.min(window.innerHeight - 100,
-    pencilY + scrollDelta * 0.3
-  ));
-});
+  window.addEventListener('scroll', () => {
+    writing = true;
+    clearTimeout(writeTimer);
+    writeTimer = setTimeout(() => { writing = false; }, 200);
 
-// Smooth pencil animation loop
-function animatePencil() {
-  pencilY += (targetY - pencilY) * 0.08;
+    const scrollPct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+    targetPencilY = 120 + scrollPct * (window.innerHeight - 300);
+  });
 
-  const wobble = isWriting ? Math.sin(Date.now() * 0.02) * 3 : 0;
-  const tilt = isWriting ? -25 + Math.sin(Date.now() * 0.015) * 5 : -30;
+  function animPencil() {
+    pencilY += (targetPencilY - pencilY) * 0.06;
+    const wobbleX = writing ? Math.sin(Date.now() * 0.025) * 4 : 0;
+    const wobbleR = writing ? -20 + Math.sin(Date.now() * 0.018) * 6 : -25;
 
-  pencil.style.transform = `translateY(${pencilY - 140}px) rotate(${tilt}deg) translateX(${wobble}px)`;
-  pencil.style.opacity = 1;
+    pencil.style.top = pencilY + 'px';
+    pencil.style.transform = `rotate(${wobbleR}deg) translateX(${wobbleX}px)`;
 
-  requestAnimationFrame(animatePencil);
+    positionPencil();
+    requestAnimationFrame(animPencil);
+  }
+
+  gsap.to(pencil, { opacity: 1, duration: 1, delay: 0.8, ease: 'power2.out' });
+  gsap.from(pencil, { x: 100, duration: 1, delay: 0.8, ease: 'back.out(1.2)' });
+  animPencil();
 }
-animatePencil();
 
-// Reveal sections on scroll
-document.querySelectorAll('h2, .exp-item, .links, .contact-grid, .footer, hr.divider').forEach(el => {
-  el.classList.add('reveal');
-
-  gsap.to(el, {
-    opacity: 1,
-    y: 0,
-    duration: 0.6,
-    ease: 'power2.out',
-    scrollTrigger: {
-      trigger: el,
-      start: 'top 85%',
-      toggleActions: 'play none none none',
-    },
-    onStart: () => el.classList.add('active'),
+// ===== REVEALS =====
+function initReveals(container) {
+  const els = container.querySelectorAll('h2, .exp-item, .links, .contact-grid, .footer, .project-card, .achievement');
+  els.forEach((el, i) => {
+    el.classList.remove('active');
+    el.classList.add('reveal');
+    setTimeout(() => el.classList.add('active'), 80 * i);
   });
-});
 
-// Tags pop in
-gsap.utils.toArray('.tag').forEach((tag, i) => {
-  tag.style.opacity = 0;
-  tag.style.transform = 'scale(0.8)';
-
-  gsap.to(tag, {
-    opacity: 1,
-    scale: 1,
-    duration: 0.3,
-    delay: i * 0.05,
-    ease: 'back.out(1.7)',
-    scrollTrigger: {
-      trigger: tag,
-      start: 'top 90%',
-    },
+  // Tags
+  container.querySelectorAll('.tag').forEach((tag, i) => {
+    tag.style.opacity = 0;
+    tag.style.transform = 'scale(0.8)';
+    gsap.to(tag, { opacity: 1, scale: 1, duration: 0.25, delay: 0.3 + i * 0.04, ease: 'back.out(1.7)' });
   });
-});
+}
 
-// Title handwriting effect
-const title = document.querySelector('h1');
+// ===== TITLE TYPEWRITER =====
+const title = document.querySelector('#page-main h1');
 const titleText = title.textContent;
 title.textContent = '';
-title.style.opacity = 1;
-
-let charIndex = 0;
-function typeTitle() {
-  if (charIndex < titleText.length) {
-    title.textContent += titleText[charIndex];
-    charIndex++;
-    setTimeout(typeTitle, 60 + Math.random() * 40);
+let ci = 0;
+function typeIt() {
+  if (ci < titleText.length) {
+    title.textContent += titleText[ci++];
+    setTimeout(typeIt, 55 + Math.random() * 35);
   }
 }
-typeTitle();
+setTimeout(typeIt, 300);
 
-// Pencil initial entrance
-gsap.from(pencil, {
-  x: 200,
-  opacity: 0,
-  duration: 1.2,
-  ease: 'power3.out',
-  delay: 0.5,
-});
+// Init first page reveals
+initReveals(document.getElementById('page-main'));
 </script>
 
 </body>
