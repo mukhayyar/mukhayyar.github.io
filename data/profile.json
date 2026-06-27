@@ -1,0 +1,38 @@
+{
+  "name": "Muhammad Tsaqif Mukhayyar",
+  "title": "Software Engineer",
+  "location": "Surabaya, Indonesia",
+  "bio": "Engineer across software, hardware, and research. Building deep tech in Indonesia.",
+  "bio_extra": "\u03c0-shaped career \u2014 deep in software, deep in hardware, systems thinking connecting them.",
+  "open_to": "deep tech, aerospace, computer vision, first-principles engineering",
+  "links": {
+    "linkedin": "https://linkedin.com/in/tsaqifmukhayyar",
+    "github": "https://github.com/mukhayyar",
+    "email": "m3g3nz2@gmail.com"
+  },
+  "skills": [
+    "TypeScript", "Python", "Rust", "Go", "C/C++", "React", "Hono", "Bun",
+    "FastAPI", "PostgreSQL", "Docker", "AWS", "Tailwind", "Three.js",
+    "Embedded/RF", "Computer Vision", "IoT", "Firmware"
+  ],
+  "languages": [
+    { "lang": "Indonesian", "level": "native" },
+    { "lang": "English", "level": "professional" }
+  ],
+  "education": [
+    {
+      "degree": "B.ASc Informatics Engineering",
+      "school": "Politeknik Elektronika Negeri Surabaya (PENS)",
+      "dates": "Aug 2022 \u2013 Aug 2026"
+    },
+    {
+      "degree": "High School Diploma, Software Engineering",
+      "school": "SMK Telekomunikasi Darul 'Ulum",
+      "dates": "Jun 2019 \u2013 2022"
+    }
+  ],
+  "certifications": [
+    "AWS Generative AI", "AWS Security", "AWS Compute",
+    "HackerRank Problem Solving", "Cyber Security 101"
+  ]
+}

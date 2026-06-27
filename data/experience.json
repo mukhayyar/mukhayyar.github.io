@@ -1,0 +1,38 @@
+[
+  {
+    "role": "Software Developer",
+    "company": "OptiControl",
+    "dates": "Jan 2026 \u2013 Present",
+    "location": "Selangor, Malaysia",
+    "wins": []
+  },
+  {
+    "role": "Product Engineer",
+    "company": "AITOMA",
+    "dates": "Dec 2025 \u2013 Jan 2026",
+    "location": "Surabaya",
+    "wins": []
+  },
+  {
+    "role": "Product Engineer",
+    "company": "Petruck.id",
+    "dates": "Jul 2025 \u2013 Jan 2026",
+    "location": "Jakarta",
+    "wins": [
+      "AI business analytics agent (LLMs + dynamic SQL + Plotly.js)",
+      "\"War room\" critical incident response",
+      "Google Sheets integration for data sync"
+    ]
+  },
+  {
+    "role": "Software Developer Intern",
+    "company": "PT Infoglobal Teknologi Semesta",
+    "dates": "Jan 2025 \u2013 Jun 2025",
+    "location": "Surabaya",
+    "wins": [
+      "Legacy migration to clean architecture",
+      "90% LCP improvement, 20% faster data fetch (async FastAPI)",
+      "Custom OpenProject integration"
+    ]
+  }
+]

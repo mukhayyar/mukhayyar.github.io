@@ -6,522 +6,116 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <title>Tsaqif Mukhayyar</title>
   <meta name="description" content="Muhammad Tsaqif Mukhayyar — Software Engineer for hire. Deep tech, aerospace, full-stack.">
-  <meta name="keywords" content="tsaqif mukhayyar, software engineer, hire, freelance, backend, deep tech, aerospace, EEPISAT">
   <link rel="sitemap" type="application/xml" href="sitemap.xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      background: #f5f0e0;
-      background-image:
-        radial-gradient(circle at 20% 50%, rgba(139,90,43,0.04) 0%, transparent 50%),
-        radial-gradient(circle at 80% 30%, rgba(139,90,43,0.03) 0%, transparent 50%);
-      font-family: 'Patrick Hand', cursive;
-      color: #2c2c2c;
-      font-size: 18px;
-      line-height: 1.8;
-      overflow-x: hidden;
-    }
-
-    /* ===== DESK LAYOUT ===== */
-    .desk {
-      display: grid;
-      grid-template-columns: 200px 1fr 200px;
-      max-width: 1300px;
-      margin: 0 auto;
-      padding: 20px;
-      gap: 20px;
-      align-items: start;
-    }
-
-    /* ===== POST-IT NOTES (sides) ===== */
-    .postit-column {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      position: sticky;
-      top: 20px;
-    }
-
-    .postit {
-      padding: 18px 16px 22px;
-      font-family: 'Caveat', cursive;
-      font-size: 1.05em;
-      line-height: 1.5;
-      position: relative;
-      box-shadow: 3px 3px 8px rgba(0,0,0,0.12);
-      transform: rotate(var(--rot, -2deg));
-      transition: transform 0.3s, box-shadow 0.3s;
-      cursor: default;
-    }
-
-    .postit:hover {
-      transform: rotate(0deg) scale(1.04);
-      box-shadow: 5px 5px 15px rgba(0,0,0,0.18);
-      z-index: 10;
-    }
-
-    .postit::before {
-      content: '';
-      position: absolute;
-      top: -6px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 40px;
-      height: 12px;
-      background: rgba(0,0,0,0.06);
-      border-radius: 0 0 3px 3px;
-    }
-
-    .postit-yellow { background: #fff9a5; --rot: -2deg; }
-    .postit-pink { background: #ffb3ba; --rot: 1.5deg; }
-    .postit-blue { background: #bae1ff; --rot: -1deg; }
-    .postit-green { background: #baffc9; --rot: 2.5deg; }
-    .postit-orange { background: #ffdfba; --rot: -3deg; }
-    .postit-purple { background: #e0c3fc; --rot: 1deg; }
-
-    .postit .postit-title {
-      font-weight: 700;
-      font-size: 1.15em;
-      margin-bottom: 4px;
-      color: #1a1a2e;
-    }
-
-    .postit .postit-body { font-size: 0.95em; color: #333; }
-
-    .postit-cta {
-      background: #ff6b6b;
-      color: #fff !important;
-      text-align: center;
-      font-weight: 700;
-      font-size: 1.2em;
-      padding: 24px 16px;
-      --rot: 0deg;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      display: block;
-    }
-
-    .postit-cta:hover {
-      background: #ee5a5a;
-      transform: rotate(0deg) scale(1.06);
-    }
-
-    .postit-cta .postit-body { color: rgba(255,255,255,0.9); font-size: 0.85em; }
-
-    /* ===== NOTEBOOK (center) ===== */
-    .notebook-wrapper {
-      perspective: 2000px;
-      position: relative;
-    }
-
-    .notebook {
-      background: #fff;
-      border-left: 3px solid #e8c4c4;
-      border-right: 1px solid #e0ddd5;
-      padding: 40px 50px 60px 70px;
-      position: relative;
-      box-shadow: 4px 4px 15px rgba(0,0,0,0.1), -2px 0 8px rgba(0,0,0,0.03);
-      background-image: repeating-linear-gradient(transparent, transparent 31px, #e0ddd5 31px, #e0ddd5 32px);
-      background-position-y: 8px;
-      min-height: 90vh;
-    }
-
-    .notebook::before {
-      content: '';
-      position: absolute;
-      left: 55px; top: 0; bottom: 0;
-      width: 2px;
-      background: #e8c4c4;
-      opacity: 0.6;
-    }
-
-    .notebook::after {
-      content: '';
-      position: absolute;
-      left: 15px; top: 80px;
-      width: 20px; height: 20px;
-      border-radius: 50%;
-      background: #f5f0e0;
-      border: 2px solid #d0cdc5;
-      box-shadow: 0 200px 0 0 #f5f0e0, 0 200px 0 2px #d0cdc5,
-                  0 400px 0 0 #f5f0e0, 0 400px 0 2px #d0cdc5,
-                  0 600px 0 0 #f5f0e0, 0 600px 0 2px #d0cdc5;
-    }
-
-    /* ===== PAGE TABS ===== */
-    .page-tabs {
-      display: flex;
-      gap: 0;
-      margin-bottom: 0;
-      position: relative;
-      z-index: 10;
-    }
-
-    .page-tab {
-      font-family: 'Caveat', cursive;
-      font-size: 1.2em;
-      font-weight: 600;
-      padding: 8px 20px 6px;
-      background: #f5f0e5;
-      border: 1px solid #d0cdc5;
-      border-bottom: none;
-      border-radius: 8px 8px 0 0;
-      cursor: pointer;
-      color: #888;
-      position: relative;
-      top: 1px;
-      transition: all 0.2s;
-      user-select: none;
-    }
-
-    .page-tab:hover { background: #faf5ea; color: #555; }
-
-    .page-tab.active {
-      background: #fff;
-      color: #1a1a2e;
-      border-bottom: 1px solid #fff;
-      z-index: 11;
-    }
-
-    /* ===== PAGE CONTENT ===== */
-    .page { display: none; opacity: 0; }
-    .page.active { display: block; opacity: 1; }
-
-    @keyframes pageFlipIn {
-      0% { transform: rotateY(-90deg) scale(0.95); opacity: 0; transform-origin: left center; }
-      100% { transform: rotateY(0) scale(1); opacity: 1; }
-    }
-    .page-flip-enter { animation: pageFlipIn 0.5s ease-out; }
-
-    /* ===== PENCIL ===== */
-    .pencil {
-      position: fixed;
-      z-index: 100;
-      pointer-events: none;
-      filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.15));
-      opacity: 0;
-    }
-
-    .pencil svg { width: 50px; height: 240px; }
-
-    @media (max-width: 900px) { .pencil { display: none; } }
-
-    /* ===== TYPOGRAPHY ===== */
-    h1 { font-family: 'Caveat', cursive; font-size: 3em; font-weight: 700; color: #1a1a2e; margin-bottom: 0; line-height: 1.3; }
-    h2 { font-family: 'Caveat', cursive; font-size: 1.8em; font-weight: 600; color: #16213e; margin-top: 24px; margin-bottom: 4px; text-decoration: underline; text-decoration-color: #e8c4c4; text-underline-offset: 4px; }
-    .subtitle { font-size: 1.1em; color: #666; margin-bottom: 16px; }
-    p { margin-bottom: 8px; }
-    a { color: #0f3460; text-decoration: none; border-bottom: 1px dashed #0f3460; }
-    a:hover { color: #e94560; border-color: #e94560; }
-
-    .tag { display: inline-block; background: #f0ece3; border: 1px solid #d5d0c4; border-radius: 3px; padding: 1px 8px; margin: 2px 3px; font-size: 0.85em; color: #555; }
-    .exp-item { margin-bottom: 20px; padding-left: 16px; border-left: 2px solid #e0ddd5; }
-    .exp-item .role { font-weight: 600; color: #1a1a2e; }
-    .exp-item .company { color: #0f3460; font-weight: 600; }
-    .exp-item .dates { font-size: 0.85em; color: #999; }
-    .exp-item .win { color: #2c7a3a; margin: 2px 0; }
-    .divider { border: none; border-top: 1px dashed #d0cdc5; margin: 24px 0; }
-    .links { display: flex; gap: 20px; flex-wrap: wrap; margin: 12px 0; }
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px; margin: 8px 0; }
-    .footer { text-align: center; font-size: 0.85em; color: #aaa; margin-top: 40px; padding-top: 16px; }
-    .crossed { text-decoration: line-through; color: #bbb; }
-    .arrow { color: #e94560; }
-
-    /* ===== PROJECT CARDS ===== */
-    .project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
-    .project-card { background: #faf8f0; border: 1px solid #e0ddd5; border-radius: 4px; padding: 14px; transition: transform 0.2s, box-shadow 0.2s; }
-    .project-card:hover { transform: translateY(-2px) rotate(-0.5deg); box-shadow: 3px 3px 8px rgba(0,0,0,0.08); }
-    .project-card h3 { font-family: 'Caveat', cursive; font-size: 1.3em; color: #0f3460; margin: 0 0 4px; }
-    .project-card .desc { font-size: 0.9em; color: #666; margin-bottom: 6px; }
-    .project-card .tech { font-size: 0.8em; color: #999; }
-
-    /* ===== ACHIEVEMENT ===== */
-    .achievement { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 16px; padding: 10px; background: #faf8f0; border-radius: 4px; border-left: 3px solid #f4c542; }
-    .achievement .medal { font-size: 1.5em; line-height: 1; }
-    .achievement .details { flex: 1; }
-    .achievement .title { font-weight: 600; color: #1a1a2e; }
-    .achievement .meta { font-size: 0.85em; color: #999; }
-
-    /* ===== REVEAL ===== */
-    .reveal { opacity: 0; transform: translateY(15px); }
-    .reveal.active { opacity: 1; transform: translateY(0); transition: opacity 0.5s, transform 0.5s; }
-
-    /* ===== MOBILE ===== */
-    @media (max-width: 900px) {
-      .desk { grid-template-columns: 1fr; padding: 10px; }
-      .postit-column { position: static; flex-direction: row; flex-wrap: wrap; gap: 10px; }
-      .postit-column.left { order: -1; }
-      .postit-column.right { order: 3; }
-      .notebook-wrapper { order: 1; }
-      .postit { min-width: 140px; flex: 1; font-size: 0.95em; }
-      .notebook { padding: 30px 20px 40px 35px; border-left-width: 2px; }
-      .notebook::before { left: 25px; }
-      .notebook::after { display: none; }
-      h1 { font-size: 2.2em; }
-      h2 { font-size: 1.5em; }
-      .contact-grid { grid-template-columns: 1fr; }
-      .project-grid { grid-template-columns: 1fr; }
-      .page-tab { font-size: 1em; padding: 6px 12px; }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:#f5f0e0;background-image:radial-gradient(circle at 20% 50%,rgba(139,90,43,.04) 0%,transparent 50%),radial-gradient(circle at 80% 30%,rgba(139,90,43,.03) 0%,transparent 50%);font-family:'Patrick Hand',cursive;color:#2c2c2c;font-size:18px;line-height:1.8;overflow-x:hidden}
+    .desk{display:grid;grid-template-columns:200px 1fr 200px;max-width:1300px;margin:0 auto;padding:20px;gap:20px;align-items:start}
+    .postit-column{display:flex;flex-direction:column;gap:16px;position:sticky;top:20px}
+    .postit{padding:18px 16px 22px;font-family:'Caveat',cursive;font-size:1.05em;line-height:1.5;position:relative;box-shadow:3px 3px 8px rgba(0,0,0,.12);transition:transform .3s,box-shadow .3s;cursor:default}
+    .postit:hover{transform:rotate(0deg) scale(1.04)!important;box-shadow:5px 5px 15px rgba(0,0,0,.18);z-index:10}
+    .postit::before{content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:40px;height:12px;background:rgba(0,0,0,.06);border-radius:0 0 3px 3px}
+    .postit-yellow{background:#fff9a5}.postit-pink{background:#ffb3ba}.postit-blue{background:#bae1ff}.postit-green{background:#baffc9}.postit-orange{background:#ffdfba}.postit-purple{background:#e0c3fc}
+    .postit .pt{font-weight:700;font-size:1.15em;margin-bottom:4px;color:#1a1a2e}
+    .postit .pb{font-size:.95em;color:#333}
+    .postit-cta{background:#ff6b6b;color:#fff!important;text-align:center;font-weight:700;font-size:1.2em;padding:24px 16px;border:none;cursor:pointer;text-decoration:none;display:block}
+    .postit-cta:hover{background:#ee5a5a;transform:rotate(0deg) scale(1.06)!important}
+    .postit-cta .pb{color:rgba(255,255,255,.9);font-size:.85em}
+    .notebook-wrapper{perspective:2000px;position:relative}
+    .notebook{background:#fff;border-left:3px solid #e8c4c4;border-right:1px solid #e0ddd5;padding:40px 50px 60px 70px;position:relative;box-shadow:4px 4px 15px rgba(0,0,0,.1),-2px 0 8px rgba(0,0,0,.03);background-image:repeating-linear-gradient(transparent,transparent 31px,#e0ddd5 31px,#e0ddd5 32px);background-position-y:8px;min-height:90vh}
+    .notebook::before{content:'';position:absolute;left:55px;top:0;bottom:0;width:2px;background:#e8c4c4;opacity:.6}
+    .notebook::after{content:'';position:absolute;left:15px;top:80px;width:20px;height:20px;border-radius:50%;background:#f5f0e0;border:2px solid #d0cdc5;box-shadow:0 200px 0 0 #f5f0e0,0 200px 0 2px #d0cdc5,0 400px 0 0 #f5f0e0,0 400px 0 2px #d0cdc5,0 600px 0 0 #f5f0e0,0 600px 0 2px #d0cdc5}
+    .page-tabs{display:flex;gap:0;margin-bottom:0;position:relative;z-index:10;flex-wrap:wrap}
+    .page-tab{font-family:'Caveat',cursive;font-size:1.15em;font-weight:600;padding:8px 16px 6px;background:#f5f0e5;border:1px solid #d0cdc5;border-bottom:none;border-radius:8px 8px 0 0;cursor:pointer;color:#888;position:relative;top:1px;transition:all .2s;user-select:none}
+    .page-tab:hover{background:#faf5ea;color:#555}
+    .page-tab.active{background:#fff;color:#1a1a2e;border-bottom:1px solid #fff;z-index:11}
+    .page{display:none;opacity:0}.page.active{display:block;opacity:1}
+    @keyframes pageFlipIn{0%{transform:rotateY(-90deg) scale(.95);opacity:0;transform-origin:left center}100%{transform:rotateY(0) scale(1);opacity:1}}
+    .page-flip-enter{animation:pageFlipIn .5s ease-out}
+    .pencil{position:fixed;z-index:100;pointer-events:none;filter:drop-shadow(2px 4px 6px rgba(0,0,0,.15));opacity:0}
+    .pencil svg{width:50px;height:240px}
+    @media(max-width:900px){.pencil{display:none}}
+    h1{font-family:'Caveat',cursive;font-size:3em;font-weight:700;color:#1a1a2e;margin-bottom:0;line-height:1.3}
+    h2{font-family:'Caveat',cursive;font-size:1.8em;font-weight:600;color:#16213e;margin-top:24px;margin-bottom:4px;text-decoration:underline;text-decoration-color:#e8c4c4;text-underline-offset:4px}
+    .subtitle{font-size:1.1em;color:#666;margin-bottom:16px}
+    p{margin-bottom:8px}
+    a{color:#0f3460;text-decoration:none;border-bottom:1px dashed #0f3460}a:hover{color:#e94560;border-color:#e94560}
+    .tag{display:inline-block;background:#f0ece3;border:1px solid #d5d0c4;border-radius:3px;padding:1px 8px;margin:2px 3px;font-size:.85em;color:#555}
+    .exp-item{margin-bottom:20px;padding-left:16px;border-left:2px solid #e0ddd5}
+    .role{font-weight:600;color:#1a1a2e}.company{color:#0f3460;font-weight:600}.dates{font-size:.85em;color:#999}.win{color:#2c7a3a;margin:2px 0}
+    .divider{border:none;border-top:1px dashed #d0cdc5;margin:24px 0}
+    .links{display:flex;gap:20px;flex-wrap:wrap;margin:12px 0}
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;margin:8px 0}
+    .footer{text-align:center;font-size:.85em;color:#aaa;margin-top:40px;padding-top:16px}
+    .crossed{text-decoration:line-through;color:#bbb}.arrow{color:#e94560}
+    .project-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+    .project-card{background:#faf8f0;border:1px solid #e0ddd5;border-radius:4px;padding:14px;transition:transform .2s,box-shadow .2s}
+    .project-card:hover{transform:translateY(-2px) rotate(-.5deg);box-shadow:3px 3px 8px rgba(0,0,0,.08)}
+    .project-card h3{font-family:'Caveat',cursive;font-size:1.3em;color:#0f3460;margin:0 0 4px}
+    .project-card .desc{font-size:.9em;color:#666;margin-bottom:6px}
+    .project-card .tech{font-size:.8em;color:#999}
+    .achievement{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;padding:10px;background:#faf8f0;border-radius:4px;border-left:3px solid #f4c542}
+    .achievement .medal{font-size:1.5em;line-height:1}
+    .achievement .details{flex:1}
+    .achievement .title{font-weight:600;color:#1a1a2e}
+    .achievement .meta{font-size:.85em;color:#999}
+    .pub-item{margin-bottom:20px;padding:14px;background:#faf8f0;border:1px solid #e0ddd5;border-radius:4px;border-left:3px solid #0f3460}
+    .pub-item.blog-item{border-left-color:#e94560}
+    .pub-item h3{font-family:'Caveat',cursive;font-size:1.3em;color:#0f3460;margin:0 0 4px}
+    .pub-item .venue{font-size:.9em;color:#2c7a3a;font-weight:600}
+    .pub-item .excerpt{font-size:.9em;color:#666;margin:4px 0;font-style:italic}
+    .pub-item .pub-meta{font-size:.8em;color:#999;margin-top:4px}
+    .reveal{opacity:0;transform:translateY(15px)}.reveal.active{opacity:1;transform:translateY(0);transition:opacity .5s,transform .5s}
+    @media(max-width:900px){
+      .desk{grid-template-columns:1fr;padding:10px}
+      .postit-column{position:static;flex-direction:row;flex-wrap:wrap;gap:10px}
+      .postit-column.left{order:-1}.postit-column.right{order:3}
+      .notebook-wrapper{order:1}
+      .postit{min-width:140px;flex:1;font-size:.95em}
+      .notebook{padding:30px 20px 40px 35px;border-left-width:2px}
+      .notebook::before{left:25px}.notebook::after{display:none}
+      h1{font-size:2.2em}h2{font-size:1.5em}
+      .contact-grid{grid-template-columns:1fr}.project-grid{grid-template-columns:1fr}
+      .page-tab{font-size:1em;padding:6px 10px}
     }
   </style>
 </head>
 <body>
 
-<!-- Pencil -->
 <div class="pencil" id="pencil">
   <svg viewBox="0 0 60 280" xmlns="http://www.w3.org/2000/svg">
-    <rect x="15" y="0" width="30" height="25" rx="3" fill="#e8a0a0"/>
-    <rect x="15" y="20" width="30" height="8" fill="#c0c0c0"/>
-    <rect x="15" y="28" width="30" height="200" fill="#f4c542"/>
-    <rect x="15" y="28" width="30" height="200" fill="url(#pg)"/>
-    <rect x="15" y="28" width="30" height="8" fill="#2a6e2a"/>
-    <rect x="15" y="210" width="30" height="8" fill="#2a6e2a"/>
+    <rect x="15" y="0" width="30" height="25" rx="3" fill="#e8a0a0"/><rect x="15" y="20" width="30" height="8" fill="#c0c0c0"/>
+    <rect x="15" y="28" width="30" height="200" fill="#f4c542"/><rect x="15" y="28" width="30" height="200" fill="url(#pg)"/>
+    <rect x="15" y="28" width="30" height="8" fill="#2a6e2a"/><rect x="15" y="210" width="30" height="8" fill="#2a6e2a"/>
     <polygon points="15,228 45,228 38,258 22,258" fill="#c0c0c0"/>
-    <line x1="18" y1="235" x2="42" y2="235" stroke="#a0a0a0" stroke-width="1"/>
-    <line x1="20" y1="242" x2="40" y2="242" stroke="#a0a0a0" stroke-width="1"/>
-    <polygon points="22,258 38,258 30,280" fill="#f5deb3"/>
-    <polygon points="28,272 32,272 30,280" fill="#333"/>
-    <defs><linearGradient id="pg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(0,0,0,0.08)"/><stop offset="30%" stop-color="rgba(255,255,255,0.12)"/><stop offset="100%" stop-color="rgba(0,0,0,0.1)"/></linearGradient></defs>
+    <line x1="18" y1="235" x2="42" y2="235" stroke="#a0a0a0" stroke-width="1"/><line x1="20" y1="242" x2="40" y2="242" stroke="#a0a0a0" stroke-width="1"/>
+    <polygon points="22,258 38,258 30,280" fill="#f5deb3"/><polygon points="28,272 32,272 30,280" fill="#333"/>
+    <defs><linearGradient id="pg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(0,0,0,.08)"/><stop offset="30%" stop-color="rgba(255,255,255,.12)"/><stop offset="100%" stop-color="rgba(0,0,0,.1)"/></linearGradient></defs>
   </svg>
 </div>
 
 <div class="desk">
+  <div class="postit-column left" id="postits-left"></div>
 
-  <!-- ===== LEFT POST-ITS ===== -->
-  <div class="postit-column left">
-    <a href="mailto:m3g3nz2@gmail.com" class="postit postit-cta" style="--rot: -1deg; text-decoration:none; border:none;">
-      <div class="postit-title">Hire Me</div>
-      <div class="postit-body">Need a Software Engineer?<br>Let's build something.</div>
-    </a>
-
-    <div class="postit postit-yellow" style="--rot: 2deg;">
-      <div class="postit-title">What I Do</div>
-      <div class="postit-body">Ship MVPs in weeks, not months. Full-stack, firmware, or both.</div>
-    </div>
-
-    <div class="postit postit-green" style="--rot: -3deg;">
-      <div class="postit-title">Currently @</div>
-      <div class="postit-body">OptiControl (Malaysia)<br>EEPISAT R&D PM</div>
-    </div>
-
-    <div class="postit postit-blue" style="--rot: 1deg;">
-      <div class="postit-title">Languages</div>
-      <div class="postit-body">Indonesian (native)<br>English (professional)</div>
-    </div>
-  </div>
-
-  <!-- ===== CENTER NOTEBOOK ===== -->
   <div class="notebook-wrapper">
     <div class="page-tabs">
       <div class="page-tab active" data-page="main">About Me</div>
       <div class="page-tab" data-page="projects">Projects</div>
       <div class="page-tab" data-page="achievements">Achievements</div>
+      <div class="page-tab" data-page="writing">Writing</div>
     </div>
-
     <div class="notebook">
-
-      <!-- PAGE: MAIN -->
-      <div class="page active" id="page-main">
-        <h1>Muhammad Tsaqif Mukhayyar</h1>
-        <p class="subtitle">Software Engineer &mdash; Surabaya, Indonesia</p>
-        <p>Engineer across software, hardware, and research. Building deep tech in Indonesia. <span class="crossed">PHP dev</span> <span class="arrow">&rarr;</span> full-stack engineer with aerospace dreams.</p>
-
-        <div class="links">
-          <a href="https://linkedin.com/in/tsaqifmukhayyar">LinkedIn</a>
-          <a href="https://github.com/mukhayyar">GitHub</a>
-          <a href="mailto:m3g3nz2@gmail.com">Email</a>
-        </div>
-
-        <hr class="divider">
-        <h2>About</h2>
-        <p>Final-year engineering student at PENS. Computer vision research, industrial deep tech, SaaS products for Indonesian market.</p>
-        <p>&pi;-shaped career &mdash; deep in software, deep in hardware, systems thinking connecting them.</p>
-
-        <hr class="divider">
-        <h2>Skills</h2>
-        <p>
-          <span class="tag">TypeScript</span><span class="tag">Python</span><span class="tag">Rust</span>
-          <span class="tag">Go</span><span class="tag">C/C++</span><span class="tag">React</span>
-          <span class="tag">Hono</span><span class="tag">Bun</span><span class="tag">FastAPI</span>
-          <span class="tag">PostgreSQL</span><span class="tag">Docker</span><span class="tag">AWS</span>
-          <span class="tag">Tailwind</span><span class="tag">Three.js</span><span class="tag">Embedded/RF</span>
-          <span class="tag">Computer Vision</span><span class="tag">IoT</span><span class="tag">Firmware</span>
-        </p>
-
-        <hr class="divider">
-        <h2>Experience</h2>
-        <div class="exp-item">
-          <p><span class="role">Software Developer</span> @ <span class="company">OptiControl</span></p>
-          <p class="dates">Jan 2026 &ndash; Present &middot; Selangor, Malaysia</p>
-        </div>
-        <div class="exp-item">
-          <p><span class="role">Product Engineer</span> @ <span class="company">Petruck.id</span></p>
-          <p class="dates">Jul 2025 &ndash; Jan 2026 &middot; Jakarta</p>
-          <p class="win">~ AI business analytics agent (LLMs + dynamic SQL + Plotly.js)</p>
-          <p class="win">~ "War room" critical incident response</p>
-        </div>
-        <div class="exp-item">
-          <p><span class="role">Software Developer Intern</span> @ <span class="company">PT Infoglobal</span></p>
-          <p class="dates">Jan 2025 &ndash; Jun 2025 &middot; Surabaya</p>
-          <p class="win">~ Legacy migration, 90% LCP improvement</p>
-        </div>
-
-        <hr class="divider">
-        <h2>EEPISAT <span style="font-size:0.7em; color:#999;">(3y 10m)</span></h2>
-        <div class="exp-item">
-          <p><span class="role">R&D Project Manager</span> <span class="dates">Sep 2025 &ndash; Present</span></p>
-          <p class="win">~ CanSat firmware &middot; Rocket avionics &middot; Portable GCS</p>
-        </div>
-        <div class="exp-item">
-          <p><span class="role">Team Leader</span> <span class="dates">Sep 2024 &ndash; Sep 2025</span></p>
-          <p class="win">~ 22nd &rarr; 11th worldwide &middot; Teknofest Top 15 &middot; APRSAF-30</p>
-        </div>
-        <div class="exp-item">
-          <p><span class="role">Head of Software</span> <span class="dates">Sep 2022 &ndash; Sep 2023</span></p>
-          <p class="win">~ Ground station (C# WPF) &middot; 4km link &middot; 99% data integrity</p>
-        </div>
-
-        <hr class="divider">
-        <h2>Education</h2>
-        <div class="exp-item">
-          <p><span class="role">B.ASc Informatics Engineering</span></p>
-          <p class="company">Politeknik Elektronika Negeri Surabaya (PENS)</p>
-          <p class="dates">Aug 2022 &ndash; Aug 2026</p>
-        </div>
-
-        <hr class="divider">
-        <h2>Contact</h2>
-        <div class="contact-grid">
-          <p>Email: <a href="mailto:m3g3nz2@gmail.com">m3g3nz2@gmail.com</a></p>
-          <p>GitHub: <a href="https://github.com/mukhayyar">mukhayyar</a></p>
-          <p>LinkedIn: <a href="https://linkedin.com/in/tsaqifmukhayyar">tsaqifmukhayyar</a></p>
-          <p>Location: Surabaya, Indonesia</p>
-        </div>
-        <div class="footer"><p>~ written on a notebook, 2026 ~</p></div>
-      </div>
-
-      <!-- PAGE: PROJECTS -->
-      <div class="page" id="page-projects">
-        <h1>Projects</h1>
-        <p class="subtitle">Things I shipped &mdash; or almost shipped</p>
-        <hr class="divider">
-        <div class="project-grid">
-          <div class="project-card">
-            <h3>RocketHub</h3>
-            <p class="desc">Community rocket flight visualization. Upload OpenRocket data, 3D trajectory viewer, leaderboards.</p>
-            <p class="tech">React &middot; Three.js &middot; Express &middot; SQLite &middot; MapLibre</p>
-          </div>
-          <div class="project-card">
-            <h3>CanSat Firmware</h3>
-            <p class="desc">Autonomous paragliding mission. BMP/IMU/GPS sensor fusion, servo control.</p>
-            <p class="tech">C++ &middot; Teensy 4.1 &middot; XBee &middot; PID</p>
-          </div>
-          <div class="project-card">
-            <h3>Rocket Avionics</h3>
-            <p class="desc">Flight computer for sounding rocket. Real-time sensors, data logging, recovery.</p>
-            <p class="tech">C++ &middot; Teensy 4.0 &middot; Arduino Nano</p>
-          </div>
-          <div class="project-card">
-            <h3>Portable GCS</h3>
-            <p class="desc">Ground control on Raspberry Pi. Real-time telemetry for mission monitoring.</p>
-            <p class="tech">Flutter-pi &middot; RPi OS Lite &middot; Serial</p>
-          </div>
-          <div class="project-card">
-            <h3>Petruck AI Analytics</h3>
-            <p class="desc">AI business consultant. Natural language &rarr; SQL &rarr; live charts. Zero templates.</p>
-            <p class="tech">LLMs &middot; Dynamic SQL &middot; Plotly.js</p>
-          </div>
-          <div class="project-card">
-            <h3>Infoglobal Migration</h3>
-            <p class="desc">Defense-sector legacy modernization. 90% LCP gain, async backend.</p>
-            <p class="tech">FastAPI &middot; React &middot; Zustand &middot; Shadcn/UI</p>
-          </div>
-          <div class="project-card">
-            <h3>CanSat Kit</h3>
-            <p class="desc">Educational satellite kit. Top 4 Indonesia Aerospace Hackathon. Presented APRSAF-30.</p>
-            <p class="tech">Hardware &middot; Education &middot; Outreach</p>
-          </div>
-          <div class="project-card">
-            <h3>HiFish IoT</h3>
-            <p class="desc">Aquaculture IoT monitoring. Multinational team, SEIN FARM Bandung.</p>
-            <p class="tech">IoT &middot; Hardware &middot; Web</p>
-          </div>
-          <div class="project-card">
-            <h3>Ground Station (WPF)</h3>
-            <p class="desc">Desktop telemetry app. Real-time data + command transmission.</p>
-            <p class="tech">C# &middot; WPF &middot; XBee Pro S3B</p>
-          </div>
-          <div class="project-card">
-            <h3>Moxon Yagi Antenna</h3>
-            <p class="desc">Custom directional antenna. 4km stable link for CanSat missions.</p>
-            <p class="tech">RF Engineering &middot; 900MHz</p>
-          </div>
-        </div>
-        <div class="footer"><p>~ flip to another page &uarr; ~</p></div>
-      </div>
-
-      <!-- PAGE: ACHIEVEMENTS -->
-      <div class="page" id="page-achievements">
-        <h1>Achievements</h1>
-        <p class="subtitle">Competitions, awards, milestones</p>
-        <hr class="divider">
-        <h2>Competition Results</h2>
-        <div class="achievement"><div class="medal">&#x1F948;</div><div class="details"><p class="title">2nd Place &mdash; CanSat Competition 2023</p><p class="meta">Worldwide &middot; Virginia, USA</p></div></div>
-        <div class="achievement"><div class="medal">&#x1F3C6;</div><div class="details"><p class="title">Teknofest 2025 &mdash; Top 15 Finalist</p><p class="meta">Model Satellite &middot; Turkey</p></div></div>
-        <div class="achievement"><div class="medal">&#x1F947;</div><div class="details"><p class="title">1st Place &mdash; Cloud Computing WILKER IV JATIM</p><p class="meta">Regional &middot; East Java</p></div></div>
-        <div class="achievement"><div class="medal">&#x1F949;</div><div class="details"><p class="title">3rd Place &mdash; Computer Networking</p><p class="meta">National Competition</p></div></div>
-        <div class="achievement"><div class="medal">&#11088;</div><div class="details"><p class="title">Best Team Member &mdash; Project BEE</p><p class="meta">Pusan National University &middot; Bandung</p></div></div>
-        <div class="achievement"><div class="medal">&#x1F949;</div><div class="details"><p class="title">3rd Place Team &mdash; Project BEE</p><p class="meta">IoT Aquaculture Challenge</p></div></div>
-        <div class="achievement"><div class="medal">&#x1F4E1;</div><div class="details"><p class="title">Top 4 &mdash; Indonesia Aerospace Hackathon</p><p class="meta">CanSat Kit &middot; Asosiasi Satelit Indonesia</p></div></div>
-        <hr class="divider">
-        <h2>International Presentations</h2>
-        <div class="achievement"><div class="medal">&#x1F30F;</div><div class="details"><p class="title">APRSAF-30 &mdash; Perth, Australia</p><p class="meta">Space Education 4 All &middot; 2025</p></div></div>
-        <div class="achievement"><div class="medal">&#x1F30F;</div><div class="details"><p class="title">APRSAF-29 &mdash; Jakarta</p><p class="meta">CanSat Research &middot; 2023</p></div></div>
-        <hr class="divider">
-        <h2>Certifications</h2>
-        <p><span class="tag">AWS Generative AI</span><span class="tag">AWS Security</span><span class="tag">AWS Compute</span><span class="tag">HackerRank Problem Solving</span><span class="tag">Cyber Security 101</span></p>
-        <hr class="divider">
-        <h2>Industry Partnership</h2>
-        <div class="achievement"><div class="medal">&#x1F91D;</div><div class="details"><p class="title">PT Pasifik Satelit Nusantara (PSN)</p><p class="meta">Funding + study tours + networking for EEPISAT</p></div></div>
-        <div class="footer"><p>~ flip to another page &uarr; ~</p></div>
-      </div>
-
+      <div class="page active" id="page-main"></div>
+      <div class="page" id="page-projects"></div>
+      <div class="page" id="page-achievements"></div>
+      <div class="page" id="page-writing"></div>
     </div>
   </div>
 
-  <!-- ===== RIGHT POST-ITS ===== -->
-  <div class="postit-column right">
-    <div class="postit postit-pink" style="--rot: 2deg;">
-      <div class="postit-title">Building a startup?</div>
-      <div class="postit-body">I turn ideas into MVPs. From database to deploy, one engineer.</div>
-    </div>
-
-    <div class="postit postit-orange" style="--rot: -2.5deg;">
-      <div class="postit-title">Updating your product?</div>
-      <div class="postit-body">Legacy code &rarr; modern stack. I've done 90% LCP improvements. Yours next?</div>
-    </div>
-
-    <div class="postit postit-purple" style="--rot: 1.5deg;">
-      <div class="postit-title">Need firmware?</div>
-      <div class="postit-body">Teensy, ESP32, Arduino. Sensors to servos. Flight-tested at 3km altitude.</div>
-    </div>
-
-    <div class="postit postit-yellow" style="--rot: -1deg;">
-      <div class="postit-title">Fun fact</div>
-      <div class="postit-body">Built a 4km radio link with a homemade antenna and duct tape.</div>
-    </div>
-
-    <div class="postit postit-green" style="--rot: 3deg;">
-      <div class="postit-title">Stack I love</div>
-      <div class="postit-body">Bun + Hono + React<br>FastAPI + PostgreSQL<br>Docker everywhere</div>
-    </div>
-  </div>
-
+  <div class="postit-column right" id="postits-right"></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -529,76 +123,210 @@
 <script>
 gsap.registerPlugin(ScrollTrigger);
 
-// ===== PAGE TABS =====
-document.querySelectorAll('.page-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    const target = tab.dataset.page;
-    document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active', 'page-flip-enter'));
-    const page = document.getElementById('page-' + target);
-    page.classList.add('active', 'page-flip-enter');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setTimeout(() => initReveals(page), 100);
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+
+// ===== DATA LOADER =====
+async function load(file) {
+  const r = await fetch('data/' + file);
+  return r.json();
+}
+
+async function init() {
+  const [profile, experience, eepisat, projects, achievements, publications, blog, postits] = await Promise.all([
+    load('profile.json'), load('experience.json'), load('eepisat.json'),
+    load('projects.json'), load('achievements.json'), load('publications.json'),
+    load('blog.json'), load('postits.json')
+  ]);
+
+  // ===== POST-ITS =====
+  function renderPostits(items, container) {
+    container.innerHTML = items.map(p => {
+      if (p.color === 'cta') {
+        return `<a href="${p.link}" class="postit postit-cta" style="transform:rotate(${p.rot}deg);text-decoration:none;border:none">
+          <div class="pt">${p.title}</div><div class="pb">${p.body.replace(/\n/g,'<br>')}</div></a>`;
+      }
+      return `<div class="postit postit-${p.color}" style="transform:rotate(${p.rot}deg)">
+        <div class="pt">${p.title}</div><div class="pb">${p.body.replace(/\n/g,'<br>')}</div></div>`;
+    }).join('');
+  }
+  renderPostits(postits.left, $('#postits-left'));
+  renderPostits(postits.right, $('#postits-right'));
+
+  // ===== PAGE: MAIN =====
+  $('#page-main').innerHTML = `
+    <h1>${profile.name}</h1>
+    <p class="subtitle">${profile.title} &mdash; ${profile.location}</p>
+    <p>${profile.bio} <span class="crossed">PHP dev</span> <span class="arrow">&rarr;</span> full-stack engineer with aerospace dreams.</p>
+    <div class="links">
+      <a href="${profile.links.linkedin}">LinkedIn</a>
+      <a href="${profile.links.github}">GitHub</a>
+      <a href="mailto:${profile.links.email}">Email</a>
+    </div>
+    <hr class="divider">
+    <h2>About</h2>
+    <p>${profile.bio_extra}</p>
+    <p>Open to: ${profile.open_to}.</p>
+    <hr class="divider">
+    <h2>Skills</h2>
+    <p>${profile.skills.map(s => `<span class="tag">${s}</span>`).join('')}</p>
+    <hr class="divider">
+    <h2>Experience</h2>
+    ${experience.map(e => `<div class="exp-item">
+      <p><span class="role">${e.role}</span> @ <span class="company">${e.company}</span></p>
+      <p class="dates">${e.dates} &middot; ${e.location}</p>
+      ${e.wins.map(w => `<p class="win">~ ${w}</p>`).join('')}
+    </div>`).join('')}
+    <hr class="divider">
+    <h2>EEPISAT <span style="font-size:.7em;color:#999">(3y 10m)</span></h2>
+    ${eepisat.map(e => `<div class="exp-item">
+      <p><span class="role">${e.role}</span> <span class="dates">${e.dates}</span></p>
+      ${e.wins.map(w => `<p class="win">~ ${w}</p>`).join('')}
+    </div>`).join('')}
+    <hr class="divider">
+    <h2>Education</h2>
+    ${profile.education.map(e => `<div class="exp-item">
+      <p><span class="role">${e.degree}</span></p>
+      <p class="company">${e.school}</p>
+      <p class="dates">${e.dates}</p>
+    </div>`).join('')}
+    <hr class="divider">
+    <h2>Contact</h2>
+    <div class="contact-grid">
+      <p>Email: <a href="mailto:${profile.links.email}">${profile.links.email}</a></p>
+      <p>GitHub: <a href="${profile.links.github}">mukhayyar</a></p>
+      <p>LinkedIn: <a href="${profile.links.linkedin}">tsaqifmukhayyar</a></p>
+      <p>Location: ${profile.location}</p>
+    </div>
+    <div class="footer"><p>~ written on a notebook, 2026 ~</p></div>
+  `;
+
+  // ===== PAGE: PROJECTS =====
+  $('#page-projects').innerHTML = `
+    <h1>Projects</h1>
+    <p class="subtitle">Things I shipped &mdash; or almost shipped</p>
+    <hr class="divider">
+    <div class="project-grid">
+      ${projects.map(p => `<div class="project-card">
+        <h3>${p.url ? `<a href="${p.url}" style="border:none">${p.name}</a>` : p.name}</h3>
+        <p class="desc">${p.desc}</p>
+        <p class="tech">${p.tech}</p>
+      </div>`).join('')}
+    </div>
+    <div class="footer"><p>~ flip to another page &uarr; ~</p></div>
+  `;
+
+  // ===== PAGE: ACHIEVEMENTS =====
+  function renderAch(items) {
+    return items.map(a => `<div class="achievement">
+      <div class="medal">${a.medal}</div>
+      <div class="details"><p class="title">${a.title}</p><p class="meta">${a.meta}</p></div>
+    </div>`).join('');
+  }
+  $('#page-achievements').innerHTML = `
+    <h1>Achievements</h1>
+    <p class="subtitle">Competitions, awards, milestones</p>
+    <hr class="divider">
+    <h2>Competition Results</h2>
+    ${renderAch(achievements.competitions)}
+    <hr class="divider">
+    <h2>International Presentations</h2>
+    ${renderAch(achievements.presentations)}
+    <hr class="divider">
+    <h2>Certifications</h2>
+    <p>${profile.certifications.map(c => `<span class="tag">${c}</span>`).join('')}</p>
+    <hr class="divider">
+    <h2>Industry Partnerships</h2>
+    ${renderAch(achievements.partnerships)}
+    <div class="footer"><p>~ flip to another page &uarr; ~</p></div>
+  `;
+
+  // ===== PAGE: WRITING (Publications + Blog) =====
+  $('#page-writing').innerHTML = `
+    <h1>Writing</h1>
+    <p class="subtitle">Papers, posts, and things I thought about</p>
+    <hr class="divider">
+    <h2>Publications</h2>
+    ${publications.map(p => `<div class="pub-item">
+      <h3>${p.url ? `<a href="${p.url}">${p.title}</a>` : p.title}</h3>
+      <p class="venue">${p.venue}</p>
+      <p class="pub-meta">${p.year} &middot; ${p.tags.map(t => `<span class="tag">${t}</span>`).join(' ')}</p>
+    </div>`).join('')}
+    <hr class="divider">
+    <h2>Blog</h2>
+    ${blog.map(b => `<div class="pub-item blog-item">
+      <h3>${b.url ? `<a href="${b.url}">${b.title}</a>` : b.title}</h3>
+      <p class="excerpt">"${b.excerpt}"</p>
+      <p class="pub-meta">${b.date} &middot; ${b.tags.map(t => `<span class="tag">${t}</span>`).join(' ')}</p>
+    </div>`).join('')}
+    <div class="footer"><p>~ add more in data/blog.json ~</p></div>
+  `;
+
+  // ===== ANIMATIONS =====
+  // Tabs
+  $$('.page-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      $$('.page-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      $$('.page').forEach(p => p.classList.remove('active','page-flip-enter'));
+      const pg = $('#page-' + tab.dataset.page);
+      pg.classList.add('active','page-flip-enter');
+      window.scrollTo({top:0,behavior:'smooth'});
+      setTimeout(() => initReveals(pg), 100);
+    });
   });
-});
 
-// ===== PENCIL =====
-const pencil = document.getElementById('pencil');
-if (pencil && window.innerWidth > 900) {
-  const nb = document.querySelector('.notebook');
-  let pencilY = 200, targetPY = 200, writing = false, wt;
-
-  window.addEventListener('scroll', () => {
-    writing = true; clearTimeout(wt); wt = setTimeout(() => writing = false, 200);
-    const pct = window.scrollY / Math.max(1, document.body.scrollHeight - window.innerHeight);
-    targetPY = 120 + pct * (window.innerHeight - 300);
-  });
-
-  function ap() {
-    pencilY += (targetPY - pencilY) * 0.06;
-    const wx = writing ? Math.sin(Date.now() * 0.025) * 4 : 0;
-    const wr = writing ? -20 + Math.sin(Date.now() * 0.018) * 6 : -25;
-    const nbR = nb.getBoundingClientRect();
-    pencil.style.left = (nbR.right + 10) + 'px';
-    pencil.style.top = pencilY + 'px';
-    pencil.style.transform = `rotate(${wr}deg) translateX(${wx}px)`;
-    requestAnimationFrame(ap);
+  // Pencil
+  const pencil = $('#pencil');
+  if (pencil && window.innerWidth > 900) {
+    const nb = $('.notebook');
+    let pY=200,tY=200,wr=false,wt;
+    window.addEventListener('scroll',()=>{
+      wr=true;clearTimeout(wt);wt=setTimeout(()=>wr=false,200);
+      const pct=window.scrollY/Math.max(1,document.body.scrollHeight-window.innerHeight);
+      tY=120+pct*(window.innerHeight-300);
+    });
+    function ap(){
+      pY+=(tY-pY)*.06;
+      const wx=wr?Math.sin(Date.now()*.025)*4:0;
+      const rot=wr?-20+Math.sin(Date.now()*.018)*6:-25;
+      const r=nb.getBoundingClientRect();
+      pencil.style.left=Math.min(r.right+10,window.innerWidth-70)+'px';
+      pencil.style.top=pY+'px';
+      pencil.style.transform=`rotate(${rot}deg) translateX(${wx}px)`;
+      requestAnimationFrame(ap);
+    }
+    gsap.to(pencil,{opacity:1,duration:1,delay:.8});
+    gsap.from(pencil,{x:100,duration:1,delay:.8,ease:'back.out(1.2)'});
+    ap();
   }
 
-  gsap.to(pencil, { opacity: 1, duration: 1, delay: 0.8 });
-  gsap.from(pencil, { x: 100, duration: 1, delay: 0.8, ease: 'back.out(1.2)' });
-  ap();
+  // Post-it entrance
+  gsap.utils.toArray('.postit').forEach((p,i)=>{
+    gsap.from(p,{opacity:0,scale:.7,rotation:i%2?15:-15,duration:.5,delay:.3+i*.12,ease:'back.out(1.7)',scrollTrigger:{trigger:p,start:'top 95%'}});
+  });
+
+  // Title typewriter
+  const title = $('#page-main h1');
+  const tt = title.textContent;
+  title.textContent = '';
+  let ci = 0;
+  function typeIt(){if(ci<tt.length){title.textContent+=tt[ci++];setTimeout(typeIt,55+Math.random()*35)}}
+  setTimeout(typeIt,300);
+
+  initReveals($('#page-main'));
 }
 
-// ===== POST-IT ENTRANCE =====
-gsap.utils.toArray('.postit').forEach((p, i) => {
-  gsap.from(p, {
-    opacity: 0, scale: 0.7, rotation: (i % 2 ? 15 : -15),
-    duration: 0.5, delay: 0.3 + i * 0.12,
-    ease: 'back.out(1.7)',
-    scrollTrigger: { trigger: p, start: 'top 95%' }
-  });
-});
-
-// ===== REVEALS =====
-function initReveals(container) {
-  const els = container.querySelectorAll('h2, .exp-item, .links, .contact-grid, .footer, .project-card, .achievement');
-  els.forEach((el, i) => { el.classList.remove('active'); el.classList.add('reveal'); setTimeout(() => el.classList.add('active'), 80 * i); });
-  container.querySelectorAll('.tag').forEach((tag, i) => {
-    tag.style.opacity = 0; tag.style.transform = 'scale(0.8)';
-    gsap.to(tag, { opacity: 1, scale: 1, duration: 0.25, delay: 0.3 + i * 0.04, ease: 'back.out(1.7)' });
+function initReveals(container){
+  const els=container.querySelectorAll('h2,.exp-item,.links,.contact-grid,.footer,.project-card,.achievement,.pub-item');
+  els.forEach((el,i)=>{el.classList.remove('active');el.classList.add('reveal');setTimeout(()=>el.classList.add('active'),80*i)});
+  container.querySelectorAll('.tag').forEach((tag,i)=>{
+    tag.style.opacity=0;tag.style.transform='scale(0.8)';
+    gsap.to(tag,{opacity:1,scale:1,duration:.25,delay:.3+i*.04,ease:'back.out(1.7)'});
   });
 }
 
-// ===== TITLE TYPEWRITER =====
-const title = document.querySelector('#page-main h1');
-const tt = title.textContent; title.textContent = ''; let ci = 0;
-function typeIt() { if (ci < tt.length) { title.textContent += tt[ci++]; setTimeout(typeIt, 55 + Math.random() * 35); } }
-setTimeout(typeIt, 300);
-
-initReveals(document.getElementById('page-main'));
+init();
 </script>
-
 </body>
 </html>

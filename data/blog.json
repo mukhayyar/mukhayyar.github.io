@@ -1,0 +1,23 @@
+[
+  {
+    "title": "How We Built a 4km Radio Link with a Homemade Antenna",
+    "date": "2023-09-15",
+    "tags": ["RF", "Hardware", "CanSat"],
+    "excerpt": "Building a Moxon Yagi antenna from scratch for our CanSat competition. Spoiler: duct tape was involved.",
+    "url": ""
+  },
+  {
+    "title": "From 22nd to 11th: Lessons from Leading a CanSat Team",
+    "date": "2025-06-20",
+    "tags": ["Leadership", "EEPISAT", "CanSat"],
+    "excerpt": "What I learned managing 30+ people across technical and non-technical divisions in a global competition.",
+    "url": ""
+  },
+  {
+    "title": "90% LCP Improvement: Modernizing a Defense Legacy System",
+    "date": "2025-07-10",
+    "tags": ["Performance", "React", "FastAPI"],
+    "excerpt": "How we migrated a legacy system to React + FastAPI and made it actually fast.",
+    "url": ""
+  }
+]

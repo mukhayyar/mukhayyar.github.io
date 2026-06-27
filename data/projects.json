@@ -1,0 +1,53 @@
+[
+  {
+    "name": "RocketHub",
+    "desc": "Community rocket flight visualization. Upload OpenRocket data, 3D trajectory viewer, leaderboards.",
+    "tech": "React \u00b7 Three.js \u00b7 Express \u00b7 SQLite \u00b7 MapLibre",
+    "url": "https://rockets.mukhayyar.my.id"
+  },
+  {
+    "name": "CanSat Firmware",
+    "desc": "Autonomous paragliding mission. BMP/IMU/GPS sensor fusion, servo control.",
+    "tech": "C++ \u00b7 Teensy 4.1 \u00b7 XBee \u00b7 PID"
+  },
+  {
+    "name": "Rocket Avionics",
+    "desc": "Flight computer for sounding rocket. Real-time sensors, data logging, recovery.",
+    "tech": "C++ \u00b7 Teensy 4.0 \u00b7 Arduino Nano"
+  },
+  {
+    "name": "Portable GCS",
+    "desc": "Ground control on Raspberry Pi. Real-time telemetry for mission monitoring.",
+    "tech": "Flutter-pi \u00b7 RPi OS Lite \u00b7 Serial"
+  },
+  {
+    "name": "Petruck AI Analytics",
+    "desc": "AI business consultant. Natural language \u2192 SQL \u2192 live charts. Zero templates.",
+    "tech": "LLMs \u00b7 Dynamic SQL \u00b7 Plotly.js"
+  },
+  {
+    "name": "Infoglobal Migration",
+    "desc": "Defense-sector legacy modernization. 90% LCP gain, async backend.",
+    "tech": "FastAPI \u00b7 React \u00b7 Zustand \u00b7 Shadcn/UI"
+  },
+  {
+    "name": "CanSat Kit",
+    "desc": "Educational satellite kit. Top 4 Indonesia Aerospace Hackathon. Presented APRSAF-30.",
+    "tech": "Hardware \u00b7 Education \u00b7 Outreach"
+  },
+  {
+    "name": "HiFish IoT",
+    "desc": "Aquaculture IoT monitoring. Multinational team, SEIN FARM Bandung.",
+    "tech": "IoT \u00b7 Hardware \u00b7 Web"
+  },
+  {
+    "name": "Ground Station (WPF)",
+    "desc": "Desktop telemetry app. Real-time data + command transmission.",
+    "tech": "C# \u00b7 WPF \u00b7 XBee Pro S3B"
+  },
+  {
+    "name": "Moxon Yagi Antenna",
+    "desc": "Custom directional antenna. 4km stable link for CanSat missions.",
+    "tech": "RF Engineering \u00b7 900MHz"
+  }
+]

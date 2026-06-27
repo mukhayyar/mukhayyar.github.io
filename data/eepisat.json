@@ -1,0 +1,33 @@
+[
+  {
+    "role": "R&D Project Manager",
+    "dates": "Sep 2025 \u2013 Present",
+    "wins": [
+      "CanSat firmware (Teensy 4.1) \u2014 paragliding mission, autonomous servo control",
+      "Rocket avionics firmware (Teensy 4.0 + Arduino Nano)",
+      "Portable GCS on Raspberry Pi with Flutter-pi",
+      "Launch pad controller (ESP32 + relays)"
+    ]
+  },
+  {
+    "role": "Team Leader",
+    "dates": "Sep 2024 \u2013 Sep 2025",
+    "wins": [
+      "22nd \u2192 11th place worldwide CanSat Competition",
+      "Teknofest 2025 Top 15 Finalist (Model Satellite)",
+      "CanSat Kit \u2014 Top 4 Indonesia Aerospace Hackathon",
+      "Presented at APRSAF-30 in Perth, Australia",
+      "Secured partnership with PT Pasifik Satelit Nusantara"
+    ]
+  },
+  {
+    "role": "Head of Software",
+    "dates": "Sep 2022 \u2013 Sep 2023",
+    "wins": [
+      "Ground station app (C# + WPF) for telemetry",
+      "Moxon Yagi Antenna \u2014 4km stable link (XBee Pro S3B)",
+      "99% data integrity during flight",
+      "Presented at APRSAF-29 in Jakarta"
+    ]
+  }
+]

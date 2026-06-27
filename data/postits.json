@@ -1,0 +1,15 @@
+{
+  "left": [
+    { "color": "cta", "title": "Hire Me", "body": "Need a Software Engineer?\nLet's build something.", "link": "mailto:m3g3nz2@gmail.com", "rot": -1 },
+    { "color": "yellow", "title": "What I Do", "body": "Ship MVPs in weeks, not months. Full-stack, firmware, or both.", "rot": 2 },
+    { "color": "green", "title": "Currently @", "body": "OptiControl (Malaysia)\nEEPISAT R&D PM", "rot": -3 },
+    { "color": "blue", "title": "Languages", "body": "Indonesian (native)\nEnglish (professional)", "rot": 1 }
+  ],
+  "right": [
+    { "color": "pink", "title": "Building a startup?", "body": "I turn ideas into MVPs. From database to deploy, one engineer.", "rot": 2 },
+    { "color": "orange", "title": "Updating your product?", "body": "Legacy code \u2192 modern stack. I've done 90% LCP improvements. Yours next?", "rot": -2.5 },
+    { "color": "purple", "title": "Need firmware?", "body": "Teensy, ESP32, Arduino. Sensors to servos. Flight-tested at 3km altitude.", "rot": 1.5 },
+    { "color": "yellow", "title": "Fun fact", "body": "Built a 4km radio link with a homemade antenna and duct tape.", "rot": -1 },
+    { "color": "green", "title": "Stack I love", "body": "Bun + Hono + React\nFastAPI + PostgreSQL\nDocker everywhere", "rot": 3 }
+  ]
+}
