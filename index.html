@@ -198,9 +198,93 @@
       h2 { font-size: 1.5em; }
       .contact-grid { grid-template-columns: 1fr; }
     }
+    /* Pencil */
+    .pencil {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%) rotate(-30deg);
+      z-index: 100;
+      pointer-events: none;
+      filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+      transition: transform 0.1s ease-out;
+    }
+
+    .pencil svg {
+      width: 60px;
+      height: 280px;
+    }
+
+    /* Writing line that follows pencil */
+    .writing-line {
+      position: fixed;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 10%, #2c2c2c 30%, #2c2c2c 70%, transparent 90%);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    /* Reveal animation for sections */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Pencil scribble trail */
+    .scribble {
+      position: fixed;
+      pointer-events: none;
+      z-index: 98;
+      opacity: 0;
+    }
+
+    /* Hide pencil on small screens */
+    @media (max-width: 640px) {
+      .pencil { display: none; }
+    }
   </style>
 </head>
 <body>
+
+<!-- Pencil SVG -->
+<div class="pencil" id="pencil">
+  <svg viewBox="0 0 60 280" xmlns="http://www.w3.org/2000/svg">
+    <!-- Eraser -->
+    <rect x="15" y="0" width="30" height="25" rx="3" fill="#e8a0a0"/>
+    <rect x="15" y="20" width="30" height="8" fill="#c0c0c0"/>
+    <!-- Body -->
+    <rect x="15" y="28" width="30" height="200" fill="#f4c542"/>
+    <rect x="15" y="28" width="30" height="200" fill="url(#pencilGrad)"/>
+    <!-- Stripe -->
+    <rect x="15" y="28" width="30" height="8" fill="#2a6e2a"/>
+    <rect x="15" y="210" width="30" height="8" fill="#2a6e2a"/>
+    <!-- Metal ferrule -->
+    <polygon points="15,228 45,228 38,258 22,258" fill="#c0c0c0"/>
+    <line x1="18" y1="235" x2="42" y2="235" stroke="#a0a0a0" stroke-width="1"/>
+    <line x1="20" y1="242" x2="40" y2="242" stroke="#a0a0a0" stroke-width="1"/>
+    <line x1="22" y1="249" x2="38" y2="249" stroke="#a0a0a0" stroke-width="1"/>
+    <!-- Tip -->
+    <polygon points="22,258 38,258 30,280" fill="#f5deb3"/>
+    <polygon points="28,272 32,272 30,280" fill="#333"/>
+    <!-- Gradient -->
+    <defs>
+      <linearGradient id="pencilGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="rgba(0,0,0,0.1)"/>
+        <stop offset="30%" stop-color="rgba(255,255,255,0.15)"/>
+        <stop offset="70%" stop-color="rgba(0,0,0,0)"/>
+        <stop offset="100%" stop-color="rgba(0,0,0,0.12)"/>
+      </linearGradient>
+    </defs>
+  </svg>
+</div>
 
 <div class="notebook">
 
@@ -357,6 +441,109 @@
   </div>
 
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+const pencil = document.getElementById('pencil');
+let lastScrollY = 0;
+let pencilY = window.innerHeight / 2;
+let targetY = window.innerHeight / 2;
+let isWriting = false;
+let writeTimeout;
+
+// Pencil follows scroll with wobble
+window.addEventListener('scroll', () => {
+  const scrollDelta = window.scrollY - lastScrollY;
+  lastScrollY = window.scrollY;
+
+  isWriting = true;
+  clearTimeout(writeTimeout);
+  writeTimeout = setTimeout(() => { isWriting = false; }, 150);
+
+  // Pencil moves with scroll direction
+  targetY = Math.max(100, Math.min(window.innerHeight - 100,
+    pencilY + scrollDelta * 0.3
+  ));
+});
+
+// Smooth pencil animation loop
+function animatePencil() {
+  pencilY += (targetY - pencilY) * 0.08;
+
+  const wobble = isWriting ? Math.sin(Date.now() * 0.02) * 3 : 0;
+  const tilt = isWriting ? -25 + Math.sin(Date.now() * 0.015) * 5 : -30;
+
+  pencil.style.transform = `translateY(${pencilY - 140}px) rotate(${tilt}deg) translateX(${wobble}px)`;
+  pencil.style.opacity = 1;
+
+  requestAnimationFrame(animatePencil);
+}
+animatePencil();
+
+// Reveal sections on scroll
+document.querySelectorAll('h2, .exp-item, .links, .contact-grid, .footer, hr.divider').forEach(el => {
+  el.classList.add('reveal');
+
+  gsap.to(el, {
+    opacity: 1,
+    y: 0,
+    duration: 0.6,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: el,
+      start: 'top 85%',
+      toggleActions: 'play none none none',
+    },
+    onStart: () => el.classList.add('active'),
+  });
+});
+
+// Tags pop in
+gsap.utils.toArray('.tag').forEach((tag, i) => {
+  tag.style.opacity = 0;
+  tag.style.transform = 'scale(0.8)';
+
+  gsap.to(tag, {
+    opacity: 1,
+    scale: 1,
+    duration: 0.3,
+    delay: i * 0.05,
+    ease: 'back.out(1.7)',
+    scrollTrigger: {
+      trigger: tag,
+      start: 'top 90%',
+    },
+  });
+});
+
+// Title handwriting effect
+const title = document.querySelector('h1');
+const titleText = title.textContent;
+title.textContent = '';
+title.style.opacity = 1;
+
+let charIndex = 0;
+function typeTitle() {
+  if (charIndex < titleText.length) {
+    title.textContent += titleText[charIndex];
+    charIndex++;
+    setTimeout(typeTitle, 60 + Math.random() * 40);
+  }
+}
+typeTitle();
+
+// Pencil initial entrance
+gsap.from(pencil, {
+  x: 200,
+  opacity: 0,
+  duration: 1.2,
+  ease: 'power3.out',
+  delay: 0.5,
+});
+</script>
 
 </body>
 </html>
