@@ -26,10 +26,14 @@
   </script>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    body{background:#f5f0e0;background-image:radial-gradient(circle at 20% 50%,rgba(139,90,43,.04) 0%,transparent 50%),radial-gradient(circle at 80% 30%,rgba(139,90,43,.03) 0%,transparent 50%);font-family:'Patrick Hand',cursive;color:#2c2c2c;font-size:18px;line-height:1.8;overflow-x:hidden;cursor:none}
+    body{background:#e8e0cc;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none'/%3E%3Cpath d='M30 0v60M0 30h60' stroke='%23d5cdb8' stroke-width='.3'/%3E%3C/svg%3E");font-family:'Patrick Hand',cursive;color:#2c2c2c;font-size:18px;line-height:1.8;overflow-x:hidden;cursor:none}
     a,button,.page-tab,.postit-cta,input,textarea,select{cursor:none}
-    .desk{display:grid;grid-template-columns:200px 1fr 200px;max-width:1300px;margin:0 auto;padding:20px;gap:20px;align-items:start}
-    .postit-column{display:flex;flex-direction:column;gap:16px;position:sticky;top:20px}
+
+    /* ===== DESK ===== */
+    .desk{display:grid;grid-template-columns:220px 1fr 220px;max-width:1350px;margin:0 auto;padding:30px 20px;gap:24px;align-items:start}
+
+    /* ===== POST-ITS ===== */
+    .postit-column{display:flex;flex-direction:column;gap:18px;position:sticky;top:20px}
     .postit{padding:18px 16px 22px;font-family:'Caveat',cursive;font-size:1.05em;line-height:1.5;position:relative;box-shadow:3px 3px 8px rgba(0,0,0,.12);transition:transform .3s,box-shadow .3s;cursor:default}
     .postit:hover{transform:rotate(0deg) scale(1.04)!important;box-shadow:5px 5px 15px rgba(0,0,0,.18);z-index:10}
     .postit::before{content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:40px;height:12px;background:rgba(0,0,0,.06);border-radius:0 0 3px 3px}
@@ -39,20 +43,40 @@
     .postit-cta{background:#ff6b6b;color:#fff!important;text-align:center;font-weight:700;font-size:1.2em;padding:24px 16px;border:none;cursor:pointer;text-decoration:none;display:block}
     .postit-cta:hover{background:#ee5a5a;transform:rotate(0deg) scale(1.06)!important}
     .postit-cta .pb{color:rgba(255,255,255,.9);font-size:.85em}
+
+    /* ===== DESK ITEMS (pins, clips, coffee, tape, doodles) ===== */
+    .desk-item{position:absolute;pointer-events:none;z-index:5}
+    .pin{width:16px;height:16px;border-radius:50%;box-shadow:1px 1px 3px rgba(0,0,0,.3),inset -2px -2px 4px rgba(0,0,0,.15);position:absolute;z-index:15}
+    .pin-red{background:radial-gradient(circle at 35% 35%,#ff6b6b,#cc3333)}
+    .pin-blue{background:radial-gradient(circle at 35% 35%,#6ba3ff,#3366cc)}
+    .pin-green{background:radial-gradient(circle at 35% 35%,#6bff8a,#33aa55)}
+    .pin-yellow{background:radial-gradient(circle at 35% 35%,#ffe66b,#ccaa33)}
+    .paper-clip{position:absolute;z-index:12;opacity:.6}
+    .coffee-ring{position:absolute;width:90px;height:90px;border-radius:50%;border:3px solid rgba(139,90,43,.12);z-index:2;pointer-events:none}
+    .tape{position:absolute;width:80px;height:22px;background:rgba(255,255,200,.45);border:1px solid rgba(200,190,150,.3);z-index:14;transform:rotate(var(--tape-rot,5deg));pointer-events:none}
+    .eraser-shavings{position:absolute;width:5px;height:3px;background:#f0e0d0;border-radius:50%;opacity:.5;z-index:1}
+    .doodle{position:absolute;z-index:3;opacity:.15;pointer-events:none;font-size:2em}
+
+    /* ===== NOTEBOOK ===== */
     .notebook-wrapper{perspective:2000px;position:relative}
-    .notebook{background:#fff;border-left:3px solid #e8c4c4;border-right:1px solid #e0ddd5;padding:40px 50px 60px 70px;position:relative;box-shadow:4px 4px 15px rgba(0,0,0,.1),-2px 0 8px rgba(0,0,0,.03);background-image:repeating-linear-gradient(transparent,transparent 31px,#e0ddd5 31px,#e0ddd5 32px);background-position-y:8px;min-height:90vh}
+    .notebook{background:#fff;border-left:3px solid #e8c4c4;border-right:1px solid #e0ddd5;padding:40px 50px 60px 70px;position:relative;box-shadow:4px 4px 15px rgba(0,0,0,.12),-2px 0 8px rgba(0,0,0,.04);background-image:repeating-linear-gradient(transparent,transparent 31px,#e0ddd5 31px,#e0ddd5 32px);background-position-y:8px;min-height:90vh}
     .notebook::before{content:'';position:absolute;left:55px;top:0;bottom:0;width:2px;background:#e8c4c4;opacity:.6}
-    .notebook::after{content:'';position:absolute;left:15px;top:80px;width:20px;height:20px;border-radius:50%;background:#f5f0e0;border:2px solid #d0cdc5;box-shadow:0 200px 0 0 #f5f0e0,0 200px 0 2px #d0cdc5,0 400px 0 0 #f5f0e0,0 400px 0 2px #d0cdc5,0 600px 0 0 #f5f0e0,0 600px 0 2px #d0cdc5}
+    .notebook::after{content:'';position:absolute;left:15px;top:80px;width:20px;height:20px;border-radius:50%;background:#e8e0cc;border:2px solid #d0cdc5;box-shadow:0 200px 0 0 #e8e0cc,0 200px 0 2px #d0cdc5,0 400px 0 0 #e8e0cc,0 400px 0 2px #d0cdc5,0 600px 0 0 #e8e0cc,0 600px 0 2px #d0cdc5}
+
+    /* ===== TABS ===== */
     .page-tabs{display:flex;gap:0;margin-bottom:0;position:relative;z-index:10;flex-wrap:wrap}
     .page-tab{font-family:'Caveat',cursive;font-size:1.15em;font-weight:600;padding:8px 16px 6px;background:#f5f0e5;border:1px solid #d0cdc5;border-bottom:none;border-radius:8px 8px 0 0;cursor:pointer;color:#888;position:relative;top:1px;transition:all .2s;user-select:none}
     .page-tab:hover{background:#faf5ea;color:#555}
     .page-tab.active{background:#fff;color:#1a1a2e;border-bottom:1px solid #fff;z-index:11}
     .page{display:none;opacity:0}.page.active{display:block;opacity:1}
-    @keyframes pageFlipIn{0%{transform:rotateY(-90deg) scale(.95);opacity:0;transform-origin:left center}100%{transform:rotateY(0) scale(1);opacity:1}}
+    @keyframes pageFlipIn{0%{transform:rotateY(-90deg) scale(.95);opacity:0;transform-origin:left}100%{transform:rotateY(0) scale(1);opacity:1}}
     .page-flip-enter{animation:pageFlipIn .5s ease-out}
+
+    /* ===== PENCIL CURSOR ===== */
     .pencil-cursor{position:fixed;z-index:9999;pointer-events:none;opacity:0;transition:opacity .3s}
     .pencil-cursor svg{width:24px;height:24px}
-    @media(max-width:900px){.pencil-cursor{display:none}body{cursor:auto}a,button,.page-tab,.postit-cta,input,textarea,select{cursor:auto}}
+
+    /* ===== TYPOGRAPHY ===== */
     h1{font-family:'Caveat',cursive;font-size:3em;font-weight:700;color:#1a1a2e;margin-bottom:0;line-height:1.3}
     h2{font-family:'Caveat',cursive;font-size:1.8em;font-weight:600;color:#16213e;margin-top:24px;margin-bottom:4px;text-decoration:underline;text-decoration-color:#e8c4c4;text-underline-offset:4px}
     .subtitle{font-size:1.1em;color:#666;margin-bottom:16px}
@@ -66,23 +90,25 @@
     .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;margin:8px 0}
     .footer{text-align:center;font-size:.85em;color:#aaa;margin-top:40px;padding-top:16px}
     .crossed{text-decoration:line-through;color:#bbb}.arrow{color:#e94560}
+
+    /* ===== PROJECT CARDS ===== */
     .project-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
-    .project-card{background:#faf8f0;border:1px solid #e0ddd5;border-radius:4px;padding:14px;transition:transform .2s,box-shadow .2s}
+    .project-card{background:#faf8f0;border:1px solid #e0ddd5;border-radius:4px;padding:14px;transition:transform .2s,box-shadow .2s;position:relative}
     .project-card:hover{transform:translateY(-2px) rotate(-.5deg);box-shadow:3px 3px 8px rgba(0,0,0,.08)}
     .project-card h3{font-family:'Caveat',cursive;font-size:1.3em;color:#0f3460;margin:0 0 4px}
     .project-card .desc{font-size:.9em;color:#666;margin-bottom:6px}
     .project-card .tech{font-size:.8em;color:#999}
+    /* Pin on project cards */
+    .project-card .card-pin{position:absolute;top:-6px;right:12px}
+
+    /* ===== ACHIEVEMENTS ===== */
     .achievement{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;padding:10px;background:#faf8f0;border-radius:4px;border-left:3px solid #f4c542}
     .achievement .medal{font-size:1.5em;line-height:1}
     .achievement .details{flex:1}
     .achievement .title{font-weight:600;color:#1a1a2e}
     .achievement .meta{font-size:.85em;color:#999}
-    .pub-item{margin-bottom:20px;padding:14px;background:#faf8f0;border:1px solid #e0ddd5;border-radius:4px;border-left:3px solid #0f3460}
-    .pub-item.blog-item{border-left-color:#e94560}
-    .pub-item h3{font-family:'Caveat',cursive;font-size:1.3em;color:#0f3460;margin:0 0 4px}
-    .pub-item .venue{font-size:.9em;color:#2c7a3a;font-weight:600}
-    .pub-item .excerpt{font-size:.9em;color:#666;margin:4px 0;font-style:italic}
-    .pub-item .pub-meta{font-size:.8em;color:#999;margin-top:4px}
+
+    /* ===== BOOKSHELF ===== */
     .shelf-item{display:flex;gap:14px;margin-bottom:16px;padding:12px;background:#faf8f0;border-radius:4px;border:1px solid #e0ddd5;transition:transform .2s}
     .shelf-item:hover{transform:translateX(4px)}
     .shelf-icon{font-size:1.8em;line-height:1;width:36px;text-align:center;flex-shrink:0}
@@ -95,18 +121,24 @@
     .shelf-tag-engineering{background:#cce5ff;color:#004085}.shelf-tag-leadership{background:#f8d7da;color:#721c24}
     .shelf-tag-growth{background:#e2d9f3;color:#4a1d8e}.shelf-tag-security{background:#333;color:#0f0}
     .shelf-section-title{font-family:'Caveat',cursive;font-size:1.5em;color:#16213e;margin:20px 0 10px;display:flex;align-items:center;gap:8px}
-    .reveal{opacity:0;transform:translateY(15px)}.reveal.active{opacity:1;transform:translateY(0);transition:opacity .5s,transform .5s}
-    .ink-reveal{filter:blur(4px);opacity:.3;transition:filter .6s ease-out,opacity .6s ease-out}.ink-reveal.written{filter:blur(0);opacity:1}
-    .scroll-hint{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);font-family:'Caveat',cursive;font-size:1.2em;color:#999;z-index:50;animation:bounceHint 2s infinite;pointer-events:none}
-    @keyframes bounceHint{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-8px)}}
-    .pencil.done{opacity:0!important;transition:opacity .8s}
-    .typing-game{background:#faf8f0;border:1px solid #e0ddd5;border-radius:6px;padding:16px;margin:20px 0;font-family:'Patrick Hand',cursive}
+
+    /* ===== TYPING GAME ===== */
+    .typing-game{background:#faf8f0;border:1px solid #e0ddd5;border-radius:6px;padding:16px;margin:20px 0}
     .typing-game .prompt{font-size:1.1em;color:#0f3460;margin-bottom:8px;letter-spacing:1px}
     .typing-game input{width:100%;padding:8px 12px;font-family:'Caveat',cursive;font-size:1.2em;border:1px dashed #d0cdc5;border-radius:4px;background:transparent;outline:none;color:#2c2c2c}
     .typing-game input:focus{border-color:#e94560}
     .typing-game .result{font-size:.9em;margin-top:6px;color:#2c7a3a}
     .typing-game .result.wrong{color:#e94560}
+
+    /* ===== REVEALS ===== */
+    .reveal{opacity:0;transform:translateY(15px)}.reveal.active{opacity:1;transform:translateY(0);transition:opacity .5s,transform .5s}
+    .ink-reveal{filter:blur(4px);opacity:.3;transition:filter .6s ease-out,opacity .6s ease-out}.ink-reveal.written{filter:blur(0);opacity:1}
+    .scroll-hint{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);font-family:'Caveat',cursive;font-size:1.2em;color:#999;z-index:50;animation:bounceHint 2s infinite;pointer-events:none}
+    @keyframes bounceHint{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-8px)}}
+
+    /* ===== MOBILE ===== */
     @media(max-width:900px){
+      .pencil-cursor{display:none}body{cursor:auto}a,button,.page-tab,.postit-cta,input,textarea,select{cursor:auto}
       .desk{grid-template-columns:1fr;padding:10px}
       .postit-column{position:static;flex-direction:row;flex-wrap:wrap;gap:10px}
       .postit-column.left{order:-1}.postit-column.right{order:3}
@@ -117,11 +149,13 @@
       h1{font-size:2.2em}h2{font-size:1.5em}
       .contact-grid{grid-template-columns:1fr}.project-grid{grid-template-columns:1fr}
       .page-tab{font-size:1em;padding:6px 10px}
+      .desk-item,.pin,.paper-clip,.coffee-ring,.tape,.eraser-shavings,.doodle{display:none}
     }
   </style>
 </head>
 <body>
 
+<!-- Pencil cursor -->
 <div class="pencil-cursor" id="pencil-cursor">
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M3 21l1.5-4.5L17.3 3.7a1.4 1.4 0 012 0l1 1a1.4 1.4 0 010 2L7.5 19.5z" fill="#f4c542" stroke="#333" stroke-width=".8"/>
@@ -132,26 +166,28 @@
   </svg>
 </div>
 
-<div class="desk">
+<div class="desk" id="desk">
+
+  <!-- LEFT POST-ITS -->
   <div class="postit-column left" id="postits-left"></div>
 
+  <!-- CENTER NOTEBOOK -->
   <div class="notebook-wrapper">
     <div class="page-tabs">
       <div class="page-tab active" data-page="main">About Me</div>
       <div class="page-tab" data-page="projects">Projects</div>
       <div class="page-tab" data-page="achievements">Achievements</div>
-      <div class="page-tab" data-page="writing">Writing</div>
       <div class="page-tab" data-page="bookshelf">Bookshelf</div>
     </div>
     <div class="notebook">
       <div class="page active" id="page-main"></div>
       <div class="page" id="page-projects"></div>
       <div class="page" id="page-achievements"></div>
-      <div class="page" id="page-writing"></div>
       <div class="page" id="page-bookshelf"></div>
     </div>
   </div>
 
+  <!-- RIGHT POST-ITS -->
   <div class="postit-column right" id="postits-right"></div>
 </div>
 
@@ -159,345 +195,165 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 gsap.registerPlugin(ScrollTrigger);
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 
-const $ = s => document.querySelector(s);
-const $$ = s => document.querySelectorAll(s);
+async function load(f){return(await fetch('data/'+f)).json()}
 
-// ===== DATA LOADER =====
-async function load(file) {
-  const r = await fetch('data/' + file);
-  return r.json();
-}
-
-async function init() {
-  const [profile, experience, eepisat, projects, achievements, publications, blog, postits, bookshelf] = await Promise.all([
-    load('profile.json'), load('experience.json'), load('eepisat.json'),
-    load('projects.json'), load('achievements.json'), load('publications.json'),
-    load('blog.json'), load('postits.json'), load('bookshelf.json')
+async function init(){
+  const [profile,experience,eepisat,projects,achievements,postits,bookshelf]=await Promise.all([
+    load('profile.json'),load('experience.json'),load('eepisat.json'),
+    load('projects.json'),load('achievements.json'),load('postits.json'),load('bookshelf.json')
   ]);
 
+  // ===== DESK DECORATIONS =====
+  if(window.innerWidth>900){
+    const desk=$('#desk');
+    const decos=[
+      // Pins on notebook corners
+      {cls:'pin pin-red',style:'top:25px;left:calc(50% - 380px);'},
+      {cls:'pin pin-blue',style:'top:25px;left:calc(50% + 365px);'},
+      // Coffee ring bottom-left
+      {cls:'coffee-ring',style:'bottom:60px;left:30px;'},
+      // Tape strips
+      {cls:'tape',style:'top:50px;right:40px;--tape-rot:-8deg;'},
+      {cls:'tape',style:'bottom:200px;left:15px;--tape-rot:12deg;width:60px;'},
+      // Paper clip SVGs
+      {cls:'paper-clip',style:'top:180px;right:25px;',html:'<svg width="20" height="50" viewBox="0 0 20 50"><path d="M5 0v35a7 7 0 0014 0V10a5 5 0 00-10 0v25" fill="none" stroke="#aaa" stroke-width="1.5"/></svg>'},
+      {cls:'paper-clip',style:'top:400px;left:8px;transform:rotate(20deg);',html:'<svg width="20" height="50" viewBox="0 0 20 50"><path d="M5 0v35a7 7 0 0014 0V10a5 5 0 00-10 0v25" fill="none" stroke="#c0a060" stroke-width="1.5"/></svg>'},
+      // Doodles
+      {cls:'doodle',style:'top:120px;right:60px;transform:rotate(15deg);',html:'&#9733;'},
+      {cls:'doodle',style:'bottom:300px;left:60px;transform:rotate(-10deg);',html:'&#9786;'},
+      {cls:'doodle',style:'top:500px;right:30px;font-size:1.5em;',html:'&#10084;'},
+      // Eraser shavings
+      ...Array.from({length:8},(_,i)=>({cls:'eraser-shavings',style:`top:${80+i*60}px;left:${180+Math.sin(i)*40}px;width:${3+Math.random()*4}px;height:${2+Math.random()*2}px;transform:rotate(${Math.random()*180}deg);`}))
+    ];
+    decos.forEach(d=>{
+      const el=document.createElement('div');
+      el.className=d.cls;
+      el.setAttribute('style',d.style);
+      if(d.html)el.innerHTML=d.html;
+      desk.appendChild(el);
+    });
+
+    // Animate pins
+    gsap.utils.toArray('.pin').forEach(p=>{gsap.from(p,{scale:0,duration:.4,delay:1.5,ease:'back.out(3)'})});
+    gsap.utils.toArray('.coffee-ring').forEach(c=>{gsap.from(c,{scale:0,opacity:0,duration:1,delay:2})});
+    gsap.utils.toArray('.tape').forEach(t=>{gsap.from(t,{scaleX:0,duration:.3,delay:1.8})});
+    gsap.utils.toArray('.paper-clip').forEach(p=>{gsap.from(p,{y:-30,opacity:0,duration:.5,delay:2.2})});
+    gsap.utils.toArray('.doodle').forEach((d,i)=>{gsap.from(d,{scale:0,rotation:360,duration:.6,delay:2.5+i*.2,ease:'back.out(2)'})});
+  }
+
   // ===== POST-ITS =====
-  function renderPostits(items, container) {
-    container.innerHTML = items.map(p => {
-      if (p.color === 'cta') {
-        return `<a href="${p.link}" class="postit postit-cta" style="transform:rotate(${p.rot}deg);text-decoration:none;border:none">
-          <div class="pt">${p.title}</div><div class="pb">${p.body.replace(/\n/g,'<br>')}</div></a>`;
-      }
-      return `<div class="postit postit-${p.color}" style="transform:rotate(${p.rot}deg)">
-        <div class="pt">${p.title}</div><div class="pb">${p.body.replace(/\n/g,'<br>')}</div></div>`;
+  function renderPostits(items,container){
+    container.innerHTML=items.map(p=>{
+      if(p.color==='cta')return`<a href="${p.link}" class="postit postit-cta" style="transform:rotate(${p.rot}deg);text-decoration:none;border:none"><div class="pt">${p.title}</div><div class="pb">${p.body.replace(/\n/g,'<br>')}</div></a>`;
+      return`<div class="postit postit-${p.color}" style="transform:rotate(${p.rot}deg)"><div class="pt">${p.title}</div><div class="pb">${p.body.replace(/\n/g,'<br>')}</div></div>`;
     }).join('');
   }
-  renderPostits(postits.left, $('#postits-left'));
-  renderPostits(postits.right, $('#postits-right'));
+  renderPostits(postits.left,$('#postits-left'));
+  renderPostits(postits.right,$('#postits-right'));
 
-  // ===== PAGE: MAIN =====
-  $('#page-main').innerHTML = `
+  // ===== PAGES =====
+  const pinColors=['pin-red','pin-blue','pin-green','pin-yellow'];
+
+  $('#page-main').innerHTML=`
     <h1>${profile.name}</h1>
     <p class="subtitle">${profile.title} &mdash; ${profile.location}</p>
     <p>${profile.bio} <span class="crossed">PHP dev</span> <span class="arrow">&rarr;</span> full-stack engineer with aerospace dreams.</p>
-    <div class="links">
-      <a href="${profile.links.linkedin}">LinkedIn</a>
-      <a href="${profile.links.github}">GitHub</a>
-      <a href="mailto:${profile.links.email}">Email</a>
-    </div>
+    <div class="links"><a href="${profile.links.linkedin}">LinkedIn</a><a href="${profile.links.github}">GitHub</a><a href="mailto:${profile.links.email}">Email</a></div>
     <hr class="divider">
-    <h2>About</h2>
-    <p>${profile.bio_extra}</p>
-    <p>Open to: ${profile.open_to}.</p>
+    <h2>About</h2><p>${profile.bio_extra}</p><p>Open to: ${profile.open_to}.</p>
     <hr class="divider">
-    <h2>Skills</h2>
-    <p>${profile.skills.map(s => `<span class="tag">${s}</span>`).join('')}</p>
+    <h2>Skills</h2><p>${profile.skills.map(s=>`<span class="tag">${s}</span>`).join('')}</p>
     <hr class="divider">
     <h2>Experience</h2>
-    ${experience.map(e => `<div class="exp-item">
-      <p><span class="role">${e.role}</span> @ <span class="company">${e.company}</span></p>
-      <p class="dates">${e.dates} &middot; ${e.location}</p>
-      ${e.wins.map(w => `<p class="win">~ ${w}</p>`).join('')}
-    </div>`).join('')}
+    ${experience.map(e=>`<div class="exp-item"><p><span class="role">${e.role}</span> @ <span class="company">${e.company}</span></p><p class="dates">${e.dates} &middot; ${e.location}</p>${e.wins.map(w=>`<p class="win">~ ${w}</p>`).join('')}</div>`).join('')}
     <hr class="divider">
     <h2>EEPISAT <span style="font-size:.7em;color:#999">(3y 10m)</span></h2>
-    ${eepisat.map(e => `<div class="exp-item">
-      <p><span class="role">${e.role}</span> <span class="dates">${e.dates}</span></p>
-      ${e.wins.map(w => `<p class="win">~ ${w}</p>`).join('')}
-    </div>`).join('')}
+    ${eepisat.map(e=>`<div class="exp-item"><p><span class="role">${e.role}</span> <span class="dates">${e.dates}</span></p>${e.wins.map(w=>`<p class="win">~ ${w}</p>`).join('')}</div>`).join('')}
     <hr class="divider">
     <h2>Education</h2>
-    ${profile.education.map(e => `<div class="exp-item">
-      <p><span class="role">${e.degree}</span></p>
-      <p class="company">${e.school}</p>
-      <p class="dates">${e.dates}</p>
-    </div>`).join('')}
+    ${profile.education.map(e=>`<div class="exp-item"><p><span class="role">${e.degree}</span></p><p class="company">${e.school}</p><p class="dates">${e.dates}</p></div>`).join('')}
     <hr class="divider">
     <h2>Contact</h2>
-    <div class="contact-grid">
-      <p>Email: <a href="mailto:${profile.links.email}">${profile.links.email}</a></p>
-      <p>GitHub: <a href="${profile.links.github}">mukhayyar</a></p>
-      <p>LinkedIn: <a href="${profile.links.linkedin}">tsaqifmukhayyar</a></p>
-      <p>Location: ${profile.location}</p>
-    </div>
+    <div class="contact-grid"><p>Email: <a href="mailto:${profile.links.email}">${profile.links.email}</a></p><p>GitHub: <a href="${profile.links.github}">mukhayyar</a></p><p>LinkedIn: <a href="${profile.links.linkedin}">tsaqifmukhayyar</a></p><p>Location: ${profile.location}</p></div>
     <hr class="divider">
     <h2>Try Me</h2>
-    <div class="typing-game" id="typing-game">
-      <p style="font-size:.9em;color:#888;margin-bottom:8px">Type what you see. How fast can you write?</p>
-      <div class="prompt" id="game-prompt"></div>
-      <input type="text" id="game-input" placeholder="start typing..." autocomplete="off">
-      <div class="result" id="game-result"></div>
-    </div>
-    <div class="footer"><p>~ written on a notebook, 2026 ~</p></div>
-  `;
+    <div class="typing-game" id="typing-game"><p style="font-size:.9em;color:#888;margin-bottom:8px">Type what you see. How fast can you write?</p><div class="prompt" id="game-prompt"></div><input type="text" id="game-input" placeholder="start typing..." autocomplete="off"><div class="result" id="game-result"></div></div>
+    <div class="footer"><p>~ written on a notebook, 2026 ~</p></div>`;
 
-  // ===== PAGE: PROJECTS =====
-  $('#page-projects').innerHTML = `
-    <h1>Projects</h1>
-    <p class="subtitle">Things I shipped &mdash; or almost shipped</p>
-    <hr class="divider">
-    <div class="project-grid">
-      ${projects.map(p => `<div class="project-card">
-        <h3>${p.url ? `<a href="${p.url}" style="border:none">${p.name}</a>` : p.name}</h3>
-        <p class="desc">${p.desc}</p>
-        <p class="tech">${p.tech}</p>
-      </div>`).join('')}
-    </div>
-    <div class="footer"><p>~ flip to another page &uarr; ~</p></div>
-  `;
+  $('#page-projects').innerHTML=`
+    <h1>Projects</h1><p class="subtitle">Things I shipped &mdash; or almost shipped</p><hr class="divider">
+    <div class="project-grid">${projects.map((p,i)=>`<div class="project-card"><div class="card-pin pin ${pinColors[i%4]}"></div><h3>${p.url?`<a href="${p.url}" style="border:none">${p.name}</a>`:p.name}</h3><p class="desc">${p.desc}</p><p class="tech">${p.tech}</p></div>`).join('')}</div>
+    <div class="footer"><p>~ flip to another page &uarr; ~</p></div>`;
 
-  // ===== PAGE: ACHIEVEMENTS =====
-  function renderAch(items) {
-    return items.map(a => `<div class="achievement">
-      <div class="medal">${a.medal}</div>
-      <div class="details"><p class="title">${a.title}</p><p class="meta">${a.meta}</p></div>
-    </div>`).join('');
-  }
-  $('#page-achievements').innerHTML = `
-    <h1>Achievements</h1>
-    <p class="subtitle">Competitions, awards, milestones</p>
-    <hr class="divider">
-    <h2>Competition Results</h2>
-    ${renderAch(achievements.competitions)}
-    <hr class="divider">
-    <h2>International Presentations</h2>
-    ${renderAch(achievements.presentations)}
-    <hr class="divider">
-    <h2>Certifications</h2>
-    <p>${profile.certifications.map(c => `<span class="tag">${c}</span>`).join('')}</p>
-    <hr class="divider">
-    <h2>Industry Partnerships</h2>
-    ${renderAch(achievements.partnerships)}
-    <div class="footer"><p>~ flip to another page &uarr; ~</p></div>
-  `;
+  function renderAch(items){return items.map(a=>`<div class="achievement"><div class="medal">${a.medal}</div><div class="details"><p class="title">${a.title}</p><p class="meta">${a.meta}</p></div></div>`).join('')}
+  $('#page-achievements').innerHTML=`
+    <h1>Achievements</h1><p class="subtitle">Competitions, awards, milestones</p><hr class="divider">
+    <h2>Competition Results</h2>${renderAch(achievements.competitions)}
+    <hr class="divider"><h2>International Presentations</h2>${renderAch(achievements.presentations)}
+    <hr class="divider"><h2>Certifications</h2><p>${profile.certifications.map(c=>`<span class="tag">${c}</span>`).join('')}</p>
+    <hr class="divider"><h2>Industry Partnerships</h2>${renderAch(achievements.partnerships)}
+    <div class="footer"><p>~ flip to another page &uarr; ~</p></div>`;
 
-  // ===== PAGE: WRITING (Publications + Blog) =====
-  $('#page-writing').innerHTML = `
-    <h1>Writing</h1>
-    <p class="subtitle">Papers, posts, and things I thought about</p>
-    <hr class="divider">
-    <h2>Publications</h2>
-    ${publications.map(p => `<div class="pub-item">
-      <h3>${p.url ? `<a href="${p.url}">${p.title}</a>` : p.title}</h3>
-      <p class="venue">${p.venue}</p>
-      <p class="pub-meta">${p.year} &middot; ${p.tags.map(t => `<span class="tag">${t}</span>`).join(' ')}</p>
-    </div>`).join('')}
-    <hr class="divider">
-    <h2>Blog</h2>
-    ${blog.map(b => `<div class="pub-item blog-item">
-      <h3>${b.url ? `<a href="${b.url}">${b.title}</a>` : b.title}</h3>
-      <p class="excerpt">"${b.excerpt}"</p>
-      <p class="pub-meta">${b.date} &middot; ${b.tags.map(t => `<span class="tag">${t}</span>`).join(' ')}</p>
-    </div>`).join('')}
-    <div class="footer"><p>~ add more in data/blog.json ~</p></div>
-  `;
+  const books=bookshelf.filter(b=>b.type==='book'),pods=bookshelf.filter(b=>b.type==='podcast');
+  function shelfItem(item){const icon=item.type==='book'?'\ud83d\udcd6':'\ud83c\udfa7';return`<div class="shelf-item"><div class="shelf-icon">${icon}</div><div class="shelf-details"><p class="title">${item.title} <span class="shelf-tag shelf-tag-${item.tag}">${item.tag}</span></p><p class="author">${item.author}</p><p class="note">"${item.note}"</p></div></div>`}
+  $('#page-bookshelf').innerHTML=`
+    <h1>Bookshelf</h1><p class="subtitle">Books and podcasts that shaped how I think</p><hr class="divider">
+    <div class="shelf-section-title">\ud83d\udcda Books</div>${books.map(shelfItem).join('')}
+    <hr class="divider"><div class="shelf-section-title">\ud83c\udfa7 Podcasts</div>${pods.map(shelfItem).join('')}
+    <div class="footer"><p>~ add more in data/bookshelf.json ~</p></div>`;
 
-  // ===== PAGE: BOOKSHELF =====
-  const books = bookshelf.filter(b => b.type === 'book');
-  const pods = bookshelf.filter(b => b.type === 'podcast');
+  // ===== TABS =====
+  $$('.page-tab').forEach(tab=>{tab.addEventListener('click',()=>{
+    $$('.page-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');
+    $$('.page').forEach(p=>p.classList.remove('active','page-flip-enter'));
+    const pg=$('#page-'+tab.dataset.page);pg.classList.add('active','page-flip-enter');
+    window.scrollTo({top:0,behavior:'smooth'});setTimeout(()=>initReveals(pg),100);
+  })});
 
-  function renderShelfItem(item) {
-    const icon = item.type === 'book' ? '\ud83d\udcd6' : '\ud83c\udfa7';
-    return `<div class="shelf-item">
-      <div class="shelf-icon">${icon}</div>
-      <div class="shelf-details">
-        <p class="title">${item.title} <span class="shelf-tag shelf-tag-${item.tag}">${item.tag}</span></p>
-        <p class="author">${item.author}</p>
-        <p class="note">"${item.note}"</p>
-      </div>
-    </div>`;
-  }
-
-  $('#page-bookshelf').innerHTML = `
-    <h1>Bookshelf</h1>
-    <p class="subtitle">Books and podcasts that shaped how I think</p>
-    <hr class="divider">
-    <div class="shelf-section-title">\ud83d\udcda Books</div>
-    ${books.map(renderShelfItem).join('')}
-    <hr class="divider">
-    <div class="shelf-section-title">\ud83c\udfa7 Podcasts</div>
-    ${pods.map(renderShelfItem).join('')}
-    <div class="footer"><p>~ add more in data/bookshelf.json ~</p></div>
-  `;
-
-  // ===== ANIMATIONS =====
-  // Tabs
-  $$('.page-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      $$('.page-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      $$('.page').forEach(p => p.classList.remove('active','page-flip-enter'));
-      const pg = $('#page-' + tab.dataset.page);
-      pg.classList.add('active','page-flip-enter');
-      window.scrollTo({top:0,behavior:'smooth'});
-      setTimeout(() => { initReveals(pg); if(window._resetPencil) window._resetPencil(); }, 100);
-    });
-  });
-
-  // Pencil cursor — follows mouse, reveals content on hover
-  const pencil = $('#pencil-cursor');
-  if (pencil && window.innerWidth > 900) {
-    let mx = 0, my = 0, px = 0, py = 0;
-
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      pencil.style.opacity = '1';
-    });
-
-    document.addEventListener('mouseleave', () => { pencil.style.opacity = '0'; });
-
-    function followMouse() {
-      px += (mx - px) * 0.15;
-      py += (my - py) * 0.15;
-      pencil.style.left = px + 'px';
-      pencil.style.top = (py - 2) + 'px';
-      requestAnimationFrame(followMouse);
-    }
+  // ===== PENCIL CURSOR =====
+  const pencil=$('#pencil-cursor');
+  if(pencil&&window.innerWidth>900){
+    let mx=0,my=0,px=0,py=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;pencil.style.opacity='1'});
+    document.addEventListener('mouseleave',()=>{pencil.style.opacity='0'});
+    function followMouse(){px+=(mx-px)*.15;py+=(my-py)*.15;pencil.style.left=px+'px';pencil.style.top=(py-2)+'px';requestAnimationFrame(followMouse)}
     followMouse();
 
-    // Scroll hint
-    const hint = document.createElement('div');
-    hint.className = 'scroll-hint';
-    hint.textContent = '\u2193 scroll to reveal \u2193';
-    document.body.appendChild(hint);
-
-    // Reveal blurred content on scroll
-    window.addEventListener('scroll', () => {
-      if (hint.parentNode) gsap.to(hint, { opacity: 0, duration: .4, onComplete: () => hint.remove() });
-
-      const active = document.querySelector('.notebook .page.active');
-      if (!active) return;
-      active.querySelectorAll('.ink-reveal:not(.written)').forEach(el => {
-        const r = el.getBoundingClientRect();
-        if (r.top < window.innerHeight * 0.85) el.classList.add('written');
-      });
+    const hint=document.createElement('div');hint.className='scroll-hint';hint.textContent='\u2193 scroll to reveal \u2193';document.body.appendChild(hint);
+    window.addEventListener('scroll',()=>{
+      if(hint.parentNode)gsap.to(hint,{opacity:0,duration:.4,onComplete:()=>hint.remove()});
+      const active=document.querySelector('.notebook .page.active');if(!active)return;
+      active.querySelectorAll('.ink-reveal:not(.written)').forEach(el=>{if(el.getBoundingClientRect().top<window.innerHeight*.85)el.classList.add('written')});
     });
-
-    // Reset on tab switch
-    window._resetPencil = () => {};
   }
 
   // Post-it entrance
-  gsap.utils.toArray('.postit').forEach((p,i)=>{
-    gsap.from(p,{opacity:0,scale:.7,rotation:i%2?15:-15,duration:.5,delay:.3+i*.12,ease:'back.out(1.7)',scrollTrigger:{trigger:p,start:'top 95%'}});
-  });
+  gsap.utils.toArray('.postit').forEach((p,i)=>{gsap.from(p,{opacity:0,scale:.7,rotation:i%2?15:-15,duration:.5,delay:.3+i*.12,ease:'back.out(1.7)',scrollTrigger:{trigger:p,start:'top 95%'}})});
 
   // Title typewriter
-  const title = $('#page-main h1');
-  const tt = title.textContent;
-  title.textContent = '';
-  let ci = 0;
+  const title=$('#page-main h1');const tt=title.textContent;title.textContent='';let ci=0;
   function typeIt(){if(ci<tt.length){title.textContent+=tt[ci++];setTimeout(typeIt,55+Math.random()*35)}}
   setTimeout(typeIt,300);
-
-  // Scroll-triggered ink reveals (pencil writes as you scroll down)
-  if (window.innerWidth > 900) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting && !e.target.classList.contains('written')) {
-          // Don't reveal instantly — pencil will find it and write it
-          // Just mark as "in view" so pencil targets it
-          e.target.dataset.inView = '1';
-        }
-      });
-    }, { threshold: 0.2 });
-
-    // Observe after small delay (content needs to render)
-    setTimeout(() => {
-      document.querySelectorAll('.ink-reveal').forEach(el => observer.observe(el));
-    }, 500);
-  }
 
   initReveals($('#page-main'));
 
   // ===== TYPING GAME =====
-  const phrases = [
-    'ship mvps in weeks not months',
-    'deep in software deep in hardware',
-    'first principles engineering',
-    'from 22nd to 11th worldwide',
-    '99 percent data integrity',
-    'build measure learn repeat',
-    'legacy code meets modern stack',
-    '4km radio link duct tape antenna',
-  ];
-  let gamePhrase = '', gameStart = 0, gameActive = false;
-
-  function newPhrase() {
-    const el = $('#game-prompt');
-    const input = $('#game-input');
-    const result = $('#game-result');
-    if (!el || !input) return;
-    gamePhrase = phrases[Math.floor(Math.random() * phrases.length)];
-    el.textContent = gamePhrase;
-    input.value = '';
-    result.textContent = '';
-    result.className = 'result';
-    gameActive = false;
-  }
-
-  setTimeout(() => {
-    const input = $('#game-input');
-    if (!input) return;
-    newPhrase();
-    input.addEventListener('input', () => {
-      if (!gameActive) { gameStart = Date.now(); gameActive = true; }
-      const val = input.value.toLowerCase();
-      if (val === gamePhrase) {
-        const wpm = Math.round((gamePhrase.split(' ').length / ((Date.now() - gameStart) / 1000)) * 60);
-        const result = $('#game-result');
-        result.textContent = `Done! ${wpm} WPM. Not bad for handwriting.`;
-        result.className = 'result';
-        setTimeout(newPhrase, 2000);
-      } else if (!gamePhrase.startsWith(val)) {
-        $('#game-result').textContent = 'typo! keep going...';
-        $('#game-result').className = 'result wrong';
-      } else {
-        $('#game-result').textContent = '';
-      }
-    });
-  }, 1000);
+  const phrases=['ship mvps in weeks not months','deep in software deep in hardware','first principles engineering','from 22nd to 11th worldwide','99 percent data integrity','build measure learn repeat','legacy code meets modern stack','4km radio link duct tape antenna'];
+  let gamePhrase='',gameStart=0,gameActive=false;
+  function newPhrase(){const el=$('#game-prompt'),input=$('#game-input'),result=$('#game-result');if(!el||!input)return;gamePhrase=phrases[Math.floor(Math.random()*phrases.length)];el.textContent=gamePhrase;input.value='';result.textContent='';result.className='result';gameActive=false}
+  setTimeout(()=>{const input=$('#game-input');if(!input)return;newPhrase();input.addEventListener('input',()=>{if(!gameActive){gameStart=Date.now();gameActive=true}const val=input.value.toLowerCase();if(val===gamePhrase){const wpm=Math.round((gamePhrase.split(' ').length/((Date.now()-gameStart)/1000))*60);$('#game-result').textContent=`Done! ${wpm} WPM. Not bad for handwriting.`;$('#game-result').className='result';setTimeout(newPhrase,2000)}else if(!gamePhrase.startsWith(val)){$('#game-result').textContent='typo! keep going...';$('#game-result').className='result wrong'}else{$('#game-result').textContent=''}})},1000);
 }
 
 function initReveals(container){
-  // Mark sections for pencil ink-reveal (desktop) or instant reveal (mobile)
-  const els=container.querySelectorAll('h2,.exp-item,.links,.contact-grid,.footer,.project-card,.achievement,.pub-item,.shelf-item,.shelf-section-title');
-  const useInk = window.innerWidth > 900;
-
-  els.forEach((el,i)=>{
-    el.classList.remove('active','written');
-    if (useInk) {
-      el.classList.add('ink-reveal');
-      // First few items reveal immediately (above fold)
-      if (i < 3) setTimeout(() => el.classList.add('written'), 300 + i * 200);
-    } else {
-      el.classList.add('reveal');
-      setTimeout(()=>el.classList.add('active'), 80*i);
-    }
+  const els=container.querySelectorAll('h2,.exp-item,.links,.contact-grid,.footer,.project-card,.achievement,.shelf-item,.shelf-section-title,.typing-game');
+  const useInk=window.innerWidth>900;
+  els.forEach((el,i)=>{el.classList.remove('active','written');
+    if(useInk){el.classList.add('ink-reveal');if(i<3)setTimeout(()=>el.classList.add('written'),300+i*200)}
+    else{el.classList.add('reveal');setTimeout(()=>el.classList.add('active'),80*i)}
   });
-
-  container.querySelectorAll('.tag').forEach((tag,i)=>{
-    tag.style.opacity=0;tag.style.transform='scale(0.8)';
-    gsap.to(tag,{opacity:1,scale:1,duration:.25,delay:.8+i*.04,ease:'back.out(1.7)'});
-  });
-
-  // Reset pencil tracking for new page
-  if (typeof lastRevealEl !== 'undefined') lastRevealEl = null;
+  container.querySelectorAll('.tag').forEach((tag,i)=>{tag.style.opacity=0;tag.style.transform='scale(0.8)';gsap.to(tag,{opacity:1,scale:1,duration:.25,delay:.8+i*.04,ease:'back.out(1.7)'})});
 }
 
 init();
