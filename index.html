@@ -3,13 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <title>Tsaqif Mukhayyar</title>
-  <meta name="description" content="Muhammad Tsaqif Mukhayyar — Software Engineer for hire. Deep tech, aerospace, full-stack.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x270F;</text></svg>">
+  <title>Tsaqif Mukhayyar — Software Engineer | Deep Tech, Aerospace, Full-Stack</title>
+  <meta name="description" content="Muhammad Tsaqif Mukhayyar — Software Engineer building deep tech in Indonesia. Full-stack, firmware, aerospace. Available for hire.">
+  <meta name="keywords" content="tsaqif mukhayyar, software engineer, hire software engineer, freelance developer, backend engineer, deep tech indonesia, aerospace engineer, EEPISAT, CanSat, full-stack developer, firmware engineer, OptiControl, NDT software">
+  <meta property="og:title" content="Tsaqif Mukhayyar — Software Engineer">
+  <meta property="og:description" content="Building deep tech in Indonesia. Full-stack, firmware, aerospace. Ship MVPs in weeks.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mukhayyar.my.id">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Tsaqif Mukhayyar — Software Engineer">
+  <meta name="twitter:description" content="Deep tech engineer. Full-stack + firmware + aerospace. Available for hire.">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Muhammad Tsaqif Mukhayyar">
+  <link rel="canonical" href="https://mukhayyar.my.id">
   <link rel="sitemap" type="application/xml" href="sitemap.xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Person","name":"Muhammad Tsaqif Mukhayyar","url":"https://mukhayyar.my.id","jobTitle":"Software Engineer","worksFor":{"@type":"Organization","name":"OptiControl"},"alumniOf":{"@type":"EducationalOrganization","name":"Politeknik Elektronika Negeri Surabaya"},"sameAs":["https://linkedin.com/in/tsaqifmukhayyar","https://github.com/mukhayyar"],"knowsAbout":["Software Engineering","Firmware","Aerospace","Computer Vision","IoT","Deep Tech"]}
+  </script>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     body{background:#f5f0e0;background-image:radial-gradient(circle at 20% 50%,rgba(139,90,43,.04) 0%,transparent 50%),radial-gradient(circle at 80% 30%,rgba(139,90,43,.03) 0%,transparent 50%);font-family:'Patrick Hand',cursive;color:#2c2c2c;font-size:18px;line-height:1.8;overflow-x:hidden}
@@ -83,7 +97,16 @@
     .shelf-tag-growth{background:#e2d9f3;color:#4a1d8e}.shelf-tag-security{background:#333;color:#0f0}
     .shelf-section-title{font-family:'Caveat',cursive;font-size:1.5em;color:#16213e;margin:20px 0 10px;display:flex;align-items:center;gap:8px}
     .reveal{opacity:0;transform:translateY(15px)}.reveal.active{opacity:1;transform:translateY(0);transition:opacity .5s,transform .5s}
-    .ink-reveal{clip-path:inset(0 100% 0 0);transition:clip-path .8s ease-out}.ink-reveal.written{clip-path:inset(0 0 0 0)}
+    .ink-reveal{filter:blur(4px);opacity:.3;transition:filter .6s ease-out,opacity .6s ease-out}.ink-reveal.written{filter:blur(0);opacity:1}
+    .scroll-hint{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);font-family:'Caveat',cursive;font-size:1.2em;color:#999;z-index:50;animation:bounceHint 2s infinite;pointer-events:none}
+    @keyframes bounceHint{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-8px)}}
+    .pencil.done{opacity:0!important;transition:opacity .8s}
+    .typing-game{background:#faf8f0;border:1px solid #e0ddd5;border-radius:6px;padding:16px;margin:20px 0;font-family:'Patrick Hand',cursive}
+    .typing-game .prompt{font-size:1.1em;color:#0f3460;margin-bottom:8px;letter-spacing:1px}
+    .typing-game input{width:100%;padding:8px 12px;font-family:'Caveat',cursive;font-size:1.2em;border:1px dashed #d0cdc5;border-radius:4px;background:transparent;outline:none;color:#2c2c2c}
+    .typing-game input:focus{border-color:#e94560}
+    .typing-game .result{font-size:.9em;margin-top:6px;color:#2c7a3a}
+    .typing-game .result.wrong{color:#e94560}
     @media(max-width:900px){
       .desk{grid-template-columns:1fr;padding:10px}
       .postit-column{position:static;flex-direction:row;flex-wrap:wrap;gap:10px}
@@ -216,6 +239,14 @@ async function init() {
       <p>LinkedIn: <a href="${profile.links.linkedin}">tsaqifmukhayyar</a></p>
       <p>Location: ${profile.location}</p>
     </div>
+    <hr class="divider">
+    <h2>Try Me</h2>
+    <div class="typing-game" id="typing-game">
+      <p style="font-size:.9em;color:#888;margin-bottom:8px">Type what you see. How fast can you write?</p>
+      <div class="prompt" id="game-prompt"></div>
+      <input type="text" id="game-input" placeholder="start typing..." autocomplete="off">
+      <div class="result" id="game-result"></div>
+    </div>
     <div class="footer"><p>~ written on a notebook, 2026 ~</p></div>
   `;
 
@@ -318,53 +349,70 @@ async function init() {
       const pg = $('#page-' + tab.dataset.page);
       pg.classList.add('active','page-flip-enter');
       window.scrollTo({top:0,behavior:'smooth'});
-      setTimeout(() => initReveals(pg), 100);
+      setTimeout(() => { initReveals(pg); if(window._resetPencil) window._resetPencil(); }, 100);
     });
   });
 
-  // Pencil — sits on notebook margin, writes content as you scroll
+  // Pencil — writes content, disappears when done
   const pencil = $('#pencil');
   if (pencil && window.innerWidth > 900) {
     const nb = $('.notebook');
     let pY = 200, tY = 200, writing = false, wTimer;
     let lastRevealEl = null;
+    let pencilDone = false;
+
+    // Scroll hint
+    const hint = document.createElement('div');
+    hint.className = 'scroll-hint';
+    hint.textContent = '\u2193 scroll to reveal \u2193';
+    document.body.appendChild(hint);
 
     window.addEventListener('scroll', () => {
       writing = true;
       pencil.classList.add('writing');
       clearTimeout(wTimer);
       wTimer = setTimeout(() => { writing = false; pencil.classList.remove('writing'); }, 300);
+      // Hide scroll hint after first scroll
+      if (hint.parentNode) { gsap.to(hint, { opacity: 0, duration: .5, onComplete: () => hint.remove() }); }
     });
 
-    // Pencil follows the next unrevealed element — writes it into existence
     function findWriteTarget() {
       const active = nb.querySelector('.page.active');
       if (!active) return null;
       const els = active.querySelectorAll('.ink-reveal:not(.written)');
       for (const el of els) {
         const r = el.getBoundingClientRect();
-        if (r.top < window.innerHeight * 0.75) return el;
+        if (r.top < window.innerHeight * 0.8) return el;
       }
       return null;
     }
 
     function animPencil() {
+      if (pencilDone) return;
+
       const target = findWriteTarget();
       if (target && target !== lastRevealEl) {
         lastRevealEl = target;
         const r = target.getBoundingClientRect();
         tY = r.top + r.height * 0.3;
-        // "Write" it — reveal with ink effect
-        setTimeout(() => target.classList.add('written'), 200);
+        setTimeout(() => target.classList.add('written'), 150);
       }
 
-      // Smooth follow
+      // Check if all written — pencil done
+      const active = nb.querySelector('.page.active');
+      if (active) {
+        const remaining = active.querySelectorAll('.ink-reveal:not(.written)');
+        if (remaining.length === 0 && lastRevealEl) {
+          // All written — pencil exits
+          pencilDone = true;
+          gsap.to(pencil, { opacity: 0, y: -50, duration: .8, ease: 'power2.in' });
+          return;
+        }
+      }
+
       pY += (tY - pY) * 0.08;
-
       const nbRect = nb.getBoundingClientRect();
-      // Pencil on left margin of notebook, tip touching the red line
       const pencilX = nbRect.left + 35;
-
       const wobbleX = writing ? Math.sin(Date.now() * 0.03) * 3 : 0;
       const tilt = writing ? 15 + Math.sin(Date.now() * 0.02) * 4 : 20;
 
@@ -374,6 +422,16 @@ async function init() {
 
       requestAnimationFrame(animPencil);
     }
+
+    // Re-show pencil on tab switch
+    window._resetPencil = () => {
+      pencilDone = false;
+      lastRevealEl = null;
+      pencil.style.opacity = '1';
+      pencil.style.transform = '';
+      gsap.set(pencil, { y: 0, opacity: 1 });
+      animPencil();
+    };
 
     gsap.to(pencil, { opacity: 1, duration: 1, delay: 1 });
     gsap.from(pencil, { y: -100, duration: 1, delay: 1, ease: 'bounce.out' });
@@ -412,6 +470,54 @@ async function init() {
   }
 
   initReveals($('#page-main'));
+
+  // ===== TYPING GAME =====
+  const phrases = [
+    'ship mvps in weeks not months',
+    'deep in software deep in hardware',
+    'first principles engineering',
+    'from 22nd to 11th worldwide',
+    '99 percent data integrity',
+    'build measure learn repeat',
+    'legacy code meets modern stack',
+    '4km radio link duct tape antenna',
+  ];
+  let gamePhrase = '', gameStart = 0, gameActive = false;
+
+  function newPhrase() {
+    const el = $('#game-prompt');
+    const input = $('#game-input');
+    const result = $('#game-result');
+    if (!el || !input) return;
+    gamePhrase = phrases[Math.floor(Math.random() * phrases.length)];
+    el.textContent = gamePhrase;
+    input.value = '';
+    result.textContent = '';
+    result.className = 'result';
+    gameActive = false;
+  }
+
+  setTimeout(() => {
+    const input = $('#game-input');
+    if (!input) return;
+    newPhrase();
+    input.addEventListener('input', () => {
+      if (!gameActive) { gameStart = Date.now(); gameActive = true; }
+      const val = input.value.toLowerCase();
+      if (val === gamePhrase) {
+        const wpm = Math.round((gamePhrase.split(' ').length / ((Date.now() - gameStart) / 1000)) * 60);
+        const result = $('#game-result');
+        result.textContent = `Done! ${wpm} WPM. Not bad for handwriting.`;
+        result.className = 'result';
+        setTimeout(newPhrase, 2000);
+      } else if (!gamePhrase.startsWith(val)) {
+        $('#game-result').textContent = 'typo! keep going...';
+        $('#game-result').className = 'result wrong';
+      } else {
+        $('#game-result').textContent = '';
+      }
+    });
+  }, 1000);
 }
 
 function initReveals(container){

@@ -4,7 +4,16 @@
     "company": "OptiControl",
     "dates": "Jan 2026 \u2013 Present",
     "location": "Selangor, Malaysia",
-    "wins": []
+    "wins": [
+      "Built OTA update system for NDT equipment GUI \u2014 remote firmware + app updates",
+      "Architected cloud sync pipeline: NDT equipment \u2192 server \u2192 analytics + report generation",
+      "Created web app for cloud-synced inspection data analysis and automated reporting",
+      "Built algorithm store with .deb package management for field updates",
+      "Managed full infrastructure: self-hosted GitLab, mail server, CI/CD pipelines",
+      "Created custom Linux ISO with pre-installed GUI, bootloader guard (inspector-only install)",
+      "Enterprise Tailscale deployment for remote IT support of customer devices worldwide",
+      "Landing page + SEO for product visibility"
+    ]
   },
   {
     "role": "Product Engineer",
