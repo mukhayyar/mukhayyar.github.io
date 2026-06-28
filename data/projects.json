@@ -1,5 +1,15 @@
 [
   {
+    "name": "AHD \u2014 Adaptive Hierarchical Detection",
+    "desc": "On-device object detection for RPi 5. Two-phase framework with scene-aware context DB. +0.87 detection gain, 78.5% vocab reduction, 15s\u2192300ms latency.",
+    "tech": "Python \u00b7 CLIP \u00b7 COCO-80 \u00b7 Places365 \u00b7 Flask \u00b7 React \u00b7 ARM64 \u00b7 Docker"
+  },
+  {
+    "name": "OptiControl NDT GUI",
+    "desc": "Industrial inspection app with 9+ modes. A-Scan, B-Scan, 2D corrosion heatmap. FPGA data at 3ms over UDP. Offline HMAC licensing.",
+    "tech": "Python \u00b7 PySide6 \u00b7 PyQtGraph \u00b7 QThread \u00b7 FPGA \u00b7 pytest"
+  },
+  {
     "name": "RocketHub",
     "desc": "Community rocket flight visualization. Upload OpenRocket data, 3D trajectory viewer, leaderboards.",
     "tech": "React \u00b7 Three.js \u00b7 Express \u00b7 SQLite \u00b7 MapLibre",

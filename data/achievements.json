@@ -1,18 +1,20 @@
 {
   "competitions": [
-    { "medal": "\ud83e\udd48", "title": "2nd Place \u2014 CanSat Competition 2023", "meta": "Worldwide \u00b7 Virginia, USA" },
-    { "medal": "\ud83c\udfc6", "title": "Teknofest 2025 \u2014 Top 15 Finalist", "meta": "Model Satellite \u00b7 Turkey" },
-    { "medal": "\ud83e\udd47", "title": "1st Place \u2014 Cloud Computing WILKER IV JATIM", "meta": "Regional \u00b7 East Java" },
-    { "medal": "\ud83e\udd49", "title": "3rd Place \u2014 Computer Networking", "meta": "National Competition" },
-    { "medal": "\u2b50", "title": "Best Team Member \u2014 Project BEE", "meta": "Pusan National University \u00b7 Bandung" },
-    { "medal": "\ud83e\udd49", "title": "3rd Place Team \u2014 Project BEE", "meta": "IoT Aquaculture Challenge" },
-    { "medal": "\ud83d\udce1", "title": "Top 4 \u2014 Indonesia Aerospace Hackathon", "meta": "CanSat Kit \u00b7 Asosiasi Satelit Indonesia" }
+    { "medal": "\ud83e\udd49", "title": "3rd Place \u2014 CanSat Competition USA 2023", "meta": "Worldwide \u00b7 Virginia, USA" },
+    { "medal": "\ud83c\udfc6", "title": "Finalist \u2014 CanSat Competition USA 2025", "meta": "Worldwide \u00b7 Virginia, USA" },
+    { "medal": "\ud83c\udfc6", "title": "Finalist \u2014 Teknofest 2025 Model Satellite (Top 15)", "meta": "First-time entry \u00b7 Turkey" },
+    { "medal": "\ud83e\udd47", "title": "1st Place \u2014 Cloud Computing LKS Wilker IV Jatim 2022", "meta": "Regional \u00b7 East Java" },
+    { "medal": "\ud83e\udd49", "title": "3rd Place \u2014 Computer Networking \u2014 PNB IT Competition 2023", "meta": "Politeknik Negeri Bali" },
+    { "medal": "\u2b50", "title": "Best Team Member \u2014 Project BEE 2023", "meta": "Pusan National University \u00b7 Bandung" },
+    { "medal": "\ud83e\udd49", "title": "3rd Place Team \u2014 Project BEE 2023", "meta": "IoT Aquaculture Challenge" },
+    { "medal": "\ud83d\udce1", "title": "Top 4 \u2014 Indonesia Aerospace Hackathon 2025", "meta": "CanSat Kit \u00b7 Asosiasi Satelit Indonesia" }
   ],
   "presentations": [
     { "medal": "\ud83c\udf0f", "title": "APRSAF-30 \u2014 Perth, Australia", "meta": "Space Education 4 All \u00b7 2025" },
     { "medal": "\ud83c\udf0f", "title": "APRSAF-29 \u2014 Jakarta", "meta": "CanSat Research \u00b7 2023" }
   ],
   "partnerships": [
-    { "medal": "\ud83e\udd1d", "title": "PT Pasifik Satelit Nusantara (PSN)", "meta": "Funding + study tours + networking for EEPISAT" }
+    { "medal": "\ud83e\udd1d", "title": "PT Pasifik Satelit Nusantara (PSN)", "meta": "Funding + study tours + networking" },
+    { "medal": "\ud83e\udd1d", "title": "Antarexxa Indonesia", "meta": "Industry partnership for EEPISAT" }
   ]
 }

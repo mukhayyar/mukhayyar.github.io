@@ -1,47 +1,64 @@
 [
   {
-    "role": "Software Developer",
+    "role": "Software Engineer (Part-Time)",
     "company": "OptiControl",
     "dates": "Jan 2026 \u2013 Present",
-    "location": "Selangor, Malaysia",
+    "location": "Penang, Malaysia",
     "wins": [
-      "Built OTA update system for NDT equipment GUI \u2014 remote firmware + app updates",
-      "Architected cloud sync pipeline: NDT equipment \u2192 server \u2192 analytics + report generation",
-      "Created web app for cloud-synced inspection data analysis and automated reporting",
-      "Built algorithm store with .deb package management for field updates",
-      "Managed full infrastructure: self-hosted GitLab, mail server, CI/CD pipelines",
-      "Created custom Linux ISO with pre-installed GUI, bootloader guard (inspector-only install)",
-      "Enterprise Tailscale deployment for remote IT support of customer devices worldwide",
-      "Landing page + SEO for product visibility"
+      "Real-time NDT inspection GUI (Python/PySide6) with 9+ modes: A-Scan, B-Scan, 2D corrosion heatmap",
+      "16-digit offline licensing (HMAC-SHA256) \u2014 machine-locked, date-locked, zero server dependency",
+      "License management dashboard (Flask + PostgreSQL) with usage tracking + tiered billing",
+      "Cross-compilation pipeline: Docker x86_64\u2192ARM64 via QEMU, .deb packages + custom RPi OS images",
+      "Multi-threaded data acquisition (QThread/QMutex) at 3ms polling from FPGA over UDP",
+      "Deployment: full OS images for major releases, SSH-pushed .deb for patches, systemd autostart",
+      "13 pytest suites covering licensing, hardware comms, heatmap rendering, simulation"
     ]
   },
   {
-    "role": "Product Engineer",
+    "role": "Student Researcher (Internship)",
+    "company": "Kanagawa Institute of Technology",
+    "dates": "Jan 2026 \u2013 Apr 2026",
+    "location": "Atsugi, Japan",
+    "wins": [
+      "Designed AHD (Adaptive Hierarchical Detection) \u2014 two-phase on-device object detection on RPi 5",
+      "+0.87 avg detection gain over fixed COCO-80 baseline, zero cloud dependency",
+      "Scene-aware context DB: 388 Places365 scenes mapped to COCO-80 subsets, 78.5% vocabulary reduction",
+      "Pre-baked CLIP embeddings: context-switch latency 15s\u2192300ms",
+      "Containerized AI stack (Flask+SocketIO+React) on ARM64 with Cloudflare Tunnel + Tailscale"
+    ]
+  },
+  {
+    "role": "Product Engineer (Contract)",
     "company": "AITOMA",
     "dates": "Dec 2025 \u2013 Jan 2026",
     "location": "Surabaya",
-    "wins": []
+    "wins": [
+      "AWS\u2192GCP migration (100% success), decoupled frontend to Firebase Hosting",
+      "Refactored Python + Express.js microservices, reduced codebase complexity",
+      "IoT gateway-to-cloud integration for real-time monitoring system",
+      "Modernized company website with custom CMS (Next.js)"
+    ]
   },
   {
-    "role": "Product Engineer",
+    "role": "Product Engineer (Internship)",
     "company": "Petruck.id",
     "dates": "Jul 2025 \u2013 Jan 2026",
     "location": "Jakarta",
     "wins": [
-      "AI business analytics agent (LLMs + dynamic SQL + Plotly.js)",
-      "\"War room\" critical incident response",
-      "Google Sheets integration for data sync"
+      "AI business consultant: LLMs \u2192 dynamic SQL \u2192 Plotly.js visualization",
+      "Mission-critical \"war room\" for production incidents",
+      "Google Sheets import pipeline for partner efficiency"
     ]
   },
   {
-    "role": "Software Developer Intern",
+    "role": "Software Developer (Internship)",
     "company": "PT Infoglobal Teknologi Semesta",
     "dates": "Jan 2025 \u2013 Jun 2025",
     "location": "Surabaya",
     "wins": [
-      "Legacy migration to clean architecture",
-      "90% LCP improvement, 20% faster data fetch (async FastAPI)",
-      "Custom OpenProject integration"
+      "Legacy system \u2192 modular architecture migration",
+      "Async FastAPI: 20% faster fetch, Zustand+React Query: 90% LCP reduction",
+      "Rebuilt UI with shadcn/ui + Tailwind for scalability"
     ]
   }
 ]

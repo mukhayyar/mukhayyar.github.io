@@ -11,9 +11,10 @@
     "email": "m3g3nz2@gmail.com"
   },
   "skills": [
-    "TypeScript", "Python", "Rust", "Go", "C/C++", "React", "Hono", "Bun",
-    "FastAPI", "PostgreSQL", "Docker", "AWS", "Tailwind", "Three.js",
-    "Embedded/RF", "Computer Vision", "IoT", "Firmware"
+    "Python", "TypeScript", "Dart", "C/C++", "React", "Next.js", "Flutter",
+    "FastAPI", "PySide6", "Hono", "Bun", "PostgreSQL", "SQLite", "Docker",
+    "GCP", "AWS", "Supabase", "Cloudflare", "Tailscale", "Tailwind",
+    "Plotly.js", "Three.js", "Embedded/RF", "Computer Vision", "IoT", "Firmware"
   ],
   "languages": [
     { "lang": "Indonesian", "level": "native" },
@@ -21,7 +22,7 @@
   ],
   "education": [
     {
-      "degree": "B.ASc Informatics Engineering",
+      "degree": "B.ASc Informatics Engineering (GPA: 3.83/4.00)",
       "school": "Politeknik Elektronika Negeri Surabaya (PENS)",
       "dates": "Aug 2022 \u2013 Aug 2026"
     },
