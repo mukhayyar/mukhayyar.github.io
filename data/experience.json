@@ -5,13 +5,14 @@
     "dates": "Jan 2026 \u2013 Present",
     "location": "Penang, Malaysia",
     "wins": [
-      "Real-time NDT inspection GUI (Python/PySide6) with 9+ modes: A-Scan, B-Scan, 2D corrosion heatmap",
-      "16-digit offline licensing (HMAC-SHA256) \u2014 machine-locked, date-locked, zero server dependency",
-      "License management dashboard (Flask + PostgreSQL) with usage tracking + tiered billing",
-      "Cross-compilation pipeline: Docker x86_64\u2192ARM64 via QEMU, .deb packages + custom RPi OS images",
-      "Multi-threaded data acquisition (QThread/QMutex) at 3ms polling from FPGA over UDP",
-      "Deployment: full OS images for major releases, SSH-pushed .deb for patches, systemd autostart",
-      "13 pytest suites covering licensing, hardware comms, heatmap rendering, simulation"
+      "Built OTA update system for NDT equipment GUI \u2014 push firmware + app updates remotely",
+      "Architected cloud sync pipeline: NDT equipment \u2192 server \u2192 analytics + automated report generation",
+      "Web app for syncing inspection data from field equipment to cloud for analysis",
+      "Algorithm store with .deb package management for deploying latest updates to devices",
+      "Managed full infrastructure: self-hosted GitLab, mail server, CI/CD pipelines",
+      "Custom Linux ISO with pre-installed GUI + bootloader guard (inspector-only installation)",
+      "Enterprise Tailscale deployment for remote IT support of customer devices worldwide",
+      "Landing page + SEO for product visibility"
     ]
   },
   {
