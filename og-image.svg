@@ -1,0 +1,30 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#d4c9a8"/>
+  <rect x="250" y="50" width="700" height="530" fill="#fff" rx="4" stroke="#e8c4c4" stroke-width="3"/>
+  <line x1="305" y1="50" x2="305" y2="580" stroke="#e8c4c4" stroke-width="2" opacity=".5"/>
+  <text x="340" y="180" font-family="Georgia,serif" font-size="56" fill="#1a1a2e" font-weight="bold">Tsaqif Mukhayyar</text>
+  <text x="340" y="240" font-family="Georgia,serif" font-size="28" fill="#666">Software Engineer</text>
+  <text x="340" y="320" font-family="Georgia,serif" font-size="22" fill="#2c7a3a">~ deep tech · aerospace · full-stack</text>
+  <text x="340" y="360" font-family="Georgia,serif" font-size="22" fill="#2c7a3a">~ ship MVPs in weeks, not months</text>
+  <text x="340" y="400" font-family="Georgia,serif" font-size="22" fill="#2c7a3a">~ firmware to cloud, one engineer</text>
+  <text x="340" y="480" font-family="Georgia,serif" font-size="18" fill="#999">mukhayyar.my.id</text>
+  <!-- Post-it -->
+  <rect x="50" y="80" width="160" height="140" fill="#fff9a5" transform="rotate(-3,130,150)"/>
+  <text x="70" y="130" font-family="Georgia,serif" font-size="18" fill="#333" font-weight="bold" transform="rotate(-3,130,150)">Hire Me</text>
+  <text x="70" y="160" font-family="Georgia,serif" font-size="14" fill="#555" transform="rotate(-3,130,150)">Need a Software</text>
+  <text x="70" y="180" font-family="Georgia,serif" font-size="14" fill="#555" transform="rotate(-3,130,150)">Engineer?</text>
+  <!-- Post-it right -->
+  <rect x="990" y="120" width="160" height="120" fill="#ffb3ba" transform="rotate(2,1070,180)"/>
+  <text x="1010" y="165" font-family="Georgia,serif" font-size="16" fill="#333" font-weight="bold" transform="rotate(2,1070,180)">Building a</text>
+  <text x="1010" y="188" font-family="Georgia,serif" font-size="16" fill="#333" font-weight="bold" transform="rotate(2,1070,180)">startup?</text>
+  <!-- Pin -->
+  <circle cx="280" cy="65" r="7" fill="#cc3333"/>
+  <circle cx="920" cy="65" r="7" fill="#3366cc"/>
+  <!-- Lines on notebook -->
+  <line x1="310" y1="140" x2="920" y2="140" stroke="#e0ddd5" stroke-width="1"/>
+  <line x1="310" y1="200" x2="920" y2="200" stroke="#e0ddd5" stroke-width="1"/>
+  <line x1="310" y1="260" x2="920" y2="260" stroke="#e0ddd5" stroke-width="1"/>
+  <line x1="310" y1="340" x2="920" y2="340" stroke="#e0ddd5" stroke-width="1"/>
+  <line x1="310" y1="420" x2="920" y2="420" stroke="#e0ddd5" stroke-width="1"/>
+  <line x1="310" y1="500" x2="920" y2="500" stroke="#e0ddd5" stroke-width="1"/>
+</svg>
