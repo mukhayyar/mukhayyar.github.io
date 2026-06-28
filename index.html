@@ -286,6 +286,46 @@ async function init(){
   renderPostits(postits.left,$('#postits-left'));
   renderPostits(postits.right,$('#postits-right'));
 
+  // Phone + Laptop in blank space
+  if(window.innerWidth>900){
+    // Phone (left column, below post-its)
+    const phone=document.createElement('div');
+    phone.style.cssText='margin-top:10px;opacity:.7;transform:rotate(-5deg);transition:transform .3s';
+    phone.innerHTML=`<svg width="90" height="160" viewBox="0 0 90 160" xmlns="http://www.w3.org/2000/svg">
+      <rect x="5" y="5" width="80" height="150" rx="12" fill="#1a1a2e" stroke="#333" stroke-width="2"/>
+      <rect x="10" y="20" width="70" height="110" rx="2" fill="#2a2a4e"/>
+      <text x="45" y="70" text-anchor="middle" fill="#0f0" font-family="monospace" font-size="8">$ npm run</text>
+      <text x="45" y="82" text-anchor="middle" fill="#0f0" font-family="monospace" font-size="8">  dev</text>
+      <text x="45" y="98" text-anchor="middle" fill="#4af" font-family="monospace" font-size="7">ready in 0.3s</text>
+      <circle cx="45" cy="145" r="5" fill="none" stroke="#555" stroke-width="1"/>
+      <rect x="30" y="8" width="30" height="4" rx="2" fill="#333"/>
+    </svg>`;
+    phone.onmouseenter=()=>{phone.style.transform='rotate(0deg) scale(1.05)'};
+    phone.onmouseleave=()=>{phone.style.transform='rotate(-5deg)'};
+    $('#postits-left').appendChild(phone);
+
+    // Laptop (right column, below post-its)
+    const laptop=document.createElement('div');
+    laptop.style.cssText='margin-top:10px;opacity:.7;transform:rotate(3deg);transition:transform .3s';
+    laptop.innerHTML=`<svg width="180" height="120" viewBox="0 0 180 120" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="5" width="140" height="90" rx="6" fill="#2a2a3e" stroke="#555" stroke-width="1.5"/>
+      <rect x="25" y="10" width="130" height="75" rx="2" fill="#1e1e2e"/>
+      <text x="90" y="35" text-anchor="middle" fill="#e94560" font-family="monospace" font-size="9" font-weight="bold">mukhayyar.my.id</text>
+      <text x="90" y="50" text-anchor="middle" fill="#888" font-family="monospace" font-size="7">vim index.html</text>
+      <text x="40" y="65" fill="#0f0" font-family="monospace" font-size="6">  1 &lt;!DOCTYPE html&gt;</text>
+      <text x="40" y="73" fill="#4af" font-family="monospace" font-size="6">  2 &lt;html lang="en"&gt;</text>
+      <rect x="10" y="95" width="160" height="8" rx="2" fill="#aaa"/>
+      <rect x="60" y="103" width="60" height="4" rx="1" fill="#999"/>
+      <circle cx="90" cy="8" r="2" fill="#555"/>
+    </svg>`;
+    laptop.onmouseenter=()=>{laptop.style.transform='rotate(0deg) scale(1.05)'};
+    laptop.onmouseleave=()=>{laptop.style.transform='rotate(3deg)'};
+    $('#postits-right').appendChild(laptop);
+
+    gsap.from(phone,{y:30,opacity:0,duration:.6,delay:1.8,ease:'power2.out'});
+    gsap.from(laptop,{y:30,opacity:0,duration:.6,delay:2,ease:'power2.out'});
+  }
+
   // ===== PAGES =====
   const pinColors=['pin-red','pin-blue','pin-green','pin-yellow'];
   $('#page-main').innerHTML=`
