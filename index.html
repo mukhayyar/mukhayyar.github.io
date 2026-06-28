@@ -136,6 +136,27 @@
     .scroll-hint{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);font-family:'Caveat',cursive;font-size:1.2em;color:#999;z-index:50;animation:bounceHint 2s infinite;pointer-events:none}
     @keyframes bounceHint{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-8px)}}
 
+    /* ===== BLOG ===== */
+    .blog-list{display:flex;flex-direction:column;gap:16px;margin:16px 0}
+    .blog-card{background:#faf8f0;border:1px solid #e0ddd5;border-radius:4px;padding:16px;cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative}
+    .blog-card:hover{transform:translateX(4px);box-shadow:3px 3px 8px rgba(0,0,0,.08)}
+    .blog-card h3{font-family:'Caveat',cursive;font-size:1.3em;color:#0f3460;margin:0 0 4px}
+    .blog-card .blog-date{font-size:.8em;color:#999}
+    .blog-card .blog-excerpt{font-size:.9em;color:#666;margin:4px 0}
+    .blog-card .blog-tags{margin-top:6px}
+    .blog-post{line-height:1.9}
+    .blog-post h1{font-size:2em;margin-bottom:8px}
+    .blog-post h2{font-size:1.5em;margin-top:20px}
+    .blog-post h3{font-family:'Caveat',cursive;font-size:1.3em;color:#0f3460;margin-top:16px}
+    .blog-post p{margin-bottom:12px}
+    .blog-post ul,.blog-post ol{margin:8px 0 12px 20px}
+    .blog-post li{margin-bottom:4px}
+    .blog-post code{background:#f0ece3;padding:1px 6px;border-radius:3px;font-size:.9em}
+    .blog-post strong{color:#1a1a2e}
+    .blog-post img{max-width:100%;border-radius:4px;margin:12px 0}
+    .blog-back{display:inline-block;margin-bottom:16px;font-family:'Caveat',cursive;font-size:1.1em;color:#0f3460;border-bottom:1px dashed #0f3460;cursor:pointer}
+    .blog-back:hover{color:#e94560}
+
     /* ===== MOBILE ===== */
     @media(max-width:900px){
       .pencil-cursor{display:none}body{cursor:auto}a,button,.page-tab,.postit-cta,input,textarea,select{cursor:auto}
@@ -178,12 +199,14 @@
       <div class="page-tab" data-page="projects">Projects</div>
       <div class="page-tab" data-page="achievements">Achievements</div>
       <div class="page-tab" data-page="bookshelf">Bookshelf</div>
+      <div class="page-tab" data-page="blog">Blog</div>
     </div>
     <div class="notebook">
       <div class="page active" id="page-main"></div>
       <div class="page" id="page-projects"></div>
       <div class="page" id="page-achievements"></div>
       <div class="page" id="page-bookshelf"></div>
+      <div class="page" id="page-blog"></div>
     </div>
   </div>
 
@@ -191,6 +214,7 @@
   <div class="postit-column right" id="postits-right"></div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
@@ -200,9 +224,10 @@ const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 async function load(f){return(await fetch('data/'+f)).json()}
 
 async function init(){
-  const [profile,experience,eepisat,projects,achievements,postits,bookshelf]=await Promise.all([
+  const [profile,experience,eepisat,projects,achievements,postits,bookshelf,blogPosts]=await Promise.all([
     load('profile.json'),load('experience.json'),load('eepisat.json'),
-    load('projects.json'),load('achievements.json'),load('postits.json'),load('bookshelf.json')
+    load('projects.json'),load('achievements.json'),load('postits.json'),load('bookshelf.json'),
+    fetch('blog/posts.json').then(r=>r.json()).catch(()=>[])
   ]);
 
   // ===== DESK DECORATIONS =====
@@ -304,6 +329,63 @@ async function init(){
     <hr class="divider"><div class="shelf-section-title">\ud83c\udfa7 Podcasts</div>${pods.map(shelfItem).join('')}
     <div class="footer"><p>~ add more in data/bookshelf.json ~</p></div>`;
 
+  // ===== PAGE: BLOG =====
+  function renderBlogList(){
+    const sorted=[...blogPosts].sort((a,b)=>b.date.localeCompare(a.date));
+    $('#page-blog').innerHTML=`
+      <h1>Blog</h1><p class="subtitle">Notes, stories, lessons</p><hr class="divider">
+      <div class="blog-list">${sorted.map(p=>`
+        <div class="blog-card" data-slug="${p.slug}">
+          <h3>${p.title}</h3>
+          <p class="blog-date">${p.date}</p>
+          <p class="blog-excerpt">${p.excerpt}</p>
+          <p class="blog-tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join(' ')}</p>
+        </div>`).join('')}
+      </div>
+      <hr class="divider">
+      <div class="footer">
+        <p>~ add posts: create blog/your-slug.md + update blog/posts.json ~</p>
+      </div>`;
+    // Click handlers
+    $('#page-blog').querySelectorAll('.blog-card').forEach(card=>{
+      card.addEventListener('click',()=>openPost(card.dataset.slug));
+    });
+    initReveals($('#page-blog'));
+  }
+  renderBlogList();
+
+  async function openPost(slug){
+    try{
+      const res=await fetch('blog/'+slug+'.md');
+      if(!res.ok)throw new Error('Post not found');
+      const md=await res.text();
+      const post=blogPosts.find(p=>p.slug===slug);
+      // Fix image paths: ![](image.png) -> ![](blog/images/image.png)
+      const fixedMd=md.replace(/!\[([^\]]*)\]\((?!http)([^)]+)\)/g,'![$1](blog/images/$2)');
+      $('#page-blog').innerHTML=`
+        <div class="blog-back" id="blog-back">&larr; back to all posts</div>
+        <div class="blog-post">
+          <p class="blog-date">${post?.date||''} &middot; ${(post?.tags||[]).map(t=>`<span class="tag">${t}</span>`).join(' ')}</p>
+          ${marked.parse(fixedMd)}
+        </div>`;
+      $('#blog-back').addEventListener('click',()=>{renderBlogList()});
+      window.scrollTo({top:0,behavior:'smooth'});
+    }catch(e){
+      $('#page-blog').innerHTML=`<h1>Post not found</h1><p>${e.message}</p><div class="blog-back" id="blog-back">&larr; back</div>`;
+      $('#blog-back').addEventListener('click',()=>{renderBlogList()});
+    }
+  }
+
+  // Handle URL hash for direct post links
+  if(location.hash.startsWith('#/blog/')){
+    const slug=location.hash.replace('#/blog/','');
+    $$('.page-tab').forEach(t=>t.classList.remove('active'));
+    $$('.page').forEach(p=>p.classList.remove('active'));
+    document.querySelector('[data-page="blog"]').classList.add('active');
+    $('#page-blog').classList.add('active');
+    setTimeout(()=>openPost(slug),300);
+  }
+
   // ===== TABS =====
   $$('.page-tab').forEach(tab=>{tab.addEventListener('click',()=>{
     $$('.page-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');
@@ -347,7 +429,7 @@ async function init(){
 }
 
 function initReveals(container){
-  const els=container.querySelectorAll('h2,.exp-item,.links,.contact-grid,.footer,.project-card,.achievement,.shelf-item,.shelf-section-title,.typing-game');
+  const els=container.querySelectorAll('h2,.exp-item,.links,.contact-grid,.footer,.project-card,.achievement,.shelf-item,.shelf-section-title,.typing-game,.blog-card');
   const useInk=window.innerWidth>900;
   els.forEach((el,i)=>{el.classList.remove('active','written');
     if(useInk){el.classList.add('ink-reveal');if(i<3)setTimeout(()=>el.classList.add('written'),300+i*200)}

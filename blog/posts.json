@@ -1,0 +1,18 @@
+[
+  {
+    "slug": "4km-radio-link",
+    "title": "How We Built a 4km Radio Link with a Homemade Antenna",
+    "date": "2023-09-15",
+    "tags": ["RF", "Hardware", "CanSat"],
+    "cover": "",
+    "excerpt": "Building a Moxon Yagi antenna from scratch for our CanSat competition."
+  },
+  {
+    "slug": "cansat-team-leadership",
+    "title": "From 22nd to 11th: Leading a CanSat Team",
+    "date": "2025-06-20",
+    "tags": ["Leadership", "EEPISAT"],
+    "cover": "",
+    "excerpt": "Managing 30+ people across technical and non-technical divisions in a global competition."
+  }
+]
