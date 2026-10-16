@@ -69,7 +69,7 @@
   },
   {
     "name": "Moxon Yagi Antenna",
-    "desc": "Hybrid Moxon–Yagi: a Moxon rectangle as reflector + driven element with five dipole directors (7 elements, ≈ 11 dBi). 4 km stable link for CanSat missions.",
+    "desc": "Hybrid Moxon–Yagi: two Moxon rectangles (reflector + driven element) with five dipole directors, ≈ 11 dBi. 4 km stable link for CanSat missions.",
     "tech": "RF engineering · 915 MHz · XBee-PRO S3B"
   }
 ]

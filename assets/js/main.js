@@ -878,14 +878,17 @@
       if (!G || reduced || seen) { root.classList.add('is-loaded'); resolve(); return; }
       try { sessionStorage.setItem('ht-seen', '1'); } catch (e) { /* private mode */ }
       const dots = $('.preloader__dots');
-      dots.innerHTML = '<i></i>'.repeat(21);
+      // 5×5 grid that resolves into the T+M monogram (s = small diagonal hint, a = accent).
+      const MARK = ['22a22', '1s2s1', '1.2.1', '1.2.1', '1.2.1'].join('');
+      const SIZE = { 2: 1, a: 1, 1: 0.86, s: 0.5, '.': 0.14 };
+      dots.innerHTML = [...MARK].map((c) => `<i${c === 'a' ? ' class="a"' : ''} data-s="${SIZE[c]}"></i>`).join('');
       const ds = $$('i', dots);
       const count = $('.preloader__count');
       const o = { v: 0 };
       const tl = G.timeline({ onComplete: () => root.classList.add('is-loaded') });
       tl.to(o, { v: 100, duration: 1.1, ease: 'power2.inOut', onUpdate: () => { count.textContent = String(Math.round(o.v)).padStart(3, '0'); } }, 0)
-        .to(ds, { scale: 1, duration: 0.5, ease: 'expo.out', stagger: { each: 0.035, from: 'start', grid: [3, 7] } }, 0.05)
-        .to(ds, { scale: 0, duration: 0.4, ease: 'expo.in', stagger: { each: 0.02, from: 'end', grid: [3, 7] } }, 1.05)
+        .to(ds, { scale: (i, el) => +el.dataset.s, duration: 0.55, ease: 'expo.out', stagger: { each: 0.03, from: 'start', grid: [5, 5] } }, 0.05)
+        .to(ds, { scale: 0, duration: 0.4, ease: 'expo.in', stagger: { each: 0.018, from: 'end', grid: [5, 5] } }, 1.05)
         .to(count, { opacity: 0, duration: 0.25 }, 1.1)
         .to(pre, { clipPath: 'inset(0 0 100% 0)', duration: 0.8, ease: 'expo.inOut' }, 1.3)
         .call(resolve, null, 1.3);
