@@ -1,11 +1,14 @@
 // Fig 01 — The 4 km link.
 // A bench model of the EEPISAT CanSat downlink: a log-scale rail carries the can
-// away from a homemade Moxon–Yagi on a tripod; the RSSI meter reads the free-space
-// budget. Click the antenna and its elements fold on their hinges while the stock
-// whip stands up; flip the radio's rate lever and the meter's fade zone moves.
+// from 0.1 to 4 km away from a homemade Moxon–Yagi on a tripod (two Moxon
+// rectangles, the reflector and the driven element, then five directors); the RSSI
+// meter reads the free-space budget. Click the antenna and its seven elements fold
+// flat on their hinges, one after another, while the stock whip stands up; flip the
+// radio's rate lever and the meter's fade zone moves.
 //
 //   node tools/anatomy/radio-link/build.mjs            writes assets/js/fig-link.js and assets/css/iso.css
 //   node tools/anatomy/radio-link/build.mjs --audit    also proves the geometry in every pose (ends "audit passed")
+//   node tools/anatomy/radio-link/build.mjs --audit --quick | --folded   only the rest pose (and the folded one)
 //   node tools/anatomy/radio-link/build.mjs --test DIR also writes DIR/index.html, a page that mimics the site
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
@@ -35,19 +38,22 @@ const EL = 30;
 const W = 640;
 const H = 330;
 
-const PLATE = { x: -276, y: -34, w: 454, d: 96, r: 9 };
-const PLATE_H = 12;
-const FOOT_H = 8;
-
-const X0 = -100; // 0.1 km on the ruler
-const X1 = 118; // 10 km on the ruler
+// The rail starts a can's width ahead of the boom's front cap (so the can, parked at
+// 0.1 km, still has a short field of dots between it and the last director) and runs
+// one log decade per 85 units to 4 km.
+const X0 = 44; // 0.1 km on the ruler
+const X1 = X0 + 136; // 4 km on the ruler: the far end of the rail and the field-test mark
 const xOfKm = (km) => X0 + M.shareOfKm(km) * (X1 - X0);
 const TRAVEL = X1 - X0;
 const MOVE = [TRAVEL, 0, 0];
 
-const RAIL = { x: -132, y: -6, w: 292, d: 12, r: 1.5 };
+const PLATE = { x: -276, y: -34, w: X1 + 54 + 276, d: 96, r: 9 };
+const PLATE_H = 12;
+const FOOT_H = 8;
+
+const RAIL = { x: X0 - 32, y: -6, w: TRAVEL + 74, d: 12, r: 1.5 };
 const RAIL_H = 7;
-const STRIP = { x: -110, y: 25, w: 242, d: 13, r: 1 };
+const STRIP = { x: X0 - 10, y: 25, w: TRAVEL + 24, d: 13, r: 1 };
 const TICK = { km: [3.2, 4.4, 6.2], dbm: [2.6, 5] }; // minor, half (5s), decade · minor, ten
 const STRIP_H = 0.8;
 const STRIP_MID = STRIP.y + STRIP.d / 2 + 0.6; // the rule between the two scales
@@ -79,39 +85,51 @@ const MAST_UP = { r: 2.0 };
 const CLAMP = { x: XM - 4, y: -4, w: 8, d: 8, r: 1.2 };
 const CLAMP_Z = ZC - 4;
 const BOOM_R = 2.2;
-// The Moxon rectangle for 915 MHz (A : B : C : D from the usual Moxon regression,
-// 3 mm rod). A = 58 units is 0.37 λ, which sets the figure's scale for the antenna:
-// one wavelength (327.6 mm) is LAMBDA units.
-const MOX = { A: 58, B: 7.7, C: 2.4, D: 10.6 };
+// The Moxon rectangle for 915 MHz (A : B : C : D close to the usual Moxon regression
+// for 3 mm rod). A = 58 units is 0.37 λ, which sets the figure's scale for the
+// antenna: one wavelength (327.6 mm) is LAMBDA units. A rectangle is E = B + C + D =
+// 0.14 λ deep: a rear U with tails D and a front U with tails B, tips facing across
+// the gap C (0.019 λ, about 6 mm).
+const MOX = { A: 58, B: 7.6, C: 3, D: 11.4 };
+const MOX_E = MOX.B + MOX.C + MOX.D;
 const LAMBDA = MOX.A / 0.37;
-// The reflector sits far enough ahead of the mast that its halves, folded back
-// along the boom, clear the boom clamp; the director far enough ahead of the driven
-// element that the driven element's halves, folded forward, clear its clamp block.
-const X_R = -183; // reflector
-const X_D = X_R + MOX.B + MOX.C + MOX.D; // driven element
-const DIR_SPACING = 0.19; // director ahead of the driven element, in wavelengths
-const X_F = X_D + Math.round(DIR_SPACING * LAMBDA * 10) / 10;
-const DIR_HALF = Math.round(0.45 * LAMBDA * 5) / 10; // director, 0.45 λ tip to tip
+// Two whole rectangles on the boom, 0.15 λ apart: the rear one is the reflector,
+// the front one the driven element (the pigtail feeds its front U). The rear one
+// sits just ahead of the boom clamp.
+const MOX_GAP = 0.15;
+const X_R = -200; // the reflector rectangle's rear U
+const X_D = X_R + MOX_E + Math.round(MOX_GAP * LAMBDA * 10) / 10 + MOX_E; // the driven rectangle's front U: the feed
+const MOXONS = [X_R, X_D - MOX_E].map((x0) => ({ x0, x1: x0 + MOX_E }));
+// Five straight directors, the classic Yagi taper: each a little shorter than the
+// one before (0.42 λ down to 0.39 λ tip to tip), the first 0.15 λ ahead of the feed
+// and then 0.18 λ apart, so the last sits 1.3 λ ahead of the reflector's rear U.
+// at: distance ahead of the feed.
+const DIR_AT = [0.15, 0.33, 0.51, 0.69, 0.87];
+const DIR_LEN = [0.42, 0.4125, 0.405, 0.3975, 0.39];
+const DIRS = DIR_AT.map((at, i) => ({ x: X_D + Math.round(at * LAMBDA * 10) / 10, half: Math.round(DIR_LEN[i] * LAMBDA * 5) / 10 }));
+const X_F = DIRS[0].x; // the first director
+const X_L = DIRS[DIRS.length - 1].x; // the last
+const DIR_HALF = DIRS[0].half; // the longest
 const ROD_R = 0.65;
-// every element hangs on a clamp block on the boom: a hinge barrel on its top
-// face and one under its bottom face. The Moxon's pins run across the boom (its
-// halves fold along it), the director's along it (its halves fold back behind it).
+// every element hangs on clamp blocks on the boom (a Moxon on two, one per U): a
+// hinge barrel on each block's top face and one under its bottom face, all pins
+// along the boom (the top halves fold back behind it; the bottom halves fold back
+// under it and stop at 70°, tucked out of sight)
 const BLOCK = { y: -3.4, d: 6.8, z: ZC - 3.6, h: 7.2, r: 1 };
-const REF_BLOCK = { ...BLOCK, x: X_R - 2.5, w: 5 };
+const MOX_BLOCKS = [X_R, MOXONS[0].x1, MOXONS[1].x0].map((x) => ({ ...BLOCK, x: x - 2.5, w: 5 }));
+const REF_BLOCK = MOX_BLOCKS[0];
 const FEED = { ...BLOCK, x: X_D - 3, w: 6 };
-const DIR_BLOCK = { ...BLOCK, x: X_F - 2.5, w: 5 };
+const DIR_BLOCKS = DIRS.map((d) => ({ ...BLOCK, x: d.x - 2.5, w: 5 }));
 const BARREL = { r: 1.2, half: 2.2 };
 const Z_TOP = BLOCK.z + BLOCK.h + BARREL.r; // top hinge pin
 const Z_LOW = BLOCK.z - BARREL.r; // bottom hinge pin
 const ROD_S0 = BARREL.r - 0.1; // a rod's rim lands on its barrel (0.1 in at the middle, 0.08 proud at the sides)
 const BAND_R = 2.75;
 const TAPE_R = [REF_BLOCK.x - 3.5, REF_BLOCK.x];
-const TAPE_F = [DIR_BLOCK.x + DIR_BLOCK.w, DIR_BLOCK.x + DIR_BLOCK.w + 3.5];
-// the tails: the driven element's (B) and the reflector's (D) point at each other
-// across the open gap C; nothing bridges it
-const TAIL_D_END = X_D - MOX.B;
-const TAIL_R_END = X_R + MOX.D;
+const TAPE_F = [X_L + 2.5, X_L + 6];
 const MOX_TOP = ZC + MOX.A / 2;
+// the corners are bent round a former, about two rod diameters
+const MOX_BEND = 2.8;
 const MOX_LOW = ZC - MOX.A / 2;
 const TIP_R = 0.85;
 const BOOM = { back: -222, cap: 2.5, front: TAPE_F[1] + 3 };
@@ -126,7 +144,9 @@ const WHIP_BALL_S = WHIP_ROD_END + Math.sqrt(WHIP.ballR ** 2 - WHIP.rodR ** 2);
 
 const BOX = { x: -265, y: -16, w: 31, d: 20, r: 2 };
 const BOX_H = 12;
-const METER = { x: -186, y: 20, w: 42, depth: 28, front: 5, slope: 30 };
+// the meter stands in front, under the middle of the boom, with the RSSI lead from
+// the radio box running along the bench's front edge
+const METER = { x: -112, y: 20, w: 42, depth: 28, front: 5, slope: 30 };
 const JACK_Z = 6;
 const TRIPOD_DEG = [14, 134, 262];
 const WIRE_A = BOX.x + BOX.w - 5;
@@ -137,7 +157,7 @@ const METER_BACK = METER.front + METER.depth * Math.tan(METER.slope * DEG);
 const FIT = [
   ...k.boxCorners(PLATE, -PLATE_H - FOOT_H, 0),
   [X_R - 2, 0, MOX_TOP + 1],
-  [X_F, 0, ZC + DIR_HALF + 1],
+  ...DIRS.map((d) => [d.x, 0, ZC + d.half + 1]),
   [XM, 0, WHIP_Z + WHIP_BALL_S + 1],
   [X0, 0, WHIP_Z1 + 2],
   [X1, 0, WHIP_Z1 + 2],
@@ -160,20 +180,28 @@ const fine = (value) => Math.round(value * 100) / 100;
 // the turning parts, in the shape antenna.mjs reads (local paths are [x, s])
 const local = (points) => points.map(([x, s]) => [fine(x), fine(s)]);
 const TAIL = MOX_TOP - Z_TOP;
+// each rectangle's two Ls: the rear U's tail (D) and the front U's (B) point at each
+// other across the open gap C; nothing bridges it
 const ANT = {
   rod: ROD_R,
   zTop: Z_TOP,
   zLow: Z_LOW,
-  refX: X_R,
-  drvX: X_D,
-  dirX: X_F,
-  tipS: DIR_HALF - (Z_TOP - ZC) + Math.sqrt(TIP_R ** 2 - ROD_R ** 2),
-  reflector: local(G.fillet([[X_R, ROD_S0, 0], [X_R, TAIL, 0], [TAIL_R_END, TAIL, 0]], 2.4, 10)),
-  driver: local(G.fillet([[TAIL_D_END, TAIL, 0], [X_D, TAIL, 0], [X_D, ROD_S0, 0]], 2.4, 10)),
-  director: [[X_F, fine(ROD_S0)], [X_F, fine(DIR_HALF - (Z_TOP - ZC))]],
-  // the director's top rod leaves its barrel's visible side while tan(fold) < seeTop;
-  // a rod turning in the link plane (a Moxon arm, the whip) crosses from one side of
-  // its barrel or knuckle to the other where tan(angle) = seeSide
+  moxons: MOXONS.map(({ x0, x1 }) => ({
+    x0,
+    x1,
+    rear: local(G.fillet([[x0, ROD_S0, 0], [x0, TAIL, 0], [x0 + MOX.D, TAIL, 0]], MOX_BEND, 12)),
+    front: local(G.fillet([[x1 - MOX.B, TAIL, 0], [x1, TAIL, 0], [x1, ROD_S0, 0]], MOX_BEND, 12)),
+  })),
+  // each director: where it sits, its tip ball's distance from the pin, and its rod
+  dirs: DIRS.map((d) => ({ x: d.x, tipS: fine(d.half - (Z_TOP - ZC) + Math.sqrt(TIP_R ** 2 - ROD_R ** 2)), rod: [[d.x, fine(ROD_S0)], [d.x, fine(d.half - (Z_TOP - ZC))]] })),
+  // the share of a swap over which the seven elements start one after another
+  stagger: 0.42,
+  // a Moxon's bottom half folds through this share of a right angle (70°): it tucks
+  // in behind the boom, out of sight, its bends and tips clear of every other line
+  lowStop: 70 / 90,
+  // a top rod leaves its barrel's visible side while tan(fold) < seeTop (a bottom
+  // one once tan(fold) > seeTop); the whip, turning in the link plane, crosses from
+  // one side of its knuckle to the other where tan(angle) = seeSide
   seeTop: V[2] / V[1],
   seeSide: V[2] / V[0],
   whipX: XM,
@@ -193,7 +221,7 @@ const SPRING = { stagger: 0.035, stiffness: 64, damping: 16, substeps: 4 };
 let R = null;
 let back = [];
 // which control a part belongs to, for hover emphasis and hit testing
-const HITS = [["car.", "carriage"], ["can.", "carriage"], ["boom.", "antenna"], ["ant.", "antenna"], ["moxon.", "antenna"], ["director.", "antenna"], ["hinge.", "antenna"], ["whip.", "antenna"], ["mast.clamp", "antenna"], ["mast.neck", "antenna"], ["mast.thumb", "antenna"], ["box.", "radio"], ["meter.", "meter"]];
+const HITS = [["car.", "carriage"], ["can.", "carriage"], ["boom.", "antenna"], ["feed.", "antenna"], ["ant.", "antenna"], ["moxon.", "antenna"], ["director.", "antenna"], ["hinge.", "antenna"], ["whip.", "antenna"], ["mast.clamp", "antenna"], ["mast.neck", "antenna"], ["mast.thumb", "antenna"], ["box.", "radio"], ["meter.", "meter"]];
 const hitOf = (name) => HITS.find(([prefix]) => name.startsWith(prefix))?.[1] ?? "";
 
 function put(piece, ref, svg, shapes, { bias = 0, name, route, chunk, key, live } = {}) {
@@ -289,10 +317,10 @@ const TAPE = (F, s0, s1, r, phase = 0) => {
 // Barrels and tip balls are round about the axis they turn on, so
 // the page draws each once and moves it; rods and the whip sleeve are rebuilt.
 const KNUCKLE_F = G.frameOf([XM, 0, WHIP_Z], [0, 1, 0], [1, 0, 0], [0, 0, 1]);
-// a hinge barrel's frame: along the boom (x) or across it (y), centred on the pin
-const barrelFrame = (x, z, axis) => (axis === "y" ? G.frameOf([x, 0, z], [0, 1, 0], [1, 0, 0], [0, 0, 1]) : G.frameOf([x, 0, z], [1, 0, 0], [0, 1, 0], [0, 0, 1]));
-function barrelSvg(x, z, axis) {
-  const F = barrelFrame(x, z, axis);
+// a hinge barrel's frame: along the boom, centred on the pin
+const barrelFrame = (x, z) => G.frameOf([x, 0, z], [1, 0, 0], [0, 1, 0], [0, 0, 1]);
+function barrelSvg(x, z) {
+  const F = barrelFrame(x, z);
   const seams = Ln(G.arcOf(F, -0.8, BARREL.r, P) + G.arcOf(F, 0.8, BARREL.r, P), { tone: "faint" });
   // the pin's peened end shows on the barrel's seen face
   return S(G.disc(-BARREL.half, BARREL.half, BARREL.r, F, P, { bevel: 0.2 }), { tone: "mid", inner: seams }) + Dots([at(G.add3(F.o, G.mul3(F.a, BARREL.half)))], { size: 0.38, tone: "mid" });
@@ -301,17 +329,21 @@ const tipSvg = (c, r) => S(G.sphereOf(c, r, P, { steps: G.stepsFor(r, 24, 64, KS
 const knuckleSvg = () => S(G.disc(-WHIP.knuckle.half, WHIP.knuckle.half, WHIP.knuckle.r, KNUCKLE_F, P, { bevel: 0.2 }), { tone: "mid", inner: Ln(G.arcOf(KNUCKLE_F, -0.6, WHIP.knuckle.r, P) + G.arcOf(KNUCKLE_F, 0.6, WHIP.knuckle.r, P), { tone: "faint" }) }) + Dots([at([XM, WHIP.knuckle.half, WHIP_Z])], { size: 0.38, tone: "mid" });
 const discSvg = (part) => S(G.disc(part.s0, part.s1, part.r, G.frameAlong(part.o, part.a), P, { bevel: 0.15 }), { tone: "hi", crease: "lo" });
 const FIXED = {
-  hingeRT: barrelSvg(X_R, Z_TOP, "y"),
-  hingeDT: barrelSvg(X_D, Z_TOP, "y"),
-  hingeFT: barrelSvg(X_F, Z_TOP, "x"),
-  hingeRB: barrelSvg(X_R, Z_LOW, "y"),
-  hingeDB: barrelSvg(X_D, Z_LOW, "y"),
-  hingeFB: barrelSvg(X_F, Z_LOW, "x"),
-  tipTop: tipSvg([X_F, 0, Z_TOP + ANT.tipS], TIP_R),
-  tipLow: tipSvg([X_F, 0, Z_LOW - ANT.tipS], TIP_R),
   knuckle: knuckleSvg(),
   whipTip: tipSvg([XM, 0, WHIP_Z + WHIP_BALL_S], WHIP.ballR),
 };
+ANT.moxons.forEach((m, i) => {
+  for (const [u, x] of [["R", m.x0], ["F", m.x1]]) {
+    FIXED[`hingeM${i}${u}T`] = barrelSvg(x, Z_TOP);
+    FIXED[`hingeM${i}${u}B`] = barrelSvg(x, Z_LOW);
+  }
+});
+ANT.dirs.forEach((d, i) => {
+  FIXED[`hingeF${i}T`] = barrelSvg(d.x, Z_TOP);
+  FIXED[`hingeF${i}B`] = barrelSvg(d.x, Z_LOW);
+  FIXED[`tip${i}T`] = tipSvg([d.x, 0, Z_TOP + d.tipS], TIP_R);
+  FIXED[`tip${i}B`] = tipSvg([d.x, 0, Z_LOW - d.tipS], TIP_R);
+});
 const CTX = { P, tubePieces, tubeSvg, depthOf: k.depthOf, axisVector: k.axisVector, discSvg, fixed: FIXED, tube: TUBE };
 
 // the lever, as the page redraws it
@@ -367,6 +399,7 @@ function drawScene(pose) {
   drawMast();
   drawHead(pose);
   drawCoax();
+  drawFeed();
   drawBox(pose);
   drawMeter(pose);
   drawWire();
@@ -413,11 +446,12 @@ function drawBase() {
     const tick = (km, length) => k.lineOnTop([xOfKm(km), edge], [xOfKm(km), edge + length], STRIP_H, P);
     const minor = [];
     const half = [];
-    for (const decade of [0.1, 1]) for (let n = 2; n <= 9; n++) (n === 5 ? half : minor).push(tick(decade * n, n === 5 ? TICK.km[1] : TICK.km[0]));
+    // 0.2 … 0.9 km (0.5 a half tick), then 2 and 3 km; majors at 0.1, 1 and 4 km
+    for (const km of [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 2, 3]) (km === 0.5 ? half : minor).push(tick(km, km === 0.5 ? TICK.km[1] : TICK.km[0]));
     const ticks = (d, tone) => Ln(d, { tone, className: "rl-tick" });
-    back.push(ticks(minor.join(""), "mid"), ticks(half.join(""), "mid"), ticks(tick(0.1, TICK.km[2]) + tick(1, TICK.km[2]) + tick(10, TICK.km[2]), "hi"));
-    back.push(ticks(tick(M.FIELD_KM, TICK.km[2]), "hi"));
-    back.push(k.faceTextSvg(k.topMatrix([xOfKm(M.FIELD_KM) + 2.6, STRIP.y + 5.2], STRIP_H, P, "x"), "4.2 km", { size: 3.8, tone: "hi" }));
+    back.push(ticks(minor.join(""), "mid"), ticks(half.join(""), "mid"), ticks(tick(0.1, TICK.km[2]) + tick(1, TICK.km[2]) + tick(M.D_MAX_KM, TICK.km[2]), "hi"));
+    // the field-test mark is the rail's far end: the one engraved label
+    back.push(k.faceTextSvg(k.topMatrix([xOfKm(M.FIELD_KM) + 2.4, STRIP.y + 5.2], STRIP_H, P, "x"), `${M.FIELD_KM} km`, { size: 3.8, tone: "hi" }));
     // (the dBm scale is drawn by the page, in a layer of its own: it slides with the
     // antenna's gain)
     // the rule between the two scales runs end to end
@@ -426,7 +460,8 @@ function drawBase() {
   }
   // label plate with three rule lines standing for text
   {
-    const plan = { x: 112, y: 41, w: 50, d: 10, r: 2 };
+    // on the front edge between the meter and the ruler, where the bench is bare
+    const plan = { x: X0 - 78, y: 40, w: 50, d: 10, r: 2 };
     rec(A.slab(plan, 0, 0.8, { name: "stand.label" }, 4));
     const rows = [[8, 46], [8, 34], [8, 40]];
     back.push(
@@ -704,6 +739,7 @@ function drawMast() {
 }
 
 // =================================================================== MOXON–YAGI HEAD
+let FEED_HOST = null; // the boom piece the feed pigtail's grommet sits on
 const LIVE_UNDER = -1e6;
 const LIVE_OVER = 1e6;
 function drawHead(pose) {
@@ -717,17 +753,20 @@ function drawHead(pose) {
       bevel: 0.4,
       extra: Dots([at([plan.x + plan.w / 2 - 1.4, plan.y + plan.d, ZC + 1.8]), at([plan.x + plan.w / 2 + 1.4, plan.y + plan.d, ZC - 1.8])], { size: 0.42 }),
     });
-  // PVC boom in pieces between the clamp, the tape bands and the element blocks;
-  // the feed pigtail runs inside the boom to the bulkhead at its tail
+  // PVC boom in pieces between the clamp, the tape bands and the nine clamp blocks
+  // (two per Moxon, one per director); the coax comes in at the boom's tail and runs
+  // inside it to the feed
   disc(T, "boom.cap", F, BOOM.back - BOOM.cap, BOOM.back, 2.6, { tone: "mid" }, { bevel: 0.3 });
   pvc(BOOM.back, CLAMP.x);
   pvc(CLAMP.x + CLAMP.w, TAPE_R[0]);
   tape(TAPE_R[0], TAPE_R[1], 0.3);
-  block("ant.block", REF_BLOCK);
-  pvc(REF_BLOCK.x + REF_BLOCK.w, FEED.x);
-  block("ant.feed", FEED);
-  pvc(FEED.x + FEED.w, DIR_BLOCK.x);
-  block("ant.block", DIR_BLOCK);
+  let from = TAPE_R[1];
+  for (const [name, plan] of [...MOX_BLOCKS.map((plan) => ["ant.block", plan]), ["ant.feed", FEED], ...DIR_BLOCKS.map((plan) => ["ant.block", plan])]) {
+    if (plan.x > from + 0.01) pvc(from, plan.x);
+    if (name === "ant.feed") FEED_HOST = R.solids[R.solids.length - 1];
+    block(name, plan);
+    from = plan.x + plan.w;
+  }
   tape(TAPE_F[0], TAPE_F[1], 0.5);
   pvc(TAPE_F[1], BOOM.front);
   disc(T, "boom.cap", F, BOOM.front, BOOM.front + BOOM.cap, 2.6, { tone: "mid" }, { bevel: 0.3 });
@@ -755,7 +794,7 @@ function drawHead(pose) {
       } else {
         const id = R.nameFor(part.name);
         let shape;
-        if (part.id.startsWith("hinge")) shape = A.disc(barrelFrame(part.at[0], part.at[2], part.axis), -BARREL.half, BARREL.half, BARREL.r, { name: id });
+        if (part.id.startsWith("hinge")) shape = A.disc(barrelFrame(part.at[0], part.at[2]), -BARREL.half, BARREL.half, BARREL.r, { name: id });
         else if (part.id === "knuckle") shape = A.disc(KNUCKLE_F, -WHIP.knuckle.half, WHIP.knuckle.half, WHIP.knuckle.r, { name: id });
         else shape = A.ball(part.at, part.id === "whipTip" ? WHIP.ballR : TIP_R, { name: id });
         const [dx, dy] = k.axisVector(P, part.offset);
@@ -797,6 +836,67 @@ function drawCoax() {
   );
   const gaps = TAPES.map((t) => [lengthAt(points, 2, t.z1), lengthAt(points, 2, t.z0)]).sort((p, q) => p[0] - q[0]);
   route(T, COAX_ID, points, r, { tone: "hi", limp: true, maxLength: 10, rims: [1.75, 1.3], gaps, className: "rl-coax" });
+}
+
+// =================================================================== FEED: the SMA pigtail at the driven element
+// The coax from the radio comes in at the boom's tail and runs inside the PVC. Inside
+// the driven Moxon it leaves the boom through a rubber grommet as a short SMA pigtail
+// whose plug screws onto the jack on the feed block's front face, where the front
+// U's two halves are soldered. Nothing on it moves in a swap: it loops in front of
+// the boom at the boom's height, above where the bottom halves swing back under the
+// boom and in front of where the top halves fold back.
+// A pad grown out of a curved host (after the Raptor's): its base follows the host's
+// surface, found by bisection against the host's true shape.
+function pad(piece, name, point, outward, a, h, hosts, style) {
+  const inside = (p) => hosts.some((shape) => A.sdf(shape, p) < 0);
+  const axis = G.unit3(outward);
+  const F = G.frameAlong(point, axis);
+  const start = (angle) => {
+    let lo = -2.5 * a;
+    let hi = h;
+    if (!inside(G.pointOf(F, lo, a, angle))) return 0;
+    for (let step = 0; step < 40; step++) {
+      const mid = (lo + hi) / 2;
+      if (inside(G.pointOf(F, mid, a, angle))) lo = mid;
+      else hi = mid;
+    }
+    return hi;
+  };
+  const low = Math.min(...Array.from({ length: 48 }, (_, index) => start((index / 48) * Math.PI * 2)));
+  const id = R.nameFor(name);
+  const shape = rec(A.disc(F, low - 0.05, h, a, { name: id, seated: true, cut: hosts }));
+  put(piece, G.add3(point, G.mul3(axis, h / 2)), S(G.saddleOf(F, a, start, h, P), { tone: "mid", ...style }), [shape], { name: id });
+  return G.add3(point, G.mul3(axis, h));
+}
+const FEED_PLUG = 3.6; // the plug's far end, from the block's front face
+function drawFeed() {
+  const T = "station";
+  const face = FEED.y + FEED.d;
+  const jack = G.frameOf([X_D, face, ZC], [0, 1, 0], [1, 0, 0], [0, 0, 1]);
+  // the jack's flange, the plug's coupling nut, then its boot
+  disc(T, "feed.jack", jack, 0, 0.9, 1.45, { tone: "hi", crease: "lo", className: "rl-gold-part" }, { bevel: 0.2 });
+  disc(T, "feed.nut", jack, 0.9, 2.5, 1.2, { tone: "mid", className: "rl-gold-part" }, { bevel: 0.2, inner: Ln(G.arcOf(jack, 1.7, 1.2, P), { tone: "faint" }) });
+  disc(T, "feed.boot", jack, 2.5, FEED_PLUG, 0.95, { tone: "mid", className: "rl-rubber" }, { bevel: 0.2 });
+  // the grommet on the boom's front face, a little below its equator, between the
+  // driven Moxon's two blocks
+  const gx = X_D - 9.5;
+  const n = G.unit3([0, 1, -0.32]);
+  const top = pad(T, "feed.grommet", [gx, n[1] * BOOM_R, ZC + n[2] * BOOM_R], n, 1.3, 1, [FEED_HOST], { className: "rl-rubber" });
+  const r = 0.6;
+  const out = G.add3(top, G.mul3(n, 3.4));
+  const points = G.fillet(
+    [
+      [X_D, face + FEED_PLUG, ZC],
+      [X_D, face + FEED_PLUG + 3.4, ZC],
+      [X_D - 4.8, face + FEED_PLUG + 4.4, ZC - 1.5],
+      out,
+      top,
+    ],
+    2.6,
+    12,
+    { P, tube: r },
+  );
+  route(T, "feed.pigtail", points, r, { tone: "hi", limp: true, maxLength: 6, rims: [0.95, 1.3], className: "rl-coax" });
 }
 
 // =================================================================== XBEE BOX
@@ -990,8 +1090,9 @@ const hull2 = (points) => hullOf(points).map(([x, y]) => [fine(x), fine(y)]);
 const REGIONS = {
   carriage: [hull2(boxPts(CAR.x - 2, CAR.x + CAR.w + 9, CAR.y - 2, STRIP_MID, RUN_Z, CAR_TOP + 2)), hull2(boxPts(X0 - CAN_R - 1.5, X0 + CAN_R + 1.5, -CAN_R - 1.5, CAN_R + 1.5, CAR_TOP, WHIP_Z1 + 3))],
   antenna: [
-    // the elements up, and folded: the Moxon's halves along the boom, the director's behind it
-    hull2(boxPts(X_R - TAIL - 3, BOOM.front + BOOM.cap + 2, -DIR_HALF - 2, 5, ZC - DIR_HALF - 2, ZC + DIR_HALF + 3)),
+    // the elements up (and the feed pigtail in front), and folded back behind the boom
+    hull2(boxPts(X_R - 4, BOOM.front + BOOM.cap + 2, -4, 12, ZC - DIR_HALF - 2, ZC + DIR_HALF + 3)),
+    hull2(boxPts(X_R - 4, BOOM.front + BOOM.cap + 2, -DIR_HALF - 2, 4, Z_LOW - 3, Z_TOP + 3)),
     hull2(boxPts(BOOM.back - BOOM.cap - 14, X_R - 4, -6, 13, CLAMP_Z - 2, WHIP_Z + WHIP_BALL_S + 2)),
   ],
   radio: [hull2(boxPts(BOX.x - 1, BOX.x + BOX.w + 1, BOX.y - 1, BOX.y + BOX.d + 6, 0, BOX_H + 6))],
@@ -1001,7 +1102,7 @@ const REGIONS = {
 
 // =================================================================== FIGURE
 const LABEL =
-  "A bench model of a CanSat radio link. On the left a tripod carries a Moxon–Yagi antenna: a Moxon rectangle of bent aluminium rod as reflector and driven element, and one straight director ahead of it, each element hinged on a clamp block on a PVC boom wrapped with duct tape. A stock whip folds on a knuckle at the mast head. The coax runs down the mast to an XBee radio box with a data-rate lever, which drives an analogue RSSI meter. On the right a CanSat, cut away to show its stack of boards, stands on a carriage that slides along a log-scale rail from 0.1 to 10 km. A halftone field of orange dots spreads from the can's whip toward the antenna, its dots smaller the further the signal travels, and the meter needle reads the received power.";
+  "A bench model of a CanSat radio link. On the left a tripod carries a Moxon–Yagi antenna on a PVC boom wrapped with duct tape: two Moxon rectangles of bent aluminium rod, one behind the other, each made of two U-shaped halves whose tips face each other across a small gap; the rear rectangle is the reflector and the front one the driven element, fed by an SMA pigtail. Ahead of them stand five straight directors, each a little shorter than the one before. Every element is hinged on clamp blocks on the boom. A stock whip folds on a knuckle at the mast head. The coax runs down the mast to an XBee radio box with a data-rate lever, which drives an analogue RSSI meter. On the right a CanSat, cut away to show its stack of boards, stands on a carriage that slides along a log-scale rail from 0.1 to 4 km. A halftone field of orange dots spreads from the can's whip toward the antenna, its dots smaller the further the signal travels, and the meter needle reads the received power.";
 // Four stacked <svg>s with one viewBox: the bench (static), the dBm scale with the
 // folding parts under the boom, the items (the carriage moves in them), and on top
 // the parts above the boom, the dial face and the signal. The two live layers are
@@ -1015,13 +1116,19 @@ const svg =
   layerSvg("rl-moving", overSvg + DIAL_FACE + `<path class="rl-sig" data-part="signal"/>`);
 const readout = M.readoutOf(M.FIELD_KM, M.G_YAGI_DBI, M.SENS_FAST_DBM);
 const round = (value) => Math.round(value);
+const MOX_W = (MOX.A / LAMBDA).toFixed(2);
+const MOX_DEEP = (MOX_E / LAMBDA).toFixed(2);
+const MOX_APART = ((MOXONS[1].x0 - MOXONS[0].x1) / LAMBDA).toFixed(2);
+const DIR_STEP = DIRS.slice(1).map((d, i) => ((d.x - DIRS[i].x) / LAMBDA).toFixed(2));
+const DIR_APART = [...new Set([Math.min(...DIR_STEP), Math.max(...DIR_STEP)].map((v) => v.toFixed(2)))].join("–");
+const BOOM_L = ((X_L - X_R) / LAMBDA).toFixed(1); // reflector to last director
 const minus = (value) => (value < 0 ? "−" + Math.abs(value) : String(value));
 const caption =
   `A free-space budget for the EEPISAT downlink at ${M.F_MHZ} MHz (λ ≈ ${Math.round(M.LAMBDA_MM)} mm). The XBee-PRO 900HP sends ${M.TX_DBM} dBm from a ${M.G_CAN_DBI} dBi whip on the can, and ${M.LOSS_DB} dB goes in coax and connectors. ` +
-  `At the ground the Moxon–Yagi — a bent-aluminium Moxon rectangle as reflector and driven element, plus one straight director 0.45 λ long and ${DIR_SPACING} λ ahead — gives about ${M.G_YAGI_DBI} dBi; that is an estimate, and the build log’s ~11 dBi is more than three elements can give. The stock whip gives ${M.G_STOCK_DBI}. ` +
+  `At the ground the Moxon–Yagi gives about ${M.G_YAGI_DBI} dBi with two Moxon rectangles — reflector and driven element — and five directors, on a PVC boom ${BOOM_L} λ long. Each rectangle is bent aluminium rod, two U halves with their tips facing across a small gap, ${MOX_W} λ wide and ${MOX_DEEP} λ deep; the two stand ${MOX_APART} λ apart, and an SMA pigtail feeds the front one. The straight directors taper from ${DIR_LEN[0]} λ to ${DIR_LEN[DIR_LEN.length - 1]} λ, ${DIR_APART} λ apart. The stock whip gives ${M.G_STOCK_DBI}. ` +
   `At ${M.RATE_FAST_KBPS} kb/s the radio hears down to ${minus(M.SENS_FAST_DBM)} dBm, at ${M.RATE_SLOW_KBPS} kb/s down to ${minus(M.SENS_SLOW_DBM)}. ` +
-  `At the 4.2 km field-test mark the Moxon–Yagi leaves ${round(M.marginDb(M.FIELD_KM))} dB at ${M.RATE_FAST_KBPS} kb/s (${round(M.marginDb(M.FIELD_KM, M.G_YAGI_DBI, M.SENS_SLOW_DBM))} at ${M.RATE_SLOW_KBPS} kb/s), the whip ${round(M.marginDb(M.FIELD_KM, M.G_STOCK_DBI))}. ` +
-  `On the meter the dead zone ends where the radio stops hearing and the fade reserve keeps the next ${M.FADE_DB} dB in hand; in free space the needle would only reach the reserve near ${M.rangeKm(M.FADE_DB).toFixed(0)} km (${M.rangeKm(M.FADE_DB, M.G_STOCK_DBI).toFixed(1)} km on the whip) at ${M.RATE_FAST_KBPS} kb/s, and at ${M.RATE_SLOW_KBPS} kb/s both zones sit ${M.SENS_FAST_DBM - M.SENS_SLOW_DBM} dB lower. ` +
+  `At the ${M.FIELD_KM} km field-test mark free space takes ${M.fsplDb(M.FIELD_KM).toFixed(1)} dB, so the Moxon–Yagi receives ${minus(round(M.rxDbm(M.FIELD_KM)))} dBm and leaves ${round(M.marginDb(M.FIELD_KM))} dB at ${M.RATE_FAST_KBPS} kb/s (${round(M.marginDb(M.FIELD_KM, M.G_YAGI_DBI, M.SENS_SLOW_DBM))} at ${M.RATE_SLOW_KBPS} kb/s), the whip ${round(M.marginDb(M.FIELD_KM, M.G_STOCK_DBI))}. ` +
+  `On the meter the dead zone ends where the radio stops hearing and the fade reserve keeps the next ${M.FADE_DB} dB in hand; ${M.marginDb(M.D_MAX_KM, M.G_STOCK_DBI) > M.FADE_DB ? "with either antenna the needle stays clear of the reserve along the whole rail" : "the whip reaches the reserve before the rail’s end"}, and at ${M.RATE_SLOW_KBPS} kb/s both zones sit ${M.SENS_FAST_DBM - M.SENS_SLOW_DBM} dB lower. ` +
   `Real flights lose more than this: the can tumbles, the ground reflects and the Fresnel zone is never fully clear, which is why the flight kept 99% of packets rather than all of them.`;
 const esc = (text) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 function swatch(mark) {
@@ -1033,7 +1140,7 @@ function swatch(mark) {
 const KEYS = [
   ["lit", "Needle: received power, dBm"],
   ["dotted", "Signal: dot area is power above sensitivity"],
-  ["raised", "Ruler: log distance 0.1–10 km over the dBm it gives"],
+  ["raised", `Ruler: log distance ${M.D_MIN_KM}–${M.D_MAX_KM} km over the dBm it gives`],
   ["zone-dead", "Dead zone: below what the radio hears"],
   ["zone-fade", `Fade reserve: the next ${M.FADE_DB} dB (R moves both)`],
 ];
@@ -1042,7 +1149,7 @@ const plate =
   `<figure class="iso-figure"><div class="iso-plate"><div class="iso-plate-corners" aria-hidden="true">` +
   `<span class="iso-plate-corner" data-corner="fig">Fig 01</span><span class="iso-plate-corner" data-corner="title">The 4 km link</span>` +
   `<span class="iso-plate-corner" data-corner="hint">Drag the CanSat · click the antenna or radio</span><span class="iso-plate-corner" data-corner="readout" data-readout>${esc(readout)}</span></div>` +
-  `<div class="rl-stage" data-cursor="none" tabindex="0" role="slider" aria-label="Radio link bench. Arrow keys move the CanSat between 0.1 and 10 kilometres; A swaps the ground antenna; R switches the data rate." aria-valuemin="0.1" aria-valuemax="10" aria-valuenow="${M.FIELD_KM}" aria-valuetext="${esc(M.spokenOf(M.FIELD_KM))}">${svg}</div><span class="rl-live" aria-live="polite"></span></div>` +
+  `<div class="rl-stage" data-cursor="none" tabindex="0" role="slider" aria-label="Radio link bench. Arrow keys move the CanSat between ${M.D_MIN_KM} and ${M.D_MAX_KM} kilometres; A swaps the ground antenna between the Moxon–Yagi (two Moxon rectangles and five directors) and the stock whip; R switches the data rate." aria-valuemin="${M.D_MIN_KM}" aria-valuemax="${M.D_MAX_KM}" aria-valuenow="${M.FIELD_KM}" aria-valuetext="${esc(M.spokenOf(M.FIELD_KM))}">${svg}</div><span class="rl-live" aria-live="polite"></span></div>` +
   `<figcaption class="iso-legend"><span class="rl-chips" role="group" aria-label="Link settings">${chip("antenna", "Antenna", M.antennaText(1), "A")}${chip("rate", "Rate", M.rateText(0), "R")}</span>` +
   `<span class="iso-keys">${KEYS.map(([mark, label]) => `<span class="iso-key">${swatch(mark)}${esc(label)}</span>`).join("")}</span>` +
   `<span class="iso-caption">${esc(caption)}</span></figcaption></figure>`;
@@ -1151,6 +1258,7 @@ const THEME_CSS = `
 .iso[data-theme="light"] .rl-metal{--anatomy-paper:#E3E2DC;--anatomy-top:#F3F2ED;--anatomy-face:#F3F2ED;--anatomy-shade-0:#C3C1BA;--anatomy-shade-1:#CBC9C2;--anatomy-shade-2:#D3D1CA;--anatomy-shade-3:#DBD9D2;--anatomy-mid:#6E6D66}
 .iso[data-theme="light"] .rl-patch{--anatomy-paper:#E4DFD2;--anatomy-top:#EEEAE0;--anatomy-shade-0:#CCC6B7;--anatomy-shade-1:#D3CDBF;--anatomy-shade-2:#DAD5C7;--anatomy-shade-3:#E0DBCE;--anatomy-mid:#6E6D66}
 .iso[data-theme="light"] .rl-gold{--anatomy-dot:#F4F2EB}
+.iso[data-theme="light"] .rl-gold-part{--anatomy-paper:#E3E2DC;--anatomy-top:#F3F2ED;--anatomy-face:#F3F2ED;--anatomy-shade-0:#C3C1BA;--anatomy-shade-1:#CBC9C2;--anatomy-shade-2:#D3D1CA;--anatomy-shade-3:#DBD9D2;--anatomy-mid:#6E6D66}
 .iso .rl-tick{stroke-width:.8px}
 /* colour mode (the site's Mono / Color switch): every part in its natural colour */
 :root[data-ht-mode="color"] .iso[data-theme="light"] .rl-pcb{--anatomy-paper:#3E7B56;--anatomy-top:#4B8A64;--anatomy-face:#4B8A64;--anatomy-shade-0:#2D5E41;--anatomy-shade-1:#326647;--anatomy-shade-2:#376E4D;--anatomy-shade-3:#3D7653;--anatomy-mid:#1F3E2D;--anatomy-lo:#2A4F3A;--anatomy-faint:#62987A}
@@ -1158,6 +1266,7 @@ const THEME_CSS = `
 :root[data-ht-mode="color"] .iso[data-theme="light"] .rl-patch{--anatomy-paper:#CDB88E;--anatomy-top:#DAC79F;--anatomy-shade-0:#B29D74;--anatomy-shade-1:#BAA57B;--anatomy-shade-2:#C2AD83;--anatomy-shade-3:#C9B48A;--anatomy-mid:#6B5C42}
 :root[data-ht-mode="color"] .iso[data-theme="light"] .rl-cell{--anatomy-paper:#6F8FB0;--anatomy-top:#86A3C1;--anatomy-face:#86A3C1;--anatomy-shade-0:#506F90;--anatomy-shade-1:#577798;--anatomy-shade-2:#5F7FA0;--anatomy-shade-3:#6787A8;--anatomy-mid:#2E4864;--anatomy-lo:#3B5874}
 :root[data-ht-mode="color"] .iso[data-theme="light"] .rl-gold{--anatomy-dot:#D9A934}
+:root[data-ht-mode="color"] .iso[data-theme="light"] .rl-gold-part{--anatomy-paper:#D9B45A;--anatomy-top:#E8C978;--anatomy-face:#E8C978;--anatomy-shade-0:#A9832F;--anatomy-shade-1:#B58F3A;--anatomy-shade-2:#C29C46;--anatomy-shade-3:#CDA851;--anatomy-mid:#7A5C1C;--anatomy-lo:#8E7030;--anatomy-faint:#B89443}
 :root[data-ht-mode="color"] .iso[data-theme="light"] .rl-leds circle:nth-child(1){fill:#E5533D}
 :root[data-ht-mode="color"] .iso[data-theme="light"] .rl-leds circle:nth-child(2){fill:#F2B33D}
 :root[data-ht-mode="color"] .iso[data-theme="light"] .rl-leds circle:nth-child(3){fill:#3DAF6B}
@@ -1181,7 +1290,7 @@ const THEME_CSS = `
 .iso .rl-chip-k{color:var(--anatomy-muted);text-transform:uppercase;letter-spacing:.08em}
 .iso .rl-chip-v{color:var(--anatomy-strong);font-variant-numeric:tabular-nums}
 .iso .rl-chip kbd{font:inherit;color:var(--anatomy-muted);border:1px solid rgba(14,14,12,.14);padding:0 4px;line-height:15px}
-@media (max-width:560px){.iso .iso-plate{padding:46px 0 64px;overflow:hidden}.iso .iso-plate .rl-stage{-webkit-mask-image:linear-gradient(90deg,transparent,#000 12px,#000 calc(100% - 12px),transparent);mask-image:linear-gradient(90deg,transparent,#000 12px,#000 calc(100% - 12px),transparent)}.iso .iso-plate .rl-stage svg{width:118%;max-width:none;margin-left:-8.6%}.iso .iso-plate-corners{inset:16px 14px}.iso .iso-legend{padding:0 2px}.iso .rl-chip kbd{display:none}}
+@media (max-width:560px){.iso .iso-plate{padding:46px 0 64px;overflow:hidden}.iso .iso-plate-corners{inset:16px 14px}.iso .iso-legend{padding:0 2px}.iso .rl-chip kbd{display:none}}
 @media (hover:none){.iso .rl-chip kbd{display:none}}
 `;
 // scope the kit's class rules under .iso so nothing reaches outside the figure
@@ -1216,27 +1325,63 @@ if (test) {
 // The rest pose (what the page loads with), then the swap and rate change part
 // way and fully over. Each pose is drawn, settled and audited on its own.
 if (process.argv.includes("--audit")) {
-  console.log("\n=== pose: rest (Moxon–Yagi up, whip folded, 200 kb/s)");
+  console.log("\n=== pose: rest (Moxon–Yagi up: two Moxon rectangles and five directors; whip folded; 200 kb/s)");
   A.auditOrExit(MAIN, P);
   if (process.argv.includes("--quick")) process.exit(process.exitCode ?? 0);
+  if (process.argv.includes("--folded")) {
+    drawScene({ fold: 1, whip: 1, slow: 1 });
+    A.settle(R, P);
+    console.log("\n=== pose: folded");
+    checkLive(R, "folded");
+    A.auditOrExit(R, P);
+    process.exit(process.exitCode ?? 0);
+  }
+  // A swap folds the seven elements one after another, so a pose's fold is a mix
+  // of element angles. Besides the even steps, audit either side of every place an
+  // element's rods change sides on their barrels (the order in its layer flips there).
+  const n = ANT.dirs.length + ANT.moxons.length - 1;
+  const toFold = (e, f) => ((n - e) / n) * ANT.stagger + f * (1 - ANT.stagger);
+  const top = Math.atan(ANT.seeTop) / (Math.PI / 2);
+  const flips = Array.from({ length: n + 1 }, (_, e) => [e, top]).flatMap(([e, f]) => [toFold(e, f) - 0.012, toFold(e, f) + 0.012]);
   const POSES = [
-    { label: "fold 0.25 · whip 0 · rate 0.5", fold: 0.25, whip: 0, slow: 0.5 },
-    { label: "fold 0.5 · whip 0.25 · rate 1", fold: 0.5, whip: 0.25, slow: 1 },
+    { label: "fold 0.15 · whip 0 · rate 0.5", fold: 0.15, whip: 0, slow: 0.5 },
+    { label: "fold 0.3 · whip 0 · rate 1", fold: 0.3, whip: 0, slow: 1 },
+    { label: "fold 0.45 · whip 0.1", fold: 0.45, whip: 0.1, slow: 0 },
+    { label: "fold 0.6 · whip 0.25 · rate 1", fold: 0.6, whip: 0.25, slow: 1 },
     { label: "fold 0.75 · whip 0.5", fold: 0.75, whip: 0.5, slow: 0 },
-    { label: "fold 1 · whip 0.75", fold: 1, whip: 0.75, slow: 1 },
+    { label: "fold 0.9 · whip 0.75", fold: 0.9, whip: 0.75, slow: 1 },
     { label: "swapped: Moxon–Yagi folded, whip up, 10 kb/s", fold: 1, whip: 1, slow: 1 },
-    { label: "fold 0.4 · whip 1", fold: 0.4, whip: 1, slow: 0 },
-    // either side of the switch in barrel order (a rod meets its barrel edge-on at 32°)
-    { label: "fold 0.34 · whip 0.62", fold: 0.34, whip: 0.62, slow: 0 },
-    { label: "fold 0.37 · whip 0.66", fold: 0.37, whip: 0.66, slow: 0 },
-    { label: "fold 0.1 · whip 0.1", fold: 0.1, whip: 0.1, slow: 0.2 },
-    { label: "fold 0.9 · whip 0.95", fold: 0.9, whip: 0.95, slow: 0.8 },
+    { label: "fold 0.5 · whip 1", fold: 0.5, whip: 1, slow: 0 },
+    { label: "fold 0.97 · whip 0.95", fold: 0.97, whip: 0.95, slow: 0.8 },
+    ...flips.map((fold, i) => ({ label: `fold ${fold.toFixed(3)} (an element's barrel side) · whip ${i % 3 ? 0.4 : 0}`, fold, whip: i % 3 ? 0.4 : 0, slow: 0 })),
   ];
+  // Mid-swing only, two things are named and excused; at rest and folded every check
+  // runs in full:
+  //  - a bottom half turning back crosses behind the boom (or the feed pigtail) on
+  //    screen, 20–30 units behind it: it passes, it does not meet it;
+  //  - a bottom Moxon half turns through the plane that holds the line of sight
+  //    (about 43–72° into its swing), where its front L is seen edge-on and the
+  //    tube's outline folds back on itself for a few frames.
+  const PASSING = [["director.rod", "boom.pvc"], ["moxon.*", "boom.pvc"], ["moxon.*", "feed.pigtail"]];
+  const EDGE_ON = (name) => /^moxon\./.test(name);
   for (const pose of POSES) {
     drawScene(pose);
     A.settle(R, P);
     console.log(`\n=== pose: ${pose.label}`);
     checkLive(R, pose.label);
-    A.auditOrExit(R, P);
+    if (!(pose.fold > 0 && pose.fold < 1)) {
+      A.auditOrExit(R, P);
+      continue;
+    }
+    const result = A.audit(R, P, { crowd: PASSING });
+    const folds = result.folds.filter((f) => !EDGE_ON(f.name));
+    const self = result.self.filter((f) => !EDGE_ON(f.name));
+    const excused = result.folds.length - folds.length + result.self.length - self.length;
+    const kept = { ...result, folds, self };
+    console.log(A.report(kept));
+    if (excused) console.log(`(excused mid-swing: ${excused} edge-on frame${excused === 1 ? "" : "s"} of a bottom Moxon half)`);
+    const count = A.failures(kept);
+    console.log(count ? `audit failed: ${count} problem${count === 1 ? "" : "s"}` : "audit passed");
+    if (count) process.exitCode = 1;
   }
 }

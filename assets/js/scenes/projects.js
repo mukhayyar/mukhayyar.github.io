@@ -45,7 +45,10 @@
   const INK = 0, ACC = 1, MUT = 2, SHD = 3, KEEP = 255;
   // family tones
   const T = { lit: 0.22, mid: 0.55, shade: 0.95, crease: 0.9, ctx: 0.42, ctxLo: 0.26, shadow: 0.3 };
-  const IDLE = 3, GHOST_DELAY = 0.7;
+  // the ghost takes over IDLE s after the last real input; IDLE_HOLD s instead while
+  // the cursor still rests on a graphic it just dragged / clicked (or the keyboard
+  // set it), so a pose the visitor chose is not snatched away under their cursor
+  const IDLE = 3, IDLE_HOLD = 12, GHOST_DELAY = 0.7;
   const easeOut = (x) => 1 - Math.pow(1 - clamp(x), 3);
   const easeInOut = (x) => { x = clamp(x); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
   const angWrap = (a) => a - TAU * Math.round(a / TAU);
@@ -156,14 +159,16 @@
   const wrap01 = (x) => x - Math.floor(x);
 
   // ------------------------------------------------------------------ painter (ink plate)
-  // static plate: opaque white canvas, R = 255 * (1 - coverage), G = material id.
+  // static plate: opaque white canvas, R = 255 * (1 - coverage), G = material id,
+  // B = 0 (so B = 255 * (1 - alpha) after anti-aliasing against the white plate,
+  // which lets the reader undo the blend and recover the true id of a fringe pixel).
   // dynamic plate: transparent canvas, same encoding, alpha = occlusion.
   // KEEP shading (cast shadows) darkens without changing the material below.
   function painter(g, L, mode, dyn) {
     const dot = L.p / L.S;
     const enc = (k, a) => {
       if (k === KEEP) return dyn ? `rgba(0,255,255,${clamp(a).toFixed(3)})` : `rgb(${Math.round(255 * (1 - clamp(a)))},255,255)`;
-      return `rgb(${Math.round(255 * (1 - clamp(a)))},${k},255)`;
+      return `rgb(${Math.round(255 * (1 - clamp(a)))},${k},0)`;
     };
     const P = {
       g, L, dot, enc, mode, dyn, color: mode === 'color',
@@ -221,7 +226,17 @@
 
   // ------------------------------------------------------------------ plate readback
   const HIST = new Float32Array(256);
-  // opaque plate -> coverage D, material C (coverage-weighted vote per dot cell)
+  // opaque plate -> coverage D, material C (coverage-weighted vote per dot cell).
+  // An anti-aliased fringe pixel is its material blended with the white plate, so
+  // its G drifts toward 255 and would vote for a neighbouring id (a stray accent
+  // speck, say); B = 255 * (1 - alpha) undoes that blend.
+  const sid = (G, B) => {
+    if (B === 0) return G;
+    const al = 1 - B / 255;
+    if (al < 0.04) return G >= 250 ? SHD : G;
+    const k = Math.round((G - B) / al);
+    return k < 0 ? 0 : k > 255 ? 255 : k;
+  };
   function readStatic(data, W, cols, rows, K, D, C) {
     const inv = 1 / (255 * K * K);
     for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
@@ -232,12 +247,11 @@
           const a = 255 - data[o];
           if (a === 0) continue;
           s += a;
-          const id = data[o + 1] >= 250 ? SHD : data[o + 1];
-          const hv = (HIST[id] += a);
-          if (hv > bw) { bw = hv; best = id; }
+          const hv = (HIST[sid(data[o + 1], data[o + 2])] += a);
+          if (hv > bw) { bw = hv; best = sid(data[o + 1], data[o + 2]); }
         }
       }
-      if (s > 0) for (let y = r * K; y < r * K + K; y++) { let o = (y * W + c * K) * 4; for (let x = 0; x < K; x++, o += 4) HIST[data[o + 1] >= 250 ? SHD : data[o + 1]] = 0; }
+      if (s > 0) for (let y = r * K; y < r * K + K; y++) { let o = (y * W + c * K) * 4; for (let x = 0; x < K; x++, o += 4) HIST[sid(data[o + 1], data[o + 2])] = 0; }
       const i = r * cols + c;
       D[i] = s * inv; C[i] = best;
     }
@@ -2011,54 +2025,151 @@
     },
   };
 
-  // 12 — Moxon–Yagi hybrid on its mast, and the pattern it makes ------------
-  // Seen from above at an angle: a Moxon rectangle (reflector at the back,
-  // driven element in front, their tails folded toward each other with a
-  // small gap) plus ONE straight dipole director ahead on the boom. Round it,
-  // in the antenna's horizontal plane, its radiation pattern on a polar grid:
-  // a forward main lobe, small side lobes, a tiny back lobe. The far station
-  // on the rim shows the link it gets (three bars). Drag turns the antenna
-  // and its pattern (azimuth, with inertia); click sends a pulse out along
-  // the main lobe, which pings the station when it is in the beam.
+  // 12 — Moxon–Yagi on its mast, and the pattern it makes -----------------
+  // Seen from above at an angle, the antenna as it was built: on one PVC boom,
+  // TWO complete Moxon rectangles one behind the other — the rear one is the
+  // REFLECTOR, the front one the DRIVEN element (fed at the middle of its
+  // front bar) — each a pair of facing U's whose bent tips stop short of each
+  // other, leaving the Moxon's two small gaps; then FIVE straight dipole
+  // directors ahead, each a little shorter than the one before (the Yagi
+  // taper). Every element is taped to the boom, which sits on the mast at its
+  // balance point. Round the mast an azimuth dial; in the antenna's horizontal
+  // plane, its radiation pattern: a long, narrow main lobe (≈ 11 dBi) from the
+  // feed out past the directors, two small side lobes and a small back lobe
+  // behind the reflector. The far end of the 4 km link is a CanSat coming down
+  // under its parachute, tied by a drop line to its ground track on the rim (the
+  // bearing to find); its meter shows the link it gets (three bars, the third only
+  // when the beam is right on it). Each Moxon
+  // rectangle carries a faint tint, so its two U's read as one box at any size
+  // and angle. Drag turns the antenna and its pattern (azimuth, with inertia;
+  // left end-on it eases onto the nearest readable view); click sends a pulse
+  // out along the main lobe; inside the half-power beam it reaches the CanSat's
+  // ground track, climbs the drop line and rings round the CanSat. The ghost aims,
+  // hits, swings off and misses, then re-aims and hits.
   const MOX = {
-    // rest: beam pointing away, a little right — the elements lie near-horizontal (the clearest view)
-    c: [-0.04, 0.03], sE: 0.7, R: 0.95, rest: -1.46, st: -1.2, mast: 0.62,
+    // rest: nearly side-on, the beam a little up and to the right toward the station,
+    // so the boom lies along the dot rows, both Moxon rectangles show square-on and
+    // the directors stand as a ladder of rungs
+    c: [-0.03, 0.03], sE: 0.74, R: 0.98, rest: -0.06, st: -0.36, mast: 0.58,
+    ML: PI / 3.6, // main-lobe half-width to its nulls (50°)
+    Rp: 1.1, // pattern scale: 0 dB, measured from the feed (the peak stays inside the rim)
+    // the link it makes: a pulse pings the station only inside the half-power beam
+    // (gain > 0.55, ±23°); the bars fill one by one, the third only within ≈ ±12°
+    ping: 0.55, bars: [[0.28, 0.4], [0.55, 0.67], [0.84, 0.9]],
+    // a pulse's front runs out from the feed at v (art units / s) and carries on past
+    // the lobe's tip to the station's range (reach), where it climbs the drop line to
+    // the CanSat (climb, s) and rings round it; life: how long a pulse is kept
+    v: 1.1, reach: 1.25, climb: 0.22, life: 2.3,
+    // views where both rectangles read (within 58° of side-on); a slow antenna left
+    // end-on settles into the nearest one, like a rotator easing onto a detent
+    view: 1.01,
+    BK: 0.14, // back lobe (F/B ≈ 26 dB on a 30 dB plot), measured from the reflector
     // pattern radius vs angle off boresight, as on a dB polar plot (30 dB range):
-    // the main lobe, rear-quarter side lobes (~-21 dB) and the small back lobe (~-20 dB)
+    // the narrow main lobe (HPBW ≈ 48°), first side lobes (≈ -24 dB) and the back lobe
     gain(th) {
       const a = Math.abs(th);
-      const main = a < 1.08 ? Math.pow(Math.cos(th * 1.45), 2) : 0;
-      const side = a > 1.6 && a < 2.5 ? 0.28 * Math.pow(Math.sin((a - 1.6) / 0.9 * PI), 2) : 0;
-      const back = a > PI - 0.5 ? 0.34 * Math.pow(Math.cos((PI - a) / 0.5 * PI / 2), 2) : 0;
+      const main = a < MOX.ML ? Math.pow(Math.cos(th * 1.8), 2) : 0;
+      const side = a > 0.98 && a < 1.7 ? 0.22 * Math.pow(Math.sin((a - 0.98) / 0.72 * PI), 2) : 0;
+      const back = a > PI - 0.6 ? MOX.BK * Math.pow(Math.cos((PI - a) / 0.6 * PI / 2), 2) : 0;
       return Math.max(main, side, back);
     },
-    // element geometry in the antenna frame (boresight +x, lateral +y), pivot at the mast clamp
-    W: 0.9, xr: -0.3, Dp: 0.36, B: 0.125, Cg: 0.085, xdir: 0.42, Ldir: 0.72, boom: [-0.37, 0.48],
   };
-  const MX = { LOBE: 4, LOBE2: 5, ELEM: 6, DRIVEN: 7, BOOM: 8, GRID: 9, PULSE: 10, MAST: 11, BAR: 12 };
-  // plane (x, y) -> screen, for an antenna turned by th
+  // the antenna in its own frame: boresight +x, lateral +y, art units, origin at the
+  // mast clamp. Built in wavelengths (915 MHz, λ ≈ 328 mm: each Moxon 0.37 λ wide,
+  // the two rectangles 0.15 λ apart, directors 0.425 → 0.385 λ spaced 0.15 → 0.17 λ,
+  // boom ≈ 1.4 λ) then scaled by s. The rectangles are drawn deeper (0.2 λ, not
+  // 0.14 λ) and their tip gaps wider than life, so each reads as a rectangle with
+  // its two gaps through the dot screen; and the space between the two boxes is
+  // drawn wider than their depth (0.21 λ), so on a coarse screen the four bars
+  // still pair up as two boxes rather than four evenly spaced brackets.
+  const ANT = (() => {
+    const s = 1.0, piv = 0.815, X = (l) => (l - piv) * s;
+    // Moxon: width A, reflector tails D, tip gap C, driven tails Bt, depth E. The
+    // tails stay > 2 dots long even on the phone screen, so the short ones of the
+    // driven element survive a slightly turned antenna
+    const A = 0.37 * s / 2, D = 0.08, C = 0.055, Bt = 0.077, E = D + C + Bt, G = 0.21, fg = 0.016;
+    const xR = 0, xD = E + G, xF = xD + E; // back bars of the two rectangles; the feed
+    const dx = [], dl = [0.425, 0.415, 0.405, 0.395, 0.385];
+    let x = xF;
+    for (const sp of [0.15, 0.155, 0.16, 0.165, 0.17]) { x += sp; dx.push(x); }
+    // one complete Moxon rectangle at x0: its rear U (back bar, tails bent forward)
+    // and its front U (front bar, tails bent back), the two gaps between the tips;
+    // on the driven rectangle the front bar is split at the feed
+    const moxon = (x0, k, fed) => {
+      const r = { k, pts: [[X(x0 + D), -A], [X(x0), -A], [X(x0), A], [X(x0 + D), A]] };
+      const f0 = X(x0 + E - Bt), f1 = X(x0 + E);
+      return fed
+        ? [r, { k, pts: [[f0, -A], [f1, -A], [f1, -fg]] }, { k, pts: [[f0, A], [f1, A], [f1, fg]] }]
+        : [r, { k, pts: [[f0, -A], [f1, -A], [f1, A], [f0, A]] }];
+    };
+    const els = [...moxon(xR, 'REF', false), ...moxon(xD, 'DRV', true)];
+    dx.forEach((l, j) => { const h = dl[j] * s / 2; els.push({ k: 'DIR', pts: [[X(l), -h], [X(l), h]] }); });
+    return {
+      els, half: dl[0] * s / 2, back: X(xR), feed: X(xF), tip: X(dx[4]), A,
+      // the two rectangles (antenna frame): rear and front bar, for their tint
+      boxes: [[X(xR), X(xR + E)], [X(xD), X(xD + E)]],
+      // where each element is taped to the boom (the fed bar sits on its feed block)
+      tape: [X(xR), X(xR + E), X(xD), ...dx.map(X)],
+      boom: [X(-0.035), X(dx[4] + 0.035)],
+    };
+  })();
+  // material ids. The moving parts are painted into an anti-aliased plate, where an
+  // edge over another part blends the two ids. So the ids run in paint order: the pale
+  // lobes, the main lobe (whose id the paper halos under the hardware also carry), then
+  // the hardware side by side — every edge can only read as a neighbouring grey part,
+  // never as copper on the reflector, the accent pulse or the green link bars (those
+  // two are painted per dot, never blended)
+  // two never blended either: the faint tints inside the two rectangles (per dot)
+  const MX = { LOBE2: 4, LOBE: 5, ELEM: 6, TAPE: 7, BOOM: 8, MAST: 9, DRIVEN: 10, GRID: 11, PULSE: 12, BAR: 13, RBOX: 14, DBOX: 15, CANOPY: 16, PANEL: 17, CANS: 18 };
+  // plane (x, y) -> screen, for an antenna turned by th (the antenna frame, origin at the mast)
   const moxProj = (th) => {
     const c = Math.cos(th), s = Math.sin(th), [cx, cy] = MOX.c, sE = MOX.sE;
     return (x, y) => [cx + x * c - y * s, cy + (x * s + y * c) * sE];
   };
   const moxStation = () => [MOX.c[0] + MOX.R * Math.cos(MOX.st), MOX.c[1] + MOX.R * Math.sin(MOX.st) * MOX.sE];
+  // the CanSat over its ground track: can half-size, its height above the rim, the
+  // suspension lines, the canopy's half-width and dome height (art units)
+  const MCS = { up: 0.22, cw: 0.03, ch: 0.04, lines: 0.12, rx: 0.17, ry: 0.13 };
+  const moxCanSat = () => { const [sx, sy] = moxStation(); return [sx, sy - MCS.up]; };
+  // the station in the plane, relative to the mast
+  const MOXS = [MOX.R * Math.cos(MOX.st), MOX.R * Math.sin(MOX.st)];
+  // the ghost operator, a 3-pulse cycle locked to the ghost clicks (every 4.6 s from
+  // phase 0): on the station -> hit; swing the beam 46° off -> the bars drop, the next
+  // pulse misses; hunt back past the station and settle -> hit again. (phase, offset
+  // from the station bearing), eased between keys
+  const MOXG = [[0, 0], [1.3, 0], [3.4, 0.8], [5.7, 0.8], [7.3, -0.16], [8.5, 0], [10.6, 0], [12.2, 0.09], [13.8, 0]];
+  const moxGhost = (ph) => {
+    if (ph < 0) return MOX.st;
+    ph %= MOXG[MOXG.length - 1][0];
+    let k = 0;
+    while (k < MOXG.length - 2 && ph > MOXG[k + 1][0]) k++;
+    const [p0, a0] = MOXG[k], [p1, a1] = MOXG[k + 1];
+    return MOX.st + mix(a0, a1, easeInOut((ph - p0) / (p1 - p0)));
+  };
+  // bearing and range from the feed (which turns with the antenna) to the station
+  const moxToStation = (th) => {
+    const fx = ANT.feed * Math.cos(th), fy = ANT.feed * Math.sin(th);
+    const dx = MOXS[0] - fx, dy = MOXS[1] - fy;
+    return [Math.atan2(dy, dx), Math.hypot(dx, dy)];
+  };
   M.antenna = {
-    label: 'Moxon–Yagi antenna — drag to turn it and its radiation pattern toward the station, click to send a pulse',
+    label: 'Moxon–Yagi antenna: two Moxon rectangles (reflector and driven element) and five directors — drag to turn it and its radiation pattern toward the CanSat, click to send a pulse',
     cursor: 'Drag',
     drag: 'x',
     rest: [0.6, -0.1],
-    ghostEvery: 4.6, ghostFirst: 1.4,
+    ghostEvery: 4.6, ghostFirst: 1.5,
     mats: [
       ['ink', '#2A2D31'], ['accent', 'accent'], ['muted', '#A9B0B6'], ['ink', '#A8A39A'],
-      ['ink', ['#F6CF62', '#EE8A38', '#CF4A22']], ['muted', ['#F5DA8C', '#E9A54A', '#C9772E']], ['ink', ['#B9C1C9', '#7F8A95', '#46505A']],
-      ['ink', ['#E2A36C', '#B8713A', '#86491F']], ['muted', '#4A525B'], ['muted', '#B7C0C8'], ['accent', '#2C6FD0'],
-      ['muted', ['#C4CAD0', '#8C959E', '#535C66']], ['ink', '#3E9E5F'],
+      ['muted', ['#F5DA8C', '#E9A54A', '#C9772E']], ['muted', ['#F6CF62', '#EE8A38', '#CF4A22']], ['ink', ['#B9C1C9', '#7F8A95', '#46505A']],
+      ['ink', '#2B2F34'], ['muted', '#9AA2AA'], ['muted', ['#C4CAD0', '#8C959E', '#535C66']], ['ink', ['#E2A36C', '#B8713A', '#86491F']],
+      ['muted', '#B7C0C8'], ['accent', '#2C6FD0'], ['ink', '#3E9E5F'], ['muted', '#BCC4CC'], ['muted', '#E8BE98'],
+      ['ink', ['#EE6A4E', '#D23A26', '#97261A']], ['ink', ['#F6D27A', '#E9AE3C', '#B9802A']], ['ink', ['#D5DADF', '#9CA4AD', '#5D656E']],
     ],
     paint(g, P) {
       const [cx, cy] = MOX.c, R = MOX.R, sE = MOX.sE, d = P.dot;
       const G = (a) => P.m(MX.GRID, a);
       const at = (a, r) => [cx + Math.cos(a) * r, cy + Math.sin(a) * r * sE];
-      // the pattern plane: spokes every 30°, three rings, compass ticks outside the rim
+      // the azimuth dial: spokes every 30°, three rings, compass ticks outside the rim
       for (let k = 0; k < 12; k++) { const a = k * PI / 6, p0 = at(a, R * 0.56), p1 = at(a, R); P.seg(p0[0], p0[1], p1[0], p1[1], d * 0.9, G(0.15)); }
       for (const k of [1 / 3, 2 / 3, 1]) P.ring(cx, cy, R * k, R * k * sE, 0, d * 1.15, G(k === 1 ? 0.36 : 0.24));
       for (let k = 0; k < 36; k++) {
@@ -2068,30 +2179,53 @@
         P.seg(p[0] + nx * r0, p[1] + ny * r0, p[0] + nx * r1, p[1] + ny * r1, d * (maj ? 1.1 : 0.9), maj ? P.ink(0.7) : G(T.ctx));
       }
       // the mast: a tube down from the clamp to its foot, with a soft shadow
-      const mb = cy + MOX.mast, mw = 0.034;
+      const mb = cy + MOX.mast, mw = 0.03;
       P.cast(cx + 0.01, mb + 0.004, 0.5, 0.05, T.shadow);
       P.ellipse(cx, mb, 0.1, 0.028, 0, P.m(MX.MAST, 0.92));
       P.rrect(cx - mw, cy + 0.03, mw * 2, MOX.mast - 0.03, 0.012, P.cyl(cx - mw, cx + mw, MX.MAST, 0.3));
       P.rrect(cx - mw * 1.5, mb - 0.07, mw * 3, 0.03, 0.01, P.cyl(cx - mw * 1.5, cx + mw * 1.5, MX.MAST, 0.4));
-      // the far station on the rim: a little mast and dish, with three empty link-bar slots
-      const [sx, sy] = moxStation();
-      P.ellipse(sx, sy, 0.06, 0.017, 0, P.ink(0.8));
-      P.seg(sx - 0.035, sy, sx, sy - 0.1, d * 1.0, P.ink(0.9));
-      P.seg(sx + 0.035, sy, sx, sy - 0.1, d * 1.0, P.ink(0.9));
-      P.seg(sx, sy - 0.1, sx, sy - 0.15, d * 1.1, P.ink(0.95));
-      P.ellipse(sx - 0.018, sy - 0.17, 0.05, 0.03, -0.55, P.lin(sx - 0.06, sy - 0.2, sx + 0.03, sy - 0.14, [[0, 0.5], [1, 0.97]], INK));
-      for (let k = 0; k < 3; k++) { const bx = sx + 0.075 + k * 0.045, bh = 0.035 + k * 0.025; P.seg(bx, sy - 0.005, bx, sy - 0.005 - bh, d * 1.1, G(0.24)); }
+      // the far end of the link: the CanSat coming down under its parachute, tied by a
+      // drop line to its ground track on the rim (the bearing the antenna has to find)
+      const [sx, sy] = moxStation(), [kx, ky] = moxCanSat(), { cw, ch, rx, ry } = MCS;
+      const rim = ky - ch - MCS.lines, top = rim - ry;
+      P.ellipse(sx, sy, 0.036, 0.013, 0, P.ink(0.92));
+      P.seg(sx, sy - 0.035, kx, ky + ch + 0.03, d * 1.05, G(0.34));
+      // suspension lines, from the hem to the top of the can
+      for (const f of [-0.94, -0.4, 0.4, 0.94]) P.seg(kx + rx * f, rim - 0.004, kx + cw * 0.6 * Math.sign(f), ky - ch, d * 0.75, P.ink(f * f > 0.5 ? (P.color ? 0.4 : 0.5) : (P.color ? 0.24 : 0.3)));
+      // the canopy: a dome with a scalloped hem, lit from the upper left (red / gold gores in colour)
+      const dome = [];
+      for (let j = 0; j <= 28; j++) { const a = PI + PI * j / 28; dome.push([kx + Math.cos(a) * rx, rim + Math.sin(a) * ry]); }
+      for (let j = 1; j < 30; j++) { const q = j / 30; dome.push([kx + rx - 2 * rx * q, rim - 0.034 * Math.abs(Math.sin(q * PI * 3))]); }
+      if (P.color) {
+        g.save(); P.path(dome); g.clip();
+        for (let j = 0; j < 6; j++) {
+          const x0 = kx - rx + (2 * rx * j) / 6, x1 = x0 + (2 * rx) / 6, lam = 1 - j / 5;
+          // gores fan out from above the apex; the clip gives the dome its silhouette
+          const t0 = kx + (x0 - kx) * 0.4, t1 = kx + (x1 - kx) * 0.4;
+          P.poly([[t0, top - 0.06], [t1, top - 0.06], [x1 + 0.004, rim + 0.01], [x0 - 0.004, rim + 0.01]], P.lin(kx, top, kx, rim, [[0, mix(0.5, 0.74, 1 - lam)], [1, mix(0.7, 0.95, 1 - lam)]], j % 2 ? MX.PANEL : MX.CANOPY));
+        }
+        g.restore();
+      } else P.poly(dome, P.lin(kx - rx * 0.7, top, kx + rx, rim, [[0, 0.55], [0.55, 0.8], [1, 0.97]], INK));
+      // the can, a little cylinder
+      P.rrect(kx - cw, ky - ch, cw * 2, ch * 2, 0.008, P.cyl(kx - cw, kx + cw, MX.CANS, 0.4));
     },
     prep(F) {
+      // every dot near the dial, in plane coordinates about the mast
       const { n, U, V } = F, [cx, cy] = MOX.c, sE = MOX.sE, idx = [], aux = [];
       for (let i = 0; i < n; i++) {
-        const du = U[i] - cx, dv = (V[i] - cy) / sE, r = Math.hypot(du, dv);
-        if (r < 0.05 || r > 1.2) continue;
-        idx.push(i); aux.push(r, Math.atan2(dv, du));
+        // the static plate paints only ink, the dial and the mast (feed, lobe peak and
+        // pulses are all drawn live). A faint cell at an edge can decode to a stray id
+        // (an ink tick over the grey ring blends through the accent id; a near-white
+        // fringe pixel decodes noisily), so anything else is handed back to the dial
+        const c = F.C[i];
+        if (c !== INK && c !== SHD && c !== MX.GRID && c !== MX.MAST && c < MX.CANOPY) F.C[i] = F.D[i] > 0.5 ? INK : MX.GRID;
+        const du = U[i] - cx, dv = (V[i] - cy) / sE;
+        if (du * du + dv * dv > 1.25 * 1.25) continue;
+        idx.push(i); aux.push(du, dv);
       }
       return { idx: Int32Array.from(idx), aux: Float32Array.from(aux) };
     },
-    init(I) { I.th = { x: MOX.rest, v: 0 }; I.pulses = []; I.link = spr(0); },
+    init(I) { I.th = { x: MOX.rest, v: 0 }; I.pulses = []; I.link = spr(MOX.gain(angWrap(moxToStation(MOX.rest)[0] - MOX.rest))); },
     ghost() { return [0.6, -0.1]; },
     click(I) { I.pulses.push({ t0: I.now, th: I.th.x }); if (I.pulses.length > 3) I.pulses.shift(); },
     key(I, key) {
@@ -2114,66 +2248,100 @@
       let b = false;
       if (!I.dragging) {
         if (I.idle > 0.01) {
-          // the ghost swings the beam across the station and back (staying in the
-          // near-broadside views where the Moxon rectangle reads clearly)
-          const g = MOX.st - 0.26 + 0.44 * Math.sin(I.tau * 0.42 - 0.6);
+          // the ghost aims, misses and re-aims (see MOXG), staying in the views where
+          // the elements lie across the dot grid
+          const g = moxGhost(I.tau - M.antenna.ghostFirst);
           const s = { x: I.th.x, v: I.th.v };
-          spring(s, I.th.x + angWrap(g - I.th.x) * I.idle, dt, 2.4, 0.9);
+          spring(s, I.th.x + angWrap(g - I.th.x) * I.idle, dt, 3.2, 0.9);
           I.th.x = s.x; I.th.v = s.v; b = true;
-        } else b = coast(I.th, dt, 2.6) || b;
+        } else {
+          b = coast(I.th, dt, 2.6) || b;
+          // left (nearly) still end-on: ease onto the nearest view where the two
+          // rectangles read; a fling or a key press still carries straight through
+          const a = angWrap(I.th.x), fa = Math.abs(a), side = fa < PI / 2 ? fa : PI - fa;
+          if (side > MOX.view && Math.abs(I.th.v) < 0.9) {
+            const tg = Math.sign(a || 1) * (fa < PI / 2 ? MOX.view : PI - MOX.view);
+            const s = { x: I.th.x, v: I.th.v };
+            spring(s, I.th.x + angWrap(tg - a), dt, 2.6, 1);
+            I.th.x = s.x; I.th.v = s.v; b = true;
+          }
+        }
       } else b = true;
-      b = spring(I.link, MOX.gain(angWrap(MOX.st - I.th.x)), dt, 9, 0.9) || b;
-      I.pulses = I.pulses.filter((p) => I.now - p.t0 < 1.9);
+      b = spring(I.link, MOX.gain(angWrap(moxToStation(I.th.x)[0] - I.th.x)), dt, 9, 0.9) || b;
+      I.pulses = I.pulses.filter((p) => I.now - p.t0 < MOX.life);
       return b || I.pulses.length > 0;
     },
     dsig(I) { return [I.th.x]; },
     dyn(g, P, I) {
-      const d = P.dot, col = P.color, R = MOX.R, pr = moxProj(I.th.x), [cx, cy] = MOX.c;
-      // pattern: the main lobe darkens toward its tip; side + back lobes are small and pale
-      const lobe = (lo, hi, close) => {
+      const d = P.dot, col = P.color, Rp = MOX.Rp, th = I.th.x, pr = moxProj(th), fx = ANT.feed;
+      // pattern: the main lobe (from the feed) warms toward its tip; the side lobes
+      // (from the feed) and the back lobe (from the reflector) are small and pale
+      const lobe = (lo, hi, close, ox) => {
         const pts = [];
-        for (let j = 0; j <= 160; j++) { const a = mix(lo, hi, j / 160), r = MOX.gain(a) * R; pts.push(pr(Math.cos(a) * r, Math.sin(a) * r)); }
-        if (close) pts.push(pr(0, 0));
+        for (let j = 0; j <= 160; j++) { const a = mix(lo, hi, j / 160), r = MOX.gain(a) * Rp; pts.push(pr(ox + Math.cos(a) * r, Math.sin(a) * r)); }
+        if (close) pts.push(pr(ox, 0));
         return pts;
       };
-      // (mono keeps the lobe a pale field under a firm outline, so the hardware stays the darkest thing)
-      const tip = pr(R, 0), main = lobe(-1.08, 1.08, false);
-      P.poly(main, P.lin(cx, cy, tip[0], tip[1], col ? [[0, 0.08], [0.35, 0.22], [0.75, 0.6], [1, 0.82]] : [[0, 0.03], [0.45, 0.08], [0.8, 0.2], [1, 0.3]], MX.LOBE));
-      P.stroke(main, d * 1.1, P.m(MX.LOBE, col ? 0.75 : 0.7), true);
-      for (const [lo, hi] of [[1.6, 2.5], [-2.5, -1.6], [PI - 0.5, PI + 0.5]]) {
-        const pts = lobe(lo, hi, true);
+      const o = pr(fx, 0), tip = pr(fx + Rp, 0), main = lobe(-MOX.ML, MOX.ML, false, fx);
+      P.poly(main, P.lin(o[0], o[1], tip[0], tip[1], col ? [[0, 0.06], [0.55, 0.16], [0.82, 0.5], [1, 0.8]] : [[0, 0.03], [0.6, 0.07], [0.85, 0.2], [1, 0.32]], MX.LOBE));
+      P.stroke(main, d * 1.1, P.m(MX.LOBE, col ? 0.75 : 0.72), true);
+      for (const [lo, hi, ox] of [[0.98, 1.7, fx], [-1.7, -0.98, fx], [PI - 0.6, PI + 0.6, ANT.back]]) {
+        const pts = lobe(lo, hi, true, ox);
         P.poly(pts, P.m(MX.LOBE2, col ? 0.24 : 0.12));
         P.stroke(pts, d * 1.1, P.m(MX.LOBE2, 0.72), true);
       }
-      // the antenna: spreaders, boom, Moxon rectangle, director (rods stroked in screen space)
-      const { W, xr, Dp, B, Cg, xdir, Ldir, boom } = MOX, h = W / 2, xd = xr + Dp, Dt = Dp - B - Cg;
+      // the antenna: boom, the reflector and driven Moxon rectangles, five directors
+      // (rods stroked in screen space)
       const rod = (pts, w, style, cap) => { g.lineCap = cap || 'round'; P.stroke(pts.map(([x, y]) => pr(x, y)), w, style); g.lineCap = 'round'; };
-      const els = [[MX.ELEM, [[xr + B, -h], [xr, -h], [xr, h], [xr + B, h]]], [MX.DRIVEN, [[xd - Dt, -h], [xd, -h], [xd, -0.028]]],
-        [MX.DRIVEN, [[xd - Dt, h], [xd, h], [xd, 0.028]]], [MX.ELEM, [[xdir, -Ldir / 2], [xdir, Ldir / 2]]]];
-      // paper halos knock the lobe and the grid out from under the rods
-      for (const [, pts] of els) rod(pts, d * 4.2, P.m(MX.LOBE, 0), 'round');
-      rod([[boom[0], 0], [boom[1], 0]], d * 2.0, P.m(MX.BOOM, 0.8));
-      for (const [k, pts] of els) rod(pts, d * 1.9, P.m(k, 1), 'butt');
-      // the clamp on the mast, the feed point
-      const cp = pr(0, 0), fp = pr(xd, 0);
-      P.circle(cp[0], cp[1], 0.03, P.m(MX.MAST, 0.95));
-      P.circle(fp[0], fp[1], d * 1.25, P.acc(1));
+      const mat = { REF: MX.ELEM, DRV: MX.DRIVEN, DIR: MX.ELEM };
+      // paper halos knock the lobes and the dial out from under the hardware
+      for (const e of ANT.els) rod(e.pts, d * 2.9, P.m(MX.LOBE, 0), 'round');
+      rod([[ANT.boom[0], 0], [ANT.boom[1], 0]], d * 3.3, P.m(MX.LOBE, 0));
+      rod([[ANT.boom[0], 0], [ANT.boom[1], 0]], d * 2.0, P.m(MX.BOOM, col ? 0.75 : 0.6));
+      // the Moxon rods a touch heavier than the directors, so the two rectangles lead;
+      // in mono the directors also print a step lighter, so even end-on (when every
+      // element is a rung) the two boxes stand apart from the ladder
+      for (const e of ANT.els) rod(e.pts, d * (e.k === 'DIR' ? 1.35 : 1.5), P.m(mat[e.k], e.k === 'DIR' && !col ? 0.75 : 1), 'butt');
+      // the tape bands that hold each element on the boom
+      for (const x of ANT.tape) { const p = pr(x, 0); P.circle(p[0], p[1], d * 1.05, P.m(MX.TAPE, 1)); }
+      // the clamp on the mast; the feed point (SMA pigtail) on the driven element
+      const cp = pr(0, 0);
+      P.circle(cp[0], cp[1], d * 1.45, P.m(MX.MAST, 0.95));
+      P.circle(o[0], o[1], d * 1.3, P.acc(1));
       // main-lobe peak
       P.circle(tip[0], tip[1], d * 1.35, P.acc(1));
     },
     anim(t, A, S, I) {
-      const th0 = I.th.x, wq = A.dot, R = MOX.R, col = I.mode === 'color';
-      const pul = I.pulses.map((p) => [I.now - p.t0, p.th]);
+      const th0 = I.th.x, wq = A.dot, Rp = MOX.Rp, col = I.mode === 'color';
+      const ct = Math.cos(th0), sn = Math.sin(th0), fx = ANT.feed;
+      const half = ANT.half + wq * 1.6, x0 = ANT.back - wq * 1.6, x1 = ANT.tip + wq * 1.6;
+      const bA = ANT.A, bx1 = ANT.boxes[1][1] + wq, bS = Math.sqrt(col ? 0.26 : 0.24);
+      const pul = I.pulses.map((p) => [I.now - p.t0, p.th, Math.cos(p.th), Math.sin(p.th)]);
       for (let k = 0; k < S.idx.length; k++) {
-        const r = S.aux[2 * k], phi = S.aux[2 * k + 1], i = S.idx[k];
-        // ambient: two slow rings breathing out inside the main lobe
-        const ph = angWrap(phi - th0);
-        if (!I.reduced && Math.abs(ph) < 1.1) {
-          const lim = MOX.gain(ph) * R;
-          if (r < lim - wq * 1.8) {
+        const px = S.aux[2 * k], py = S.aux[2 * k + 1], i = S.idx[k];
+        // on the antenna's footprint only paper dots may light up, so the rods stay crisp
+        const ax = px * ct + py * sn, ay = -px * sn + py * ct;
+        const onAnt = ax > x0 && ax < x1 && Math.abs(ay) < half;
+        // a faint tint inside each Moxon rectangle (common region): its two facing
+        // U's read as one box at any size and any angle
+        if (onAnt && ax < bx1 && Math.abs(ay) < bA + wq) {
+          for (let q = 0; q < 2; q++) {
+            const din = Math.min(ax - ANT.boxes[q][0], ANT.boxes[q][1] - ax, bA - Math.abs(ay));
+            if (din > -wq) {
+              // owns the paper (and any faint lobe / dial fringe) inside; hardware keeps its dots
+              const f = smoothstep(-0.5 * wq, 0.7 * wq, din) * bS, v = f * f * A.TX[i];
+              if (f > 0.12 && v > A.D[i]) { A.D[i] = v; A.C[i] = q ? MX.DBOX : MX.RBOX; }
+            }
+          }
+        }
+        // ambient: two slow rings breathing out along the main lobe, beyond the directors
+        const qx = ax - fx, r = Math.hypot(qx, ay), ph = Math.atan2(ay, qx);
+        if (!I.reduced && !onAnt && Math.abs(ph) < MOX.ML) {
+          const lim = MOX.gain(ph) * Rp, r0 = ANT.tip - fx;
+          if (r < lim - wq * 1.8 && r > r0) {
             let s = 0;
             for (let j = 0; j < 2; j++) {
-              const p = wrap01(t / 4.8 + j / 2), Rr = 0.08 + p * (R - 0.08);
+              const p = wrap01(t / 3.6 + j / 2), Rr = r0 + p * (Rp - r0);
               const v = smoothstep(wq * (col ? 1.6 : 1.2), wq * 0.2, Math.abs(r - Rr)) * Math.sin(PI * p);
               if (v > s) s = v;
             }
@@ -2181,29 +2349,46 @@
             if (s > 0.05) A.lift(i, s * s, MX.LOBE);
           }
         }
-        // pulses: a bright front racing out along the main lobe it was sent on
-        for (const [e, pth] of pul) {
-          const pp = angWrap(phi - pth);
-          if (Math.abs(pp) > 1.1) continue;
+        // pulses: a bright front racing out from the feed, through the directors and
+        // along the main lobe it was sent on
+        for (const [e, pth, pc, ps] of pul) {
+          const bx = px * pc + py * ps - fx, by = -px * ps + py * pc;
+          const rr = Math.hypot(bx, by), pp = Math.atan2(by, bx);
+          if (Math.abs(pp) > MOX.ML) continue;
           const gn = MOX.gain(pp);
           for (let j = 0; j < 3; j++) {
-            const Rp = 0.12 + (e - j * 0.1) * 1.0;
-            if (Rp < 0.12 || Rp > R + 0.06) continue;
-            const v = smoothstep(wq * 2.2, wq * 0.35, Math.abs(r - Rp)) * Math.pow(gn, 0.6) * (1 - smoothstep(0.75, 1.0, Rp / R)) * smoothstep(0, 0.06, e) * (j ? 0.62 : 1);
-            if (v > 0.06) A.over(i, Math.min(1, v * v * 1.15), j ? MX.LOBE : MX.PULSE);
+            const Rq = 0.04 + (e - j * 0.1) * MOX.v;
+            if (Rq < 0.04 || Rq > MOX.reach) continue;
+            const v = smoothstep(wq * 2.2, wq * 0.35, Math.abs(rr - Rq)) * Math.pow(gn, 0.6) * (1 - smoothstep(0.92, 1, Rq / MOX.reach)) * smoothstep(0, 0.06, e) * (j ? 0.62 : 1);
+            if (v < 0.06) continue;
+            const cv = Math.min(1, v * v * 1.15), mk = j ? MX.LOBE : MX.PULSE;
+            // between the rods (paper or pale lobe) the front owns the dot; rods keep theirs
+            if (!onAnt) A.over(i, cv, mk);
+            else if (A.D[i] < 0.4 && cv * 0.85 > A.D[i]) A.set(i, cv * 0.85, mk);
           }
         }
       }
-      // the station: link bars by the gain toward it; a ping when a pulse reaches it in the beam
-      const [sx, sy] = moxStation(), L = clamp(I.link.x);
-      const c0 = A.colF(sx + 0.075), dc = 0.045 / wq, rb = A.rowF(sy - 0.005);
+      // the CanSat's link meter: three bars on the dot grid, 2 dots wide and 2 / 4 / 6
+      // tall, each filling from the bottom as the gain toward the CanSat rises
+      const [sx, sy] = moxStation(), [kx, ky] = moxCanSat(), L = clamp(I.link.x);
+      const bc = Math.round(A.colF(kx + MCS.cw)) + 3, br = Math.round(A.rowF(ky + MCS.ch));
       for (let k = 0; k < 3; k++) {
-        const s = smoothstep(0.12 + k * 0.3, 0.26 + k * 0.3, L), hD = (0.035 + k * 0.025) / wq;
-        if (s > 0.02) A.vline(c0 + k * dc, rb - hD, rb, 0.95 * s * s, col ? MX.BAR : INK, A.over);
+        const h = 2 + 2 * k, lv = smoothstep(MOX.bars[k][0], MOX.bars[k][1], L) * h;
+        for (let j = 0; j < h; j++) {
+          const f = clamp(lv - j), on = f > 0.5;
+          for (let c = 0; c < 2; c++) A.at(bc + 3 * k + c, br - j, mix(0.2, 0.9, f * f), on ? (col ? MX.BAR : INK) : MX.GRID, A.set);
+        }
       }
+      // a pulse inside the half-power beam reaches the CanSat's ground track, climbs the
+      // drop line and rings round the CanSat (accent; in colour the pulse's blue)
+      const pc = col ? MX.PULSE : ACC;
       for (const [e, pth] of pul) {
-        const pe = e - (R - 0.1) / 1.0, gs = MOX.gain(angWrap(MOX.st - pth));
-        if (pe > 0 && pe < 0.85 && gs > 0.3) A.halo(sx, sy - 0.06, 1.8 + pe * 7, Math.min(1, gs * 1.2) * Math.sin(PI * pe / 0.85), ACC, A.over);
+        const [bs, rs] = moxToStation(pth), pe = e - (rs - 0.04) / MOX.v, gs = MOX.gain(angWrap(bs - pth));
+        if (pe <= 0 || gs <= MOX.ping) continue;
+        const amp = smoothstep(MOX.ping, MOX.ping + 0.2, gs);
+        if (pe < MOX.climb) A.disc(sx, mix(sy - 0.035, ky + MCS.ch, easeOut(pe / MOX.climb)), 1.25, amp, pc);
+        const pq = pe - MOX.climb * 0.55;
+        if (pq > 0 && pq < 0.9) A.halo(kx, ky - 0.05, 2.4 + pq * 8, amp * Math.sin(PI * pq / 0.9), pc, A.over);
       }
     },
   };
@@ -2439,7 +2624,7 @@
     // interaction state (survives resizes; everything in art units)
     const I = {
       t0: null, last: -1e9, idle: 0, idleT0: 0, wasIdle: false, gk: -1,
-      tu: 0, tv: 0, ru: 0, rv: 0, hasReal: false, real: false, dragging: false, kAim: false, kx: 0, ky: 0,
+      tu: 0, tv: 0, ru: 0, rv: 0, hasReal: false, real: false, dragging: false, kAim: false, kx: 0, ky: 0, manip: false,
       now: 0, reduced: false, mode: 'mono', variant: 0, S: 1, dot: 0.03,
     };
     if (motif.rest) { I.tu = I.ru = motif.rest[0]; I.tv = I.rv = motif.rest[1]; }
@@ -2574,7 +2759,9 @@
           }
         }
         I.real = real;
-        const idle = !I.reduced && now - I.last > IDLE;
+        if (P.down && P.moved) I.manip = true;
+        else if (!real) I.manip = false;
+        const idle = !I.reduced && now - I.last > ((I.manip && real) || I.kAim ? IDLE_HOLD : IDLE);
         if (idle && !I.wasIdle) { I.idleT0 = now; I.gk = -1; }
         I.wasIdle = idle;
         I.idle += ((idle ? 1 : 0) - I.idle) * (1 - Math.exp(-dt * (idle ? 1.1 : 6)));
@@ -2606,7 +2793,7 @@
       },
       onClick(x, y, st) {
         if (!B || !motif.click) return;
-        I.last = st.now;
+        I.last = st.now; I.manip = true;
         motif.click(I, (x - B.L.cx) / B.L.S, (y - B.L.cy) / B.L.S, false);
       },
       onKey(key, st) {

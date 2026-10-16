@@ -26,10 +26,18 @@
  *   pointer over a member  -> it swells, and a leg shows a ↕ grip on its foot; the custom cursor
  *                             reads "Stretch" over a leg, "Charge" over the beam (affordances).
  *   keys 1 / 2 / 3         -> select software / hardware / systems (same look as the HTML labels);
+ *                             the most recent of a key or a label hover / pin wins;
  *   Enter / Space          -> charge the selection (or the beam); ↑ / ↓ kick the selected leg; Esc.
- *   idle (3 s untouched)   -> a ghost demo every few seconds, alternating a charge (software foot,
- *                             beam, hardware foot) with a TUG: a ghost hand grips a leg (↕ shows),
- *                             pulls it a few rows deeper and lets the spring wobble it back.
+ *   idle demo (occasional) -> a ghost charge as the π is revealed, then a ghost TUG (a ghost hand grips
+ *                             a leg, ↕ shows, pulls it a few rows deeper and lets the spring wobble it
+ *                             back), then one more charge, 9 s apart; then it rests. It re-arms (two
+ *                             more) 6 s after someone plays with it, or (three) when the π scrolls back
+ *                             into view; never while the pointer rests on it, a label is on, or motion
+ *                             is reduced / paused.
+ *   reduced motion         -> no travelling pulse or ripples: a click lights the deep ends instead
+ *                             (the clicked member fully, the others half) and fades them out (~0.8 s);
+ *                             the stretch spring is critically damped.
+ * Frames run only while something moves (animated: false); a timer wakes the next ghost demo.
  *
  * st.data.hover in {'software','hardware','systems',null} (HTML labels): the hovered member keeps its
  * ramp and grows slightly (multiplicative, so its depth story survives); accent pours in as a 1-row
@@ -43,7 +51,9 @@
  * (digital); hardware: straw → amber → rust → copper, stochastically dithered along the ramp
  * (analog); beam: olive-sage → deep green with ochre in the web, and a few of each leg's own dots
  * where it carries that leg (the beam joins both). Ground: two warm greys. Pulses: gold, with cream
- * and white cores; the hardware droplet is a cream/white head with a paper halo. Mono: as before.
+ * and white cores. The hardware droplet is a glowing bead: on the pale upper stem a solid gold bead
+ * with a cream core and a hot orange rim (white there would read as a hole in the leg); on the dark
+ * copper end a cream / white head inside a copper rim. Mono: as before.
  *
  * Halftone.scenes.pi.anchors(w, h) -> { systems, software, hardware }: the CENTRE of each HTML
  * label pill, in CSS px (main.js / .pi-label centre the pill with translate(-50%,-50%)).
@@ -67,7 +77,9 @@
   const LEVELS = [0.40, 0.56, 0.74, 0.95, 1.2, 1.5];               // software: quantised depth
   const GAP = 0.2;                                                 // the light row between steps
   const V = 0.74;                                                  // pulse speed, glyph sizes per second
-  const IDLE_AFTER = 3, IDLE_PAIR = 8.8, IDLE_TUG_AT = 3.6;   // ghost: a charge, then a tug 3.6 s later
+  // idle demo (seconds): first ghost IDLE_LEAD after the reveal / re-entry, then IDLE_GAP apart, at
+  // most IDLE_MAX (IDLE_MAX2 after someone played with it, from IDLE_AFTER since their last input)
+  const IDLE_LEAD = 1.8, IDLE_GAP = 9, IDLE_AFTER = 6, IDLE_HOLD = 3, IDLE_MAX = 3, IDLE_MAX2 = 2;
   // colour mode: coverage soft-caps here (tangent units) so paper stays visible between dots
   const CAP0 = 0.78, CAPW = 0.28;
   // 4x4 Bayer matrix: the software leg's ORDERED (digital) colour dither
@@ -286,8 +298,24 @@
   const unrub = (y, A, B) => (y >= 0 ? -A * Math.log(1 - Math.min(y / A, 0.995)) : B * Math.log(1 + Math.max(y / B, -0.995)));
 
   function newI() {
-    return { sel: null, hov: 0, last: -1e9, px: -1e4, py: -1e4, pressed: false, grab: 0, raw0: 0, grabbing: false,
-      str: [0, 0, 0, 0], vel: [0, 0, 0, 0], idleT0: -1, idleK: -1, touched: false, tug: null };
+    return { sel: null, hov: 0, px: -1e4, py: -1e4, pressed: false, grab: 0, raw0: 0, grabbing: false,
+      str: [0, 0, 0, 0], vel: [0, 0, 0, 0], tug: null,
+      // idle demo, on its own clock: st.now while frames run, plus the quiet gaps the wake timer bridges
+      clk: 0, lastC: -1e9, due: IDLE_LEAD, dN: 0, dMax: IDLE_MAX, demoK: 0,
+      // keys 1/2/3 vs the HTML labels (data.hover): the most recent input wins
+      seq: 0, hvSeq: 0, selSeq: 0, hvPrev: null };
+  }
+
+  /** someone played with it: note the time and re-arm a short idle demo for later */
+  function touch(I) {
+    I.lastC = I.clk;
+    I.dN = 0; I.dMax = IDLE_MAX2; I.due = -1;
+  }
+
+  /** the member in focus: a label hover / pin or the key selection, whichever came last */
+  function focusOf(I, st) {
+    const hv = (st.data && st.data.hover) || null;
+    return I.selSeq > I.hvSeq ? (I.sel || hv) : (hv || I.sel);
   }
 
   /** where the ↕ grip sits on each leg's foot (grid row / col of its centre) */
@@ -316,7 +344,12 @@
     const ch = { t0: st.now, p, c0, jL, jR, amp, F: 0, glow: 0, end: Math.max(fL, fR, tips) + 26 * P };
     S.chs.push(ch);
     if (S.chs.length > 4) S.chs.shift();
-    if (st.reduced) return;
+    if (st.reduced) {
+      // reduced motion: no travelling pulse — the deep ends light up (this member fully, the two it
+      // is joined to by half) and fade out calmly
+      for (let q = 1; q <= 3; q++) { S.fla[q] = Math.max(S.fl[q], (q === p ? 1 : 0.5) * Math.max(0.6, amp)); S.flt[q] = st.now; }
+      return;
+    }
     // each foot pings the ground when the pulse arrives
     if (fL > 3 * P) ripple(S, st, g.xL, g.footB, 0.85 * amp, fL / v, 0.36, 1.5);
     if (fR > 3 * P) ripple(S, st, (g.ccx + g.tipX) / 2, g.footB, 0.85 * amp, fR / v, 0.36, 1.5);
@@ -369,7 +402,7 @@
         // pulse cream, pulse white, ground sand-grey, beam ochre
         '#FFE6A8', '#FFFCF2', '#D2C5AD', '#C9A253'],
     },
-    animated: true,
+    animated: false,          // sample() never reads t: frames run only while update() reports busy
     interact: 'none',
     drag: 'x',
     cursor: 'Play',
@@ -405,6 +438,7 @@
         invMaxR: 1 / (GAIN * 0.5 * P),
         e: [0, 0, 0, 0], m: [0, 0, 0, 0], sp: [0, 0, 0, 0], eh: [0, 0, 0, 0], pin: [0, 0, 0, 0],
         gA: [0, 0, 0, 0], gR: [0, 0, 0, 0], gC: [0, 0, 0, 0], gh: 0,
+        fl: [0, 0, 0, 0], fla: [0, 0, 0, 0], flt: [0, 0, 0, 0],   // reduced motion: deep-end flash
         chs: [], rips: [], col: st.mode === 'color',
         I: prev && prev.I ? prev.I : newI(),
       };
@@ -430,20 +464,27 @@
      *    selection (keys 1/2/3) lights its pill like a hover does;
      *  - the custom cursor label follows what is under the pointer ("Stretch" on a leg, "Charge" on
      *    the beam, "Play" elsewhere): data-cursor is updated and a pointerover is re-dispatched on the
-     *    canvas, since the site cursor re-reads data-cursor on pointerover only. */
+     *    canvas, since the site cursor re-reads data-cursor on pointerover only;
+     *  - a label touched (hover / focus / click) becomes the most recent input over keys 1/2/3;
+     *  - keys are described to assistive tech (aria-description) and a key selection is announced;
+     *  - the ghost demo re-arms when the π scrolls back into view, and a timer wakes the next ghost
+     *    (frames stop while nothing moves). */
     _attachDom(st) {
       const all = Halftone.instances ? Array.from(Halftone.instances) : [];
       const ht = all.find((h) => h.st === st);
       if (!ht || !ht.o || !ht.o.autoplay) return;
       const host = ht.c.parentElement;
       const lab = (k) => (host ? host.querySelector('.pi-label[data-pi="' + k + '"]') : null);
-      st._piDom = { sw: lab('software'), hw: lab('hardware'), all: host ? Array.from(host.querySelectorAll('.pi-label[data-pi]')) : [],
-        ySw: 0, yHw: 0, focus: null, cv: ht.c, cur: ht.c.dataset.cursor || 'Play' };
+      const old = st._piDom;
+      if (old) clearTimeout(old.timer);
+      st._piDom = { ht, sw: lab('software'), hw: lab('hardware'), all: host ? Array.from(host.querySelectorAll('.pi-label[data-pi]')) : [],
+        ySw: 0, yHw: 0, focus: null, cv: ht.c, cur: ht.c.dataset.cursor || 'Play',
+        timer: 0, tDue: -1, vis: old ? old.vis : undefined, live: ht._piLive || null };
       if (st._piDom.sw) st._piDom.sw.style.translate = '';
       if (st._piDom.hw) st._piDom.hw.style.translate = '';
       if (ht._piTouch) return;
       ht._piTouch = true;
-      const opt = { passive: false };
+      const opt = { passive: false }, sig = ht._ac ? { signal: ht._ac.signal } : {};
       if (ht._ac) opt.signal = ht._ac.signal;
       ht.c.addEventListener('touchstart', (e) => {
         const S = st._pi;
@@ -452,6 +493,36 @@
         const h = pick(S, t.clientX - rc.left, t.clientY - rc.top);
         if (h && h.p !== SYS) e.preventDefault();
       }, opt);
+      // a label hovered / focused / clicked is now the most recent input (over keys 1/2/3)
+      const labelInput = () => { const S = st._pi; if (S) S.I.hvSeq = ++S.I.seq; ht.wake(); };
+      st._piDom.all.forEach((l) => ['pointerenter', 'focus', 'click'].forEach((ev) => l.addEventListener(ev, labelInput, sig)));
+      ht.c.setAttribute('aria-description', 'Keys 1, 2 and 3 select software, hardware or systems thinking; Enter charges it; up and down arrows stretch a leg.');
+      if (host) {
+        const s = document.createElement('span');
+        s.className = 'pi-live';
+        s.setAttribute('aria-live', 'polite');
+        s.style.cssText = 'position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap';
+        host.appendChild(s);
+        ht._piLive = st._piDom.live = s;
+      }
+      // the ghost demo re-arms when the π comes back into view
+      let io = null;
+      if (window.IntersectionObserver) {
+        io = new IntersectionObserver((es) => {
+          const dom = st._piDom, S = st._pi;
+          for (const e of es) {
+            if (e.isIntersecting && dom && dom.vis === false && S) {
+              const I = S.I;
+              I.dN = 0; I.dMax = IDLE_MAX; I.due = I.clk + IDLE_LEAD;
+              I.demoK += I.demoK & 1;   // seen afresh: open with a charge, like the reveal
+              ht.wake();
+            }
+            if (dom) dom.vis = e.isIntersecting;
+          }
+        }, { threshold: 0.3 });
+        io.observe(ht.c);
+      }
+      if (ht._ac) ht._ac.signal.addEventListener('abort', () => { if (io) io.disconnect(); if (st._piDom) clearTimeout(st._piDom.timer); });
     },
 
     update(st, dt) {
@@ -463,11 +534,13 @@
       S.col = st.mode === 'color';
 
       // ---- input bookkeeping
-      if (Pt.down || (Pt.inside && (Math.abs(Pt.x - I.px) > 0.5 || Math.abs(Pt.y - I.py) > 0.5))) { I.last = now; I.touched = true; }
+      if (dt > 0) I.clk += dt;
+      if (Pt.down || (Pt.inside && (Math.abs(Pt.x - I.px) > 0.5 || Math.abs(Pt.y - I.py) > 0.5))) touch(I);
       I.px = Pt.x; I.py = Pt.y;
       const hv = (st.data && st.data.hover) || null;
-      if (hv) I.last = now;
-      const focus = hv || I.sel;
+      if (hv !== I.hvPrev) { I.hvPrev = hv; I.hvSeq = ++I.seq; }
+      if (hv) touch(I);
+      const focus = focusOf(I, st);
 
       // ---- press: what did we grab?   release: hand the velocity to the spring
       if (Pt.down) {
@@ -560,31 +633,41 @@
         if (S.sp[p] !== on) busy = true;
       }
 
-      // ---- idle demo: every few seconds a ghost charge (software foot, beam, hardware foot),
-      //      alternating with a ghost TUG on a leg (hardware, software) that shows the stretch
-      const idle = !red && !focus && !Pt.down && !I.grabbing && now - I.last > IDLE_AFTER;
-      if (idle) {
-        if (I.idleT0 < 0) { I.idleT0 = now + (I.touched ? 1.2 : 1.8); I.idleK = -1; }
-        const ph = now - I.idleT0;
-        if (ph >= 0) {
-          const pair = Math.floor(ph / IDLE_PAIR), k = 2 * pair + (ph - pair * IDLE_PAIR >= IDLE_TUG_AT ? 1 : 0);
-          if (k !== I.idleK) {
-            I.idleK = k;
-            if (k & 1) {
-              const leg = [HW, SW][(k >> 1) & 1];
-              I.tug = { leg, t0: now, rel: false, A: (leg === SW ? 3.4 : 3.2) * P };
-            } else fire(S, st, [SW, SYS, HW][(k >> 1) % 3], 0.7);
-          }
+      // ---- idle demo, occasional: a ghost charge as the π is revealed, a ghost TUG, one more charge,
+      //      then it rests (re-armed by touch() or by scrolling back into view). Charges rotate the
+      //      software foot / beam / hardware foot, tugs the hardware / software leg.
+      const blocked = red || !!focus || Pt.down || Pt.inside || I.grabbing;
+      const idleOK = !blocked && I.dN < I.dMax;
+      if (blocked) { I.due = -1; if (I.tug && !I.tug.rel) I.tug = null; }
+      else if (idleOK) {
+        if (I.due < 0) I.due = Math.max(I.lastC + IDLE_AFTER, I.clk + IDLE_HOLD);
+        if (I.clk >= I.due) {
+          const k = I.demoK++;
+          if (k & 1) {
+            const leg = [HW, SW][(k >> 1) & 1];
+            I.tug = { leg, t0: now, rel: false, A: (leg === SW ? 3.4 : 3.2) * P };
+          } else fire(S, st, [SW, SYS, HW][(k >> 1) % 3], 0.7);
+          I.dN++;
+          I.due = I.clk + IDLE_GAP;
+          busy = true;
         }
-      } else { I.idleT0 = -1; if (I.tug && !I.tug.rel) I.tug = null; }
+      }
 
-      // ---- charges and ripples
+      // ---- charges and ripples (a charge lives until its glow has peaked and faded: under reduced
+      //      motion F is "everywhere" from the start, so age gates it, not F)
       const v = V * g.S;
       for (let k = S.chs.length - 1; k >= 0; k--) {
         const ch = S.chs[k], age = now - ch.t0;
         ch.F = st.reduced ? 1e9 : v * age;
-        ch.glow = ch.amp * (st.reduced ? 0.42 : 0.16) * Math.exp(-age / 1.1) * smoothstep(0, 0.08, age);
-        if ((st.reduced || ch.F > ch.end) && ch.glow < 0.004) S.chs.splice(k, 1); else busy = true;
+        ch.glow = ch.amp * (st.reduced ? 0.36 * Math.exp(-age / 0.65) : 0.16 * Math.exp(-age / 1.1)) * smoothstep(0, 0.08, age);
+        if (age > 0.15 && (st.reduced || ch.F > ch.end) && ch.glow < 0.004) S.chs.splice(k, 1); else busy = true;
+      }
+      // reduced motion: the deep-end flash holds a moment, then dissolves dot by dot
+      for (let q = 1; q <= 3; q++) {
+        if (!(S.fla[q] > 0)) continue;
+        const a = now - S.flt[q];
+        if (a >= 1.1) { S.fla[q] = 0; S.fl[q] = 0; }
+        else { S.fl[q] = S.fla[q] * (1 - smoothstep(0.3, 1.1, a)); busy = true; }
       }
       for (let k = S.rips.length - 1; k >= 0; k--) {
         const R = S.rips[k], u = (now - R.t0) / R.dur;
@@ -594,16 +677,17 @@
         R.r = R.Rm * (1 - (1 - u) * (1 - u));
         R.a = R.amp * smoothstep(0, 0.12, u) * (1 - smoothstep(0.35, 1, u));
       }
-      // ---- page glue: pills follow a deeper foot; keyboard selection lights its pill
+      // ---- page glue: pills follow a deeper foot; the member in focus (label or key, whichever came
+      //      last) lights its pill
       const dom = st._piDom;
       if (dom) {
         const ySw = Math.max(0, S.D.footL - g.footB), yHw = Math.max(0, Math.round(S.D.dR));
         if (dom.sw && ySw !== dom.ySw) { dom.ySw = ySw; dom.sw.style.translate = ySw ? '0 ' + ySw.toFixed(1) + 'px' : ''; }
         if (dom.hw && yHw !== dom.yHw) { dom.yHw = yHw; dom.hw.style.translate = yHw ? '0 ' + yHw + 'px' : ''; }
-        if (!hv && dom.focus !== I.sel) {
-          dom.focus = I.sel;
-          dom.all.forEach((l) => l.classList.toggle('is-on', l.dataset.pi === I.sel));
-        } else if (hv) dom.focus = hv;
+        if (dom.focus !== focus) {
+          dom.focus = focus;
+          dom.all.forEach((l) => l.classList.toggle('is-on', l.dataset.pi === focus));
+        }
         // the cursor label says what a drag / click does right here
         const cur = I.grab ? 'Stretch' : I.hov === SYS ? 'Charge' : I.hov ? 'Stretch' : 'Play';
         if (cur !== dom.cur && dom.cv) {
@@ -615,6 +699,21 @@
             dom.cv.dispatchEvent(ev);
           }
         }
+        // nothing moving: frames stop, so a timer wakes the next ghost demo (bridging the idle clock)
+        const want = !busy && idleOK && I.due > I.clk && !dom.ht.paused ? I.due : -1;
+        if (want !== dom.tDue) {
+          clearTimeout(dom.timer);
+          dom.timer = 0; dom.tDue = want;
+          if (want > 0) {
+            const ht = dom.ht;
+            dom.timer = setTimeout(() => {
+              const D2 = st._piDom, S2 = st._pi;
+              if (D2) { D2.timer = 0; D2.tDue = -1; }
+              if (S2 && !(D2 && D2.vis === false)) S2.I.clk = Math.max(S2.I.clk, want);
+              ht.wake();
+            }, Math.max(16, (want - I.clk) * 1000));
+          }
+        }
       }
       st.busy = busy || st.busy;
     },
@@ -623,7 +722,7 @@
       const S = st._pi;
       if (!S) return;
       const I = S.I;
-      I.last = st.now; I.touched = true;
+      touch(I);
       const h = pick(S, x, y);
       ripple(S, st, x, y, h ? 0.9 : 0.7, 0, h ? 0.34 : 0.3, 1.2);
       if (h) charge(S, st, h.p, h.c, 1);
@@ -632,11 +731,18 @@
     onKey(key, st) {
       const S = st._pi;
       if (!S) return false;
-      const I = S.I;
-      I.last = st.now; I.touched = true;
+      const I = S.I, dom = st._piDom;
+      touch(I);
+      const say = (s) => { if (dom && dom.live) dom.live.textContent = s; };
       const sel = { 1: 'software', 2: 'hardware', 3: 'systems' }[key];
-      if (sel) { I.sel = I.sel === sel ? null : sel; return true; }
-      const cur = (st.data && st.data.hover) || I.sel;
+      if (sel) {
+        // the key is now the most recent input; pressing the lit member's key again clears it
+        I.sel = I.sel === sel && focusOf(I, st) === sel ? null : sel;
+        I.selSeq = ++I.seq;
+        say(I.sel ? LABEL[I.sel] + ' selected. Enter charges it.' : 'Selection cleared.');
+        return true;
+      }
+      const cur = focusOf(I, st);
       const p = cur === 'software' ? SW : cur === 'hardware' ? HW : SYS;
       switch (key) {
         case 'Enter': case ' ': fire(S, st, p, 1); return true;
@@ -645,7 +751,7 @@
           if (p === SYS) { I.vel[SW] += kick; I.vel[HW] += kick; } else I.vel[p] += kick;
           return true;
         }
-        case 'Escape': if (I.sel) { I.sel = null; return true; } return false;
+        case 'Escape': if (I.sel) { I.sel = null; say('Selection cleared.'); return true; } return false;
         default: return false;
       }
     },
@@ -684,6 +790,10 @@
         if (k < F && S.deep[i]) { if (!col || U.hash2(i, 41) > 0.16) c = ACC; }   // colour: a few own-hue specks stay
         else if (S.pin[p] && sp < 1 && k === (F | 0) && ed > 0.6) c = ACC;   // the 1-row pour front
       }
+      // reduced motion: a click lights the deep ends, then they dissolve dot by dot
+      const fl = S.fl[p];
+      if (fl > 0 && S.deep[i] && U.hash2(i, 77) < fl) { c = ACC; d *= 1 + 0.12 * fl; }
+      let hot = false;
       // charges
       const chs = S.chs, nc = chs.length;
       if (nc) {
@@ -720,20 +830,28 @@
             if (a > 0.35 && ed > 0.5) {
               // a teardrop: a round head (radius ~1.9 dots) leading, a tail tapering behind (vs
               // software's square packet). Accent by a smooth threshold on the drop's field with dot
-              // size following it, so the outline grows / shrinks instead of popping between frames;
-              // in colour the head is white on cream, inside a copper rim.
+              // size following it, so the outline grows / shrinks instead of popping between frames.
+              // Colour: one glowing bead everywhere — a solid gold body (allowed past the soft cap) with
+              // a cream core and a white spark leading it; never paper-white over a dark rim, which read
+              // as a hole. Its rim follows the leg: hot orange on the pale upper stem (so gold parts from
+              // straw), a lighter amber glow on the dark copper end (dithered along the ramp).
               const hr = 1.9 * P, tl = 2.3 * hr;
               const ta = u < 0 ? u / hr : u / tl;
               const wq = u < 0 ? 1 : Math.sqrt(Math.max(0.04, 1 - u / tl));
               const tc = ac / (hr * wq), tq = ta * ta + tc * tc;
               if (tq < 1) {
-                c = col ? (u < 0.45 * hr && tq < 0.55 ? WHITE : PALE) : ACC;
-                d = FULL * ed * (0.4 + 0.6 * smoothstep(1, 0.3, tq));
+                if (!col) c = ACC;
+                else { c = tq < 0.5 && u < 0.5 * hr ? (tq < 0.14 && u < 0 ? WHITE : PALE) : ACC; hot = true; }
+                d = FULL * ed * ((col ? 0.62 : 0.4) + (col ? 0.38 : 0.6) * smoothstep(1, 0.3, tq));
               } else if (tq < 2) {
-                // the rim: mono — a paper halo (smaller ink dots); colour — a copper ring, so the
-                // cream head holds against the light amber top of the leg as well as the deep end
-                if (col) { if (tq < 1.7) c = HW0 + 4; }
-                else d *= 0.4 + 0.6 * smoothstep(1, 2, tq);
+                // the rim: mono — a paper halo (smaller ink dots); colour — orange or an amber glow
+                if (col) {
+                  if (tq < 1.7) {
+                    const pale = U.hash2(i, 53) < 1 - smoothstep(0.36, 0.5, (y - g.barB) / (S.D.footR - g.barB));
+                    c = pale ? HW0 + 2 : HW0 + 1;
+                    d = Math.max(d, 0.95 * ed);
+                  }
+                } else d *= 0.4 + 0.6 * smoothstep(1, 2, tq);
               }
             }
           } else {
@@ -761,7 +879,7 @@
       }
       if (ring > 0) d *= 1 + 0.45 * ring;
       // colour: soft-cap coverage near "just touching" so paper shows between dots (pointillism)
-      if (col && d > CAP0) d = CAP0 + CAPW * (1 - Math.exp((CAP0 - d) / CAPW));
+      if (col && d > CAP0 && !hot) d = CAP0 + CAPW * (1 - Math.exp((CAP0 - d) / CAPW));
       out.d = (d > MAXU ? MAXU : d) * IG2; out.c = c;
     },
 

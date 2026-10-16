@@ -2,9 +2,11 @@
 // lathe and tube modules as G and TB, the model as LINK, antenna.mjs as AN, DATA,
 // signalField and MARKUP). Touches nothing outside #fig-link.
 //
-// Controls: hover the ruler or drag the CanSat to move it along the log rail;
-// click the antenna (or press A) to fold the Moxon–Yagi and raise the stock whip;
-// click the radio box or the meter (or press R) to switch the data rate.
+// Controls: hover the ruler or drag the CanSat to move it along the log rail
+// (0.1 to 4 km; arrow keys step through the stops, Home and End go to the ends);
+// click the antenna (or press A) to fold the Moxon–Yagi flat (its two Moxon
+// rectangles and five directors, one element after another) and raise the stock
+// whip; click the radio box or the meter (or press R) to switch the data rate.
 //
 // Cost: the antenna layers, the dBm scale and the signal field are drawn here on
 // mount, not shipped as markup. They sit in two composited <svg> layers over and
@@ -112,7 +114,7 @@
 
   // ---- state: every control sets a target; parts follow on springs
   const spring = (x) => ({ x, v: 0, target: x, at: 0, next: x });
-  const fold = spring(0); // 0 = elements up, 1 = folded along and behind the boom
+  const fold = spring(0); // 0 = elements up, 1 = folded flat (top halves back, bottom halves tucked back under the boom)
   const whip = spring(0); // 1 = stock whip upright
   const rate = spring(0); // 1 = 10 kb/s (the receiver's sensitivity eases between)
   const flip = spring(0); // the rate lever
@@ -207,12 +209,12 @@
 
   const shareOfKm = (km) => clamp(LINK.shareOfKm(km));
   const TOUR = [
-    { km: 4.2, hold: 3.2, yagi: true, slow: false },
-    { km: 4.2, hold: 3.2, yagi: false, slow: false },
-    { km: 4.2, hold: 1.8, yagi: true, slow: false },
-    { km: 10, hold: 2.6, yagi: true, slow: false },
-    { km: 10, hold: 3.0, yagi: true, slow: true },
-    { km: 10, hold: 1.4, yagi: true, slow: false },
+    { km: 4, hold: 3.2, yagi: true, slow: false },
+    { km: 4, hold: 3.6, yagi: false, slow: false },
+    { km: 4, hold: 2.4, yagi: true, slow: false },
+    { km: 4, hold: 3.0, yagi: true, slow: true },
+    { km: 4, hold: 1.4, yagi: true, slow: false },
+    { km: 3, hold: 2.0, yagi: true, slow: false },
     { km: 2, hold: 2.2, yagi: true, slow: false },
     { km: 0.5, hold: 2.2, yagi: true, slow: false },
     { km: 0.1, hold: 2.6, yagi: true, slow: false },
@@ -441,7 +443,9 @@
       }
     }
     let busy = false;
-    busy = swing(fold, dt, 70, 10.5, calm) || busy;
+    // the seven elements share one swing (each takes its own slice of it, antenna.mjs):
+    // slow enough that the reader sees them go one after another
+    busy = swing(fold, dt, 38, 8.4, calm) || busy;
     busy = swing(whip, dt, 90, 11, calm) || busy;
     busy = swing(flip, dt, 520, 24, calm) || busy;
     busy = ease(rate, dt, 0.16, calm) || busy;

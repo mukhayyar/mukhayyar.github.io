@@ -153,6 +153,7 @@
 .iso[data-theme="light"] .rl-metal{--anatomy-paper:#E3E2DC;--anatomy-top:#F3F2ED;--anatomy-face:#F3F2ED;--anatomy-shade-0:#C3C1BA;--anatomy-shade-1:#CBC9C2;--anatomy-shade-2:#D3D1CA;--anatomy-shade-3:#DBD9D2;--anatomy-mid:#6E6D66}
 .iso[data-theme="light"] .rl-patch{--anatomy-paper:#E4DFD2;--anatomy-top:#EEEAE0;--anatomy-shade-0:#CCC6B7;--anatomy-shade-1:#D3CDBF;--anatomy-shade-2:#DAD5C7;--anatomy-shade-3:#E0DBCE;--anatomy-mid:#6E6D66}
 .iso[data-theme="light"] .rl-gold{--anatomy-dot:#F4F2EB}
+.iso[data-theme="light"] .rl-gold-part{--anatomy-paper:#E3E2DC;--anatomy-top:#F3F2ED;--anatomy-face:#F3F2ED;--anatomy-shade-0:#C3C1BA;--anatomy-shade-1:#CBC9C2;--anatomy-shade-2:#D3D1CA;--anatomy-shade-3:#DBD9D2;--anatomy-mid:#6E6D66}
 .iso .rl-tick{stroke-width:.8px}
 /* colour mode (the site's Mono / Color switch): every part in its natural colour */
 :root[data-ht-mode="color"] .iso[data-theme="light"] .rl-pcb{--anatomy-paper:#3E7B56;--anatomy-top:#4B8A64;--anatomy-face:#4B8A64;--anatomy-shade-0:#2D5E41;--anatomy-shade-1:#326647;--anatomy-shade-2:#376E4D;--anatomy-shade-3:#3D7653;--anatomy-mid:#1F3E2D;--anatomy-lo:#2A4F3A;--anatomy-faint:#62987A}
@@ -160,6 +161,7 @@
 :root[data-ht-mode="color"] .iso[data-theme="light"] .rl-patch{--anatomy-paper:#CDB88E;--anatomy-top:#DAC79F;--anatomy-shade-0:#B29D74;--anatomy-shade-1:#BAA57B;--anatomy-shade-2:#C2AD83;--anatomy-shade-3:#C9B48A;--anatomy-mid:#6B5C42}
 :root[data-ht-mode="color"] .iso[data-theme="light"] .rl-cell{--anatomy-paper:#6F8FB0;--anatomy-top:#86A3C1;--anatomy-face:#86A3C1;--anatomy-shade-0:#506F90;--anatomy-shade-1:#577798;--anatomy-shade-2:#5F7FA0;--anatomy-shade-3:#6787A8;--anatomy-mid:#2E4864;--anatomy-lo:#3B5874}
 :root[data-ht-mode="color"] .iso[data-theme="light"] .rl-gold{--anatomy-dot:#D9A934}
+:root[data-ht-mode="color"] .iso[data-theme="light"] .rl-gold-part{--anatomy-paper:#D9B45A;--anatomy-top:#E8C978;--anatomy-face:#E8C978;--anatomy-shade-0:#A9832F;--anatomy-shade-1:#B58F3A;--anatomy-shade-2:#C29C46;--anatomy-shade-3:#CDA851;--anatomy-mid:#7A5C1C;--anatomy-lo:#8E7030;--anatomy-faint:#B89443}
 :root[data-ht-mode="color"] .iso[data-theme="light"] .rl-leds circle:nth-child(1){fill:#E5533D}
 :root[data-ht-mode="color"] .iso[data-theme="light"] .rl-leds circle:nth-child(2){fill:#F2B33D}
 :root[data-ht-mode="color"] .iso[data-theme="light"] .rl-leds circle:nth-child(3){fill:#3DAF6B}
@@ -183,5 +185,5 @@
 .iso .rl-chip-k{color:var(--anatomy-muted);text-transform:uppercase;letter-spacing:.08em}
 .iso .rl-chip-v{color:var(--anatomy-strong);font-variant-numeric:tabular-nums}
 .iso .rl-chip kbd{font:inherit;color:var(--anatomy-muted);border:1px solid rgba(14,14,12,.14);padding:0 4px;line-height:15px}
-@media (max-width:560px){.iso .iso-plate{padding:46px 0 64px;overflow:hidden}.iso .iso-plate .rl-stage{-webkit-mask-image:linear-gradient(90deg,transparent,#000 12px,#000 calc(100% - 12px),transparent);mask-image:linear-gradient(90deg,transparent,#000 12px,#000 calc(100% - 12px),transparent)}.iso .iso-plate .rl-stage svg{width:118%;max-width:none;margin-left:-8.6%}.iso .iso-plate-corners{inset:16px 14px}.iso .iso-legend{padding:0 2px}.iso .rl-chip kbd{display:none}}
+@media (max-width:560px){.iso .iso-plate{padding:46px 0 64px;overflow:hidden}.iso .iso-plate-corners{inset:16px 14px}.iso .iso-legend{padding:0 2px}.iso .rl-chip kbd{display:none}}
 @media (hover:none){.iso .rl-chip kbd{display:none}}

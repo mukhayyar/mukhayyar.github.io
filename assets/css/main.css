@@ -172,6 +172,8 @@ ul, ol { padding: 0; list-style: none; }
 .footer__mode .mode__btn[aria-pressed="true"] { background: var(--night-ink); color: var(--night); }
 .footer__mode .mode__btn:not([aria-pressed="true"]):hover { background: rgba(236, 234, 227, .08); }
 .footer__scene { transition: background-color .8s var(--ease); }
+/* colour mode paints Bromo at sunrise: the dots sit on deep indigo sky fading to forest */
+html[data-ht-mode="color"] .footer__scene canvas { background: linear-gradient(180deg, #16173F 0%, #121B33 50%, #0E2219 74%, var(--night) 100%); }
 
 /* ---------- pause motion ---------- */
 .still-btn { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--line-2); color: var(--ink-2); transition: background-color .25s, color .25s; }

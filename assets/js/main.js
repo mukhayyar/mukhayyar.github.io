@@ -759,7 +759,7 @@
       prev.classList.add('is-on');
       no.textContent = pad(+r.dataset.i + 1);
       tag.textContent = tech.split('·')[0].trim();
-      if (!ht) ht = mount($('#preview-canvas'), scene('projectArt', p.name, tech), { revealDuration: 0.7, interactTarget: list });
+      if (!ht) ht = mount($('#preview-canvas'), scene('projectArt', p.name, tech), { revealDuration: 0.7 }); // pointer-events: none, so it plays its own demo
       else if (k !== key) ht.setScene(scene('projectArt', p.name, tech));
       if (ht) ht.resume();
       key = k;
@@ -855,6 +855,10 @@
       placeTicks(dist());
       // Tabbing into a panel scrolls the page to it instead of scrolling the clipped pin.
       const onFocus = (e) => {
+        // a click on a panel's art focuses its canvas too; only keyboard focus should move the page
+        let kb = true;
+        try { kb = e.target.matches(':focus-visible'); } catch (err) { /* no :focus-visible support */ }
+        if (!kb) return;
         const p = e.target.closest('.log__panel'), st = tween.scrollTrigger;
         if (!p || !st) return;
         const y = st.start + Math.min(dist(), Math.max(0, p.offsetLeft - panels[0].offsetLeft));
