@@ -156,7 +156,7 @@
         </div>
         <div class="grid about__skills">
           <p class="skills__label mono">Toolbox</p>
-          <ul class="skills" id="skills" aria-label="Skills"></ul>
+          <div class="toolbox" id="toolbox"><ul class="skills" id="skills" aria-label="Skills"></ul></div>
         </div>
       </section>
 
@@ -194,11 +194,11 @@
         <h2 class="section-title" id="link-title" data-split>A $15 antenna, <em class="serif">a 4 km link.</em></h2>
         <div class="grid fig-section__body">
           <div class="fig-section__text" data-reveal>
-            <p>We needed a reliable link between a falling payload and the ground station. Stock antennas topped out around 3 km. So we built a Moxon–Yagi: a bent-aluminum Moxon rectangle as reflector and driven element, plus a straight dipole-style director, all taped to a PVC boom — and held a <strong>4.2 km</strong> link with <strong>99%</strong> of packets received in flight.</p>
+            <p>We needed a reliable link between a falling payload and the ground station. Stock antennas topped out around 3 km. So we built a Moxon–Yagi: a bent-aluminum Moxon rectangle as the reflector and driven element, plus five straight dipole-style directors, all taped to a PVC boom — and held a <strong>4.2 km</strong> link with <strong>99%</strong> of packets received in flight.</p>
             <p>Slide the CanSat along the rail: the meter reads the free-space link budget at 915 MHz.</p>
             <dl class="fig-spec">
               <div><dt class="mono">Radio</dt><dd>XBee-PRO 900HP · 24 dBm</dd></div>
-              <div><dt class="mono">Antenna</dt><dd>Moxon–Yagi · 3 elements · ≈ $15</dd></div>
+              <div><dt class="mono">Antenna</dt><dd>Moxon–Yagi · 7 elements · ≈ 11 dBi</dd></div>
               <div><dt class="mono">Field test</dt><dd>4.2 km · 99% packets</dd></div>
             </dl>
             <p><a class="ul" href="#/blog/4km-radio-link">Read the build log →</a></p>
@@ -345,6 +345,7 @@
   <script src="assets/js/scenes/night.js" defer></script>
   <script src="assets/js/scenes/pcb.js" defer></script>
   <script src="assets/js/scenes/image.js" defer></script>
+  <script src="assets/js/scenes/logo.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </body>
 </html>

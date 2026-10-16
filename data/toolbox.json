@@ -1,0 +1,210 @@
+[
+  {
+    "group": "Languages",
+    "items": [
+      {
+        "name": "Python",
+        "icon": "python",
+        "hex": "3776AB"
+      },
+      {
+        "name": "TypeScript",
+        "icon": "typescript",
+        "hex": "3178C6"
+      },
+      {
+        "name": "Go",
+        "icon": "go",
+        "hex": "00ADD8"
+      },
+      {
+        "name": "C / C++",
+        "icon": "cplusplus",
+        "hex": "00599C"
+      },
+      {
+        "name": "Dart",
+        "icon": "dart",
+        "hex": "0175C2"
+      }
+    ]
+  },
+  {
+    "group": "Embedded & edge",
+    "items": [
+      {
+        "name": "Raspberry Pi",
+        "icon": "raspberrypi",
+        "hex": "A22846"
+      },
+      {
+        "name": "ESP32",
+        "icon": "espressif",
+        "hex": "E7352C"
+      },
+      {
+        "name": "Teensy",
+        "short": "Ts"
+      },
+      {
+        "name": "Arduino",
+        "icon": "arduino",
+        "hex": "00878F"
+      },
+      {
+        "name": "PlatformIO",
+        "icon": "platformio",
+        "hex": "F5822A"
+      },
+      {
+        "name": "KiCad",
+        "icon": "kicad",
+        "hex": "314CB0"
+      },
+      {
+        "name": "XBee RF",
+        "short": "XB"
+      },
+      {
+        "name": "Embedded Linux",
+        "icon": "linux",
+        "hex": "FCC624"
+      },
+      {
+        "name": "OpenCV",
+        "icon": "opencv",
+        "hex": "5C3EE8"
+      }
+    ]
+  },
+  {
+    "group": "Apps & UI",
+    "items": [
+      {
+        "name": "React",
+        "icon": "react",
+        "hex": "61DAFB"
+      },
+      {
+        "name": "Next.js",
+        "icon": "nextdotjs",
+        "hex": "000000"
+      },
+      {
+        "name": "TanStack Query",
+        "icon": "reactquery",
+        "hex": "FF4154"
+      },
+      {
+        "name": "Flutter",
+        "icon": "flutter",
+        "hex": "02569B"
+      },
+      {
+        "name": "Qt / QML",
+        "icon": "qt",
+        "hex": "41CD52"
+      },
+      {
+        "name": "Tailwind CSS",
+        "icon": "tailwindcss",
+        "hex": "06B6D4"
+      },
+      {
+        "name": "Three.js",
+        "icon": "threedotjs",
+        "hex": "000000"
+      }
+    ]
+  },
+  {
+    "group": "Backend & data",
+    "items": [
+      {
+        "name": "FastAPI",
+        "icon": "fastapi",
+        "hex": "009688"
+      },
+      {
+        "name": "Express",
+        "icon": "express",
+        "hex": "000000"
+      },
+      {
+        "name": "Hono",
+        "icon": "hono",
+        "hex": "E36002"
+      },
+      {
+        "name": "Bun",
+        "icon": "bun",
+        "hex": "000000"
+      },
+      {
+        "name": "PostgreSQL",
+        "icon": "postgresql",
+        "hex": "4169E1"
+      },
+      {
+        "name": "SQLite",
+        "icon": "sqlite",
+        "hex": "003B57"
+      },
+      {
+        "name": "Supabase",
+        "icon": "supabase",
+        "hex": "3FCF8E"
+      },
+      {
+        "name": "Firebase",
+        "icon": "firebase",
+        "hex": "DD2C00"
+      }
+    ]
+  },
+  {
+    "group": "Cloud & DevOps",
+    "items": [
+      {
+        "name": "Docker",
+        "icon": "docker",
+        "hex": "2496ED"
+      },
+      {
+        "name": "Google Cloud",
+        "icon": "googlecloud",
+        "hex": "4285F4"
+      },
+      {
+        "name": "AWS",
+        "icon": "amazonwebservices",
+        "hex": "232F3E"
+      },
+      {
+        "name": "Cloudflare",
+        "icon": "cloudflare",
+        "hex": "F38020"
+      },
+      {
+        "name": "Tailscale",
+        "icon": "tailscale",
+        "hex": "242424"
+      },
+      {
+        "name": "GitHub Actions",
+        "icon": "githubactions",
+        "hex": "2088FF"
+      },
+      {
+        "name": "GitLab CI",
+        "icon": "gitlab",
+        "hex": "FC6D26"
+      },
+      {
+        "name": "Git",
+        "icon": "git",
+        "hex": "F05032"
+      }
+    ]
+  }
+]

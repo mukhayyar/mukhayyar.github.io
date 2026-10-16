@@ -40,8 +40,9 @@
     getJSON('data/postits.json', {}),
     getJSON('blog/posts.json', []),
     getJSON('data/milestones.json', []),
-  ]).then(([profile, experience, eepisat, projects, achievements, postits, posts, milestones]) =>
-    ({ profile, experience, eepisat, projects, achievements, postits, posts, milestones }));
+    getJSON('data/toolbox.json', []),
+  ]).then(([profile, experience, eepisat, projects, achievements, postits, posts, milestones, toolbox]) =>
+    ({ profile, experience, eepisat, projects, achievements, postits, posts, milestones, toolbox }));
 
   /* ------------------------------------------------------------ halftone */
   const engines = new Set();
@@ -82,6 +83,34 @@
       $$('[data-bind="email"]').forEach((el) => { el.textContent = p.links.email; });
       $$('[data-copy]').forEach((el) => { el.dataset.copy = p.links.email; });
     }
+  }
+
+  // Toolbox: every tool logo is drawn in dots (ink in Mono, brand colour in Color).
+  function renderToolbox(d) {
+    const groups = d.toolbox || [];
+    const host = $('#toolbox');
+    if (!groups.length || !host) return;
+    host.innerHTML = groups.map((g) => `<div class="tool-group">
+        <p class="tool-group__label mono"><span>${esc(g.group)}</span><span>${pad((g.items || []).length)}</span></p>
+        <ul class="tool-grid">${(g.items || []).map((t) => `<li class="tool" data-icon="${esc(t.icon || '')}" data-hex="${esc(t.hex || '')}" data-short="${esc(t.short || '')}">
+            <span class="tool__icon" aria-hidden="true"><canvas></canvas></span>
+            <span class="tool__name">${esc(t.name)}</span>
+          </li>`).join('')}</ul>
+      </div>`).join('');
+  }
+  function initToolbox() {
+    const tools = $$('#toolbox .tool');
+    if (!tools.length || !HT || !HT.scenes.logo) return;
+    const io = new IntersectionObserver((es) => {
+      es.forEach((e) => {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        const t = e.target, icon = t.dataset.icon;
+        const src = icon ? 'assets/icons/tools/' + icon + '.svg' : '';
+        mount($('canvas', t), scene('logo', src, t.dataset.hex, t.dataset.short), { interactTarget: t, revealDuration: 0.9 });
+      });
+    }, { rootMargin: '300px 0px' });
+    tools.forEach((t) => io.observe(t));
   }
 
   function year(s) { const m = String(s).match(/\b(19|20)\d{2}\b/g); return m ? m[m.length - 1] : ''; }
@@ -900,6 +929,7 @@
     const pre = runPreloader().then(introHero);
     const d = await DATA;
     try { renderAbout(d); } catch (e) { console.warn(e); }
+    try { renderToolbox(d); } catch (e) { console.warn(e); }
     try { renderLog(d); } catch (e) { console.warn(e); }
     try { renderWork(d); } catch (e) { console.warn(e); }
     try { renderProjects(d); } catch (e) { console.warn(e); }
@@ -911,6 +941,7 @@
     initLog();
     initReveals();
     initPi();
+    initToolbox();
     initProjects(d);
     initFeature();
     initFooter();
