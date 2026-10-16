@@ -1,63 +1,75 @@
 [
   {
-    "name": "AHD \u2014 Adaptive Hierarchical Detection",
-    "desc": "On-device object detection for RPi 5. Two-phase framework with scene-aware context DB. +0.87 detection gain, 78.5% vocab reduction, 15s\u2192300ms latency.",
-    "tech": "Python \u00b7 CLIP \u00b7 COCO-80 \u00b7 Places365 \u00b7 Flask \u00b7 React \u00b7 ARM64 \u00b7 Docker"
+    "name": "rekafab",
+    "featured": true,
+    "tagline": "Describe it. Get a board you can order.",
+    "desc": "An AI-native, code-first PCB design studio in the browser. Describe a board and get the schematic, layout and the checks a fab runs — then export Gerbers, a BOM, pick-and-place, matching PlatformIO firmware and an STL enclosure.",
+    "caps": [
+      "AI netlist agent",
+      "ERC · DRC · DFM",
+      "KiCad in / out",
+      "Gerbers · BOM · P&P",
+      "PlatformIO firmware",
+      "STL enclosure",
+      "SPICE · AVR sim",
+      "Public board library"
+    ],
+    "tech": "TypeScript · React · TanStack · Effect · tscircuit · Claude tool-calling agent · ngspice · avr8js · Bun · PostgreSQL",
+    "url": "https://rekafab.mukhayyar.my.id"
+  },
+  {
+    "name": "AHD — Adaptive Hierarchical Detection",
+    "desc": "On-device object detection for RPi 5. Two-phase framework with a scene-aware context DB: +0.87 avg detections vs a fixed COCO-80 baseline, 78.5% smaller class vocabulary, context switch 15 s → 300 ms. Paper at IEEE GCCE 2026.",
+    "tech": "Python · CLIP · COCO-80 · Places365 · Flask · React · ARM64 · Docker"
   },
   {
     "name": "OptiControl NDT GUI",
-    "desc": "Industrial inspection app with 9+ modes. A-Scan, B-Scan, 2D corrosion heatmap. FPGA data at 3ms over UDP. Offline HMAC licensing.",
-    "tech": "Python \u00b7 PySide6 \u00b7 PyQtGraph \u00b7 QThread \u00b7 FPGA \u00b7 pytest"
-  },
-  {
-    "name": "RocketHub",
-    "desc": "Community rocket flight visualization. Upload OpenRocket data, 3D trajectory viewer, leaderboards.",
-    "tech": "React \u00b7 Three.js \u00b7 Express \u00b7 SQLite \u00b7 MapLibre",
-    "url": "https://rockets.mukhayyar.my.id"
+    "desc": "Industrial inspection app with 9+ modes. A-Scan, B-Scan, 2D corrosion heatmap. FPGA data at 3 ms over UDP. Offline HMAC licensing.",
+    "tech": "Python · PySide6 · PyQtGraph · QThread · FPGA · pytest"
   },
   {
     "name": "CanSat Firmware",
     "desc": "Autonomous paragliding mission. BMP/IMU/GPS sensor fusion, servo control.",
-    "tech": "C++ \u00b7 Teensy 4.1 \u00b7 XBee \u00b7 PID"
+    "tech": "C++ · Teensy 4.1 · XBee · PID"
   },
   {
     "name": "Rocket Avionics",
     "desc": "Flight computer for sounding rocket. Real-time sensors, data logging, recovery.",
-    "tech": "C++ \u00b7 Teensy 4.0 \u00b7 Arduino Nano"
+    "tech": "C++ · Teensy 4.0 · Arduino Nano"
   },
   {
     "name": "Portable GCS",
     "desc": "Ground control on Raspberry Pi. Real-time telemetry for mission monitoring.",
-    "tech": "Flutter-pi \u00b7 RPi OS Lite \u00b7 Serial"
+    "tech": "Flutter-pi · RPi OS Lite · Serial"
   },
   {
     "name": "Petruck AI Analytics",
-    "desc": "AI business consultant. Natural language \u2192 SQL \u2192 live charts. Zero templates.",
-    "tech": "LLMs \u00b7 Dynamic SQL \u00b7 Plotly.js"
+    "desc": "AI business consultant: natural language → SQL → live charts. Zero templates.",
+    "tech": "LLMs · Dynamic SQL · Plotly.js"
   },
   {
     "name": "Infoglobal Migration",
-    "desc": "Defense-sector legacy modernization. 90% LCP gain, async backend.",
-    "tech": "FastAPI \u00b7 React \u00b7 Zustand \u00b7 Shadcn/UI"
+    "desc": "Defense-sector legacy modernization. LCP cut by 90%, async FastAPI backend (−20% API latency).",
+    "tech": "FastAPI · React · Zustand · Shadcn/UI"
   },
   {
     "name": "CanSat Kit",
     "desc": "Educational satellite kit. Top 4 Indonesia Aerospace Hackathon. Presented APRSAF-30.",
-    "tech": "Hardware \u00b7 Education \u00b7 Outreach"
+    "tech": "Hardware · Education · Outreach"
   },
   {
     "name": "HiFish IoT",
     "desc": "Aquaculture IoT monitoring. Multinational team, SEIN FARM Bandung.",
-    "tech": "IoT \u00b7 Hardware \u00b7 Web"
+    "tech": "IoT · Hardware · Web"
   },
   {
     "name": "Ground Station (WPF)",
     "desc": "Desktop telemetry app. Real-time data + command transmission.",
-    "tech": "C# \u00b7 WPF \u00b7 XBee Pro S3B"
+    "tech": "C# · WPF · XBee-PRO S3B"
   },
   {
     "name": "Moxon Yagi Antenna",
-    "desc": "Custom directional antenna. 4km stable link for CanSat missions.",
-    "tech": "RF Engineering \u00b7 900MHz"
+    "desc": "Hybrid Moxon–Yagi: a Moxon rectangle as reflector + driven element with a dipole-style director. 4 km stable link for CanSat missions.",
+    "tech": "RF engineering · 915 MHz · XBee-PRO S3B"
   }
 ]

@@ -1,440 +1,350 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" class="no-js">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x270F;</text></svg>">
-  <title>Tsaqif Mukhayyar — Software Engineer | Deep Tech, Aerospace, Full-Stack</title>
-  <meta name="description" content="Muhammad Tsaqif Mukhayyar — Software Engineer building deep tech in Indonesia. Full-stack, firmware, aerospace. Available for hire.">
-  <meta name="keywords" content="tsaqif mukhayyar, software engineer, hire, freelance, backend, deep tech, aerospace, EEPISAT, CanSat, OptiControl, NDT, firmware">
-  <meta property="og:title" content="Tsaqif Mukhayyar — Software Engineer">
-  <meta property="og:description" content="Building deep tech in Indonesia. Full-stack, firmware, aerospace. Ship MVPs in weeks.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://mukhayyar.my.id">
-  <meta property="og:image" content="https://mukhayyar.my.id/og-image.svg">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Tsaqif Mukhayyar — Software Engineer">
-  <meta name="twitter:description" content="Deep tech engineer. Full-stack + firmware + aerospace. Available for hire.">
-  <meta name="robots" content="index, follow">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Tsaqif Mukhayyar — Software Engineer, Firmware to Cloud</title>
+  <meta name="description" content="Tsaqif Mukhayyar, software engineer in Surabaya: flight firmware, ground stations, edge computer vision and the cloud behind them. Open to deep tech work.">
+  <meta name="keywords" content="tsaqif mukhayyar, software engineer, firmware, deep tech, aerospace, CanSat, EEPISAT, OptiControl, NDT, computer vision, full-stack, Surabaya, Indonesia">
   <meta name="author" content="Muhammad Tsaqif Mukhayyar">
-  <meta name="theme-color" content="#e8e0cc">
-  <link rel="canonical" href="https://mukhayyar.my.id">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#F1F0EB">
+  <link rel="canonical" href="https://mukhayyar.my.id/">
   <link rel="sitemap" type="application/xml" href="sitemap.xml">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mukhayyar.my.id/">
+  <meta property="og:title" content="Tsaqif Mukhayyar — Software Engineer">
+  <meta property="og:description" content="Firmware to cloud, ground to sky. Software engineer building deep tech in Indonesia.">
+  <meta property="og:image" content="https://mukhayyar.my.id/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Tsaqif Mukhayyar — a halftone planet with a satellite in orbit">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tsaqif Mukhayyar — Software Engineer">
+  <meta name="twitter:description" content="Firmware to cloud, ground to sky. Software engineer building deep tech in Indonesia.">
+  <meta name="twitter:image" content="https://mukhayyar.my.id/og-image.png">
+
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Muhammad Tsaqif Mukhayyar","url":"https://mukhayyar.my.id","jobTitle":"Software Engineer","worksFor":{"@type":"Organization","name":"OptiControl"},"alumniOf":{"@type":"EducationalOrganization","name":"Politeknik Elektronika Negeri Surabaya"},"sameAs":["https://linkedin.com/in/tsaqifmukhayyar","https://github.com/mukhayyar"],"knowsAbout":["Software Engineering","Firmware","Aerospace","Computer Vision","IoT"]}</script>
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box}
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/iso.css">
 
-    /* ===== BODY + DESK ===== */
-    body{background:#d4c9a8;background-image:url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.65' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");font-family:'Patrick Hand',cursive;color:#2c2c2c;font-size:18px;line-height:1.8;overflow-x:hidden;cursor:none}
-    a,button,.page-tab,.postit-cta,input,textarea,select{cursor:none}
-
-    /* Loading */
-    .loading{position:fixed;inset:0;background:#d4c9a8;z-index:10000;display:flex;align-items:center;justify-content:center;font-family:'Caveat',cursive;font-size:2em;color:#888;transition:opacity .5s}
-    .loading.done{opacity:0;pointer-events:none}
-
-    .desk{display:grid;grid-template-columns:220px 1fr 220px;max-width:1350px;margin:0 auto;padding:30px 20px;gap:24px;align-items:start;position:relative}
-
-    /* ===== POST-ITS ===== */
-    .postit-column{display:flex;flex-direction:column;gap:18px;position:sticky;top:20px}
-    .postit{padding:20px 16px 24px;font-family:'Caveat',cursive;font-size:1.05em;line-height:1.5;position:relative;box-shadow:2px 2px 6px rgba(0,0,0,.1),0 8px 16px rgba(0,0,0,.06);transition:transform .3s,box-shadow .3s;cursor:default;border-radius:0 0 1px 1px}
-    .postit:hover{transform:rotate(0deg) scale(1.05)!important;box-shadow:4px 4px 20px rgba(0,0,0,.15);z-index:10}
-    /* Washi tape top */
-    .postit::before{content:'';position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(var(--tape-rot,0deg));width:50px;height:18px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.4) 0px,rgba(255,255,255,.4) 4px,transparent 4px,transparent 8px);border:1px solid rgba(0,0,0,.06);border-radius:1px;z-index:2}
-    .postit-yellow{background:linear-gradient(135deg,#fff9a5 0%,#f5e97a 100%);--tape-rot:-3deg}
-    .postit-pink{background:linear-gradient(135deg,#ffb3ba 0%,#f59daa 100%);--tape-rot:2deg}
-    .postit-blue{background:linear-gradient(135deg,#bae1ff 0%,#98c8ee 100%);--tape-rot:-1deg}
-    .postit-green{background:linear-gradient(135deg,#baffc9 0%,#95e8aa 100%);--tape-rot:3deg}
-    .postit-orange{background:linear-gradient(135deg,#ffdfba 0%,#f0c890 100%);--tape-rot:-2deg}
-    .postit-purple{background:linear-gradient(135deg,#e0c3fc 0%,#c9a8e8 100%);--tape-rot:1deg}
-    .postit .pt{font-weight:700;font-size:1.15em;margin-bottom:4px;color:#1a1a2e}
-    .postit .pb{font-size:.95em;color:#333}
-    .postit-cta{background:linear-gradient(135deg,#ff6b6b,#e84545)!important;color:#fff!important;text-align:center;font-weight:700;font-size:1.2em;padding:24px 16px;border:none;text-decoration:none;display:block}
-    .postit-cta:hover{background:linear-gradient(135deg,#ee5a5a,#d03030)!important;transform:rotate(0deg) scale(1.06)!important}
-    .postit-cta .pb{color:rgba(255,255,255,.9);font-size:.85em}
-
-    /* ===== DESK DECORATIONS ===== */
-    .pin{width:14px;height:14px;border-radius:50%;box-shadow:1px 1px 3px rgba(0,0,0,.3),inset -2px -2px 4px rgba(0,0,0,.15);position:absolute;z-index:15}
-    .pin::after{content:'';position:absolute;bottom:-3px;left:50%;transform:translateX(-50%);width:2px;height:4px;background:rgba(0,0,0,.2)}
-    .pin-red{background:radial-gradient(circle at 35% 35%,#ff8888,#cc3333)}
-    .pin-blue{background:radial-gradient(circle at 35% 35%,#88aaff,#3366cc)}
-    .pin-green{background:radial-gradient(circle at 35% 35%,#88ff99,#33aa55)}
-    .pin-yellow{background:radial-gradient(circle at 35% 35%,#ffee88,#ccaa33)}
-    .paper-clip{position:absolute;z-index:12;opacity:.5}
-    .coffee-ring{position:absolute;width:80px;height:80px;border-radius:50%;border:2px solid rgba(139,90,43,.08);z-index:2;pointer-events:none;box-shadow:inset 0 0 15px rgba(139,90,43,.05)}
-    .tape{position:absolute;width:70px;height:18px;background:rgba(255,255,220,.35);border:1px solid rgba(200,190,150,.2);z-index:14;transform:rotate(var(--tape-rot,5deg));pointer-events:none}
-    .doodle{position:absolute;z-index:3;opacity:.08;pointer-events:none;font-size:2em}
-
-    /* ===== NOTEBOOK ===== */
-    .notebook-wrapper{perspective:2000px;position:relative}
-    .notebook{background:#fff;border-left:3px solid #e8c4c4;border-right:1px solid #e0ddd5;padding:40px 50px 60px 70px;position:relative;box-shadow:4px 4px 15px rgba(0,0,0,.1),-2px 0 8px rgba(0,0,0,.03),inset -3px 0 8px rgba(0,0,0,.02);background-image:repeating-linear-gradient(transparent,transparent 31px,#e8e4da 31px,#e8e4da 32px);background-position-y:8px;min-height:90vh}
-    /* Red margin */
-    .notebook::before{content:'';position:absolute;left:55px;top:0;bottom:0;width:2px;background:#e8c4c4;opacity:.5}
-    /* Hole punches */
-    .notebook::after{content:'';position:absolute;left:15px;top:80px;width:18px;height:18px;border-radius:50%;background:#d4c9a8;border:2px solid #ccc5b0;box-shadow:0 200px 0 0 #d4c9a8,0 200px 0 2px #ccc5b0,0 400px 0 0 #d4c9a8,0 400px 0 2px #ccc5b0,0 600px 0 0 #d4c9a8,0 600px 0 2px #ccc5b0}
-    /* Page edge shadow */
-    .notebook-wrapper::after{content:'';position:absolute;right:-4px;top:30px;bottom:0;width:4px;background:linear-gradient(90deg,rgba(0,0,0,.06),transparent);pointer-events:none}
-
-    /* ===== TABS ===== */
-    .page-tabs{display:flex;gap:0;margin-bottom:0;position:relative;z-index:10;flex-wrap:wrap}
-    .page-tab{font-family:'Caveat',cursive;font-size:1.15em;font-weight:600;padding:8px 16px 6px;background:#ece7da;border:1px solid #d0cdc5;border-bottom:none;border-radius:8px 8px 0 0;cursor:pointer;color:#999;position:relative;top:1px;transition:all .25s;user-select:none}
-    .page-tab:hover{background:#f5f0e5;color:#555;transform:translateY(-2px)}
-    .page-tab.active{background:#fff;color:#1a1a2e;border-bottom:1px solid #fff;z-index:11;transform:translateY(-1px)}
-    .page{display:none;opacity:0}.page.active{display:block;opacity:1}
-    @keyframes pageFlipIn{0%{transform:rotateY(-60deg) scale(.97);opacity:0;transform-origin:left}100%{transform:rotateY(0) scale(1);opacity:1}}
-    .page-flip-enter{animation:pageFlipIn .4s ease-out}
-
-    /* ===== PENCIL CURSOR ===== */
-    .pencil-cursor{position:fixed;z-index:9999;pointer-events:none;opacity:0;transition:opacity .3s}
-    .pencil-cursor svg{width:28px;height:28px;transform:rotate(0deg)}
-
-    /* ===== TYPOGRAPHY ===== */
-    h1{font-family:'Caveat',cursive;font-size:3em;font-weight:700;color:#1a1a2e;margin-bottom:0;line-height:1.3}
-    h2{font-family:'Caveat',cursive;font-size:1.8em;font-weight:600;color:#16213e;margin-top:24px;margin-bottom:4px;display:inline-block;background-image:linear-gradient(transparent 60%,rgba(232,196,196,.4) 60%);padding:0 4px}
-    .subtitle{font-size:1.1em;color:#666;margin-bottom:16px}
-    p{margin-bottom:8px}
-    a{color:#0f3460;text-decoration:none;border-bottom:1px dashed transparent;transition:border-color .2s}
-    a:hover{color:#e94560;border-bottom-color:#e94560}
-    .tag{display:inline-block;background:#f0ece3;border:1px solid #d5d0c4;border-radius:12px;padding:1px 10px;margin:2px 3px;font-size:.85em;color:#555;transition:transform .2s}
-    .tag:hover{transform:scale(1.08)}
-    .exp-item{margin-bottom:20px;padding-left:16px;border-left:2px solid #e0ddd5;transition:border-color .3s}
-    .exp-item:hover{border-left-color:#e94560}
-    .role{font-weight:600;color:#1a1a2e}.company{color:#0f3460;font-weight:600}.dates{font-size:.85em;color:#999}.win{color:#2c7a3a;margin:2px 0}
-    .divider{border:none;border-top:1px dashed #d0cdc5;margin:24px 0}
-    .links{display:flex;gap:20px;flex-wrap:wrap;margin:12px 0}
-    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;margin:8px 0}
-    .footer{text-align:center;font-size:.85em;color:#aaa;margin-top:40px;padding-top:16px}
-    .crossed{text-decoration:line-through;color:#bbb}.arrow{color:#e94560}
-
-    /* ===== PROJECT CARDS ===== */
-    .project-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
-    .project-card{border:1px solid #e0ddd5;border-radius:4px;padding:16px 14px;transition:transform .2s,box-shadow .2s;position:relative}
-    .project-card:nth-child(4n+1){background:#fffef5}.project-card:nth-child(4n+2){background:#f5faff}
-    .project-card:nth-child(4n+3){background:#f5fff7}.project-card:nth-child(4n){background:#fff5f5}
-    .project-card:hover{transform:translateY(-3px) rotate(-.3deg);box-shadow:3px 5px 12px rgba(0,0,0,.08)}
-    .project-card h3{font-family:'Caveat',cursive;font-size:1.3em;color:#0f3460;margin:0 0 4px}
-    .project-card .desc{font-size:.9em;color:#666;margin-bottom:6px}
-    .project-card .tech{font-size:.8em;color:#999}
-    .project-card .card-pin{position:absolute;top:-6px;right:14px}
-
-    /* ===== ACHIEVEMENTS ===== */
-    .achievement{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;padding:10px;background:#faf8f0;border-radius:4px;border-left:3px solid #f4c542;transition:transform .2s}
-    .achievement:hover{transform:translateX(4px)}
-    .achievement .medal{font-size:1.5em;line-height:1}.achievement .details{flex:1}
-    .achievement .title{font-weight:600;color:#1a1a2e}.achievement .meta{font-size:.85em;color:#999}
-
-    /* ===== BOOKSHELF ===== */
-    .shelf-item{display:flex;gap:14px;margin-bottom:16px;padding:12px;background:#faf8f0;border-radius:4px;border:1px solid #e0ddd5;transition:transform .2s}
-    .shelf-item:hover{transform:translateX(4px)}
-    .shelf-icon{font-size:1.8em;line-height:1;width:36px;text-align:center;flex-shrink:0}
-    .shelf-details{flex:1}
-    .shelf-details .title{font-weight:600;color:#1a1a2e;font-size:1.05em}
-    .shelf-details .author{font-size:.85em;color:#0f3460}
-    .shelf-details .note{font-size:.85em;color:#666;font-style:italic;margin-top:2px}
-    .shelf-tag{display:inline-block;font-size:.7em;padding:1px 6px;border-radius:8px;margin-left:6px;font-weight:600;vertical-align:middle}
-    .shelf-tag-startup{background:#fff3cd;color:#856404}.shelf-tag-thinking{background:#d4edda;color:#155724}
-    .shelf-tag-engineering{background:#cce5ff;color:#004085}.shelf-tag-leadership{background:#f8d7da;color:#721c24}
-    .shelf-tag-growth{background:#e2d9f3;color:#4a1d8e}.shelf-tag-security{background:#333;color:#0f0}
-    .shelf-section-title{font-family:'Caveat',cursive;font-size:1.5em;color:#16213e;margin:20px 0 10px;display:flex;align-items:center;gap:8px}
-
-    /* ===== BLOG ===== */
-    .blog-list{display:flex;flex-direction:column;gap:16px;margin:16px 0}
-    .blog-card{background:#faf8f0;border:1px solid #e0ddd5;border-radius:4px;padding:16px;cursor:pointer;transition:transform .2s,box-shadow .2s}
-    .blog-card:hover{transform:translateX(4px);box-shadow:3px 3px 8px rgba(0,0,0,.08)}
-    .blog-card h3{font-family:'Caveat',cursive;font-size:1.3em;color:#0f3460;margin:0 0 4px}
-    .blog-card .blog-date{font-size:.8em;color:#999}
-    .blog-card .blog-excerpt{font-size:.9em;color:#666;margin:4px 0}
-    .blog-card .blog-tags{margin-top:6px}
-    .blog-post{line-height:1.9}
-    .blog-post h1{font-size:2em;margin-bottom:8px}
-    .blog-post h2{font-size:1.5em;margin-top:20px;background:none;display:block}
-    .blog-post h3{font-family:'Caveat',cursive;font-size:1.3em;color:#0f3460;margin-top:16px}
-    .blog-post p{margin-bottom:12px}
-    .blog-post ul,.blog-post ol{margin:8px 0 12px 20px}
-    .blog-post li{margin-bottom:4px}
-    .blog-post code{background:#f0ece3;padding:1px 6px;border-radius:3px;font-size:.9em}
-    .blog-post strong{color:#1a1a2e}
-    .blog-post img{max-width:100%;border-radius:4px;margin:12px 0}
-    .blog-back{display:inline-block;margin-bottom:16px;font-family:'Caveat',cursive;font-size:1.1em;color:#0f3460;border-bottom:1px dashed #0f3460;cursor:pointer}
-    .blog-back:hover{color:#e94560}
-
-    /* ===== TYPING GAME ===== */
-    .typing-game{background:#faf8f0;border:1px solid #e0ddd5;border-radius:6px;padding:16px;margin:20px 0}
-    .typing-game .prompt{font-size:1.1em;color:#0f3460;margin-bottom:8px;letter-spacing:1px}
-    .typing-game input{width:100%;padding:8px 12px;font-family:'Caveat',cursive;font-size:1.2em;border:1px dashed #d0cdc5;border-radius:4px;background:transparent;outline:none;color:#2c2c2c}
-    .typing-game input:focus{border-color:#e94560}
-    .typing-game .result{font-size:.9em;margin-top:6px;color:#2c7a3a}
-    .typing-game .result.wrong{color:#e94560}
-
-    /* ===== BACK TO TOP ===== */
-    .back-top{position:fixed;bottom:20px;right:20px;width:40px;height:40px;background:#fff;border:1px solid #d0cdc5;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Caveat',cursive;font-size:1.3em;color:#888;box-shadow:2px 2px 8px rgba(0,0,0,.1);opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:50;cursor:pointer}
-    .back-top.show{opacity:1;pointer-events:auto}
-    .back-top:hover{transform:scale(1.1);color:#e94560}
-
-    /* ===== REVEALS ===== */
-    .ink-reveal{filter:blur(3px);opacity:.25;transition:filter .5s ease-out,opacity .5s ease-out}.ink-reveal.written{filter:blur(0);opacity:1}
-    .reveal{opacity:0;transform:translateY(15px)}.reveal.active{opacity:1;transform:translateY(0);transition:opacity .5s,transform .5s}
-    .scroll-hint{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);font-family:'Caveat',cursive;font-size:1.2em;color:#999;z-index:50;animation:bounceHint 2s infinite;pointer-events:none}
-    @keyframes bounceHint{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-8px)}}
-
-    /* ===== MOBILE ===== */
-    @media(max-width:900px){
-      .pencil-cursor{display:none}body{cursor:auto}a,button,.page-tab,.postit-cta,input,textarea,select{cursor:auto}
-      .desk{grid-template-columns:1fr;padding:10px}
-      .postit-column{position:static;flex-direction:row;flex-wrap:wrap;gap:10px}
-      .postit-column.left{order:-1}.postit-column.right{order:3}
-      .notebook-wrapper{order:1}
-      .postit{min-width:140px;flex:1;font-size:.95em}
-      .notebook{padding:30px 20px 40px 35px;border-left-width:2px}
-      .notebook::before{left:25px}.notebook::after{display:none}
-      h1{font-size:2.2em}h2{font-size:1.5em}
-      .contact-grid{grid-template-columns:1fr}.project-grid{grid-template-columns:1fr}
-      .page-tab{font-size:1em;padding:6px 10px}
-      .pin,.paper-clip,.coffee-ring,.tape,.doodle{display:none}
-      .back-top{display:none}
-    }
-  </style>
+  <script>(function(d){d.classList.replace('no-js','js');try{if(localStorage.getItem('ht-mode')==='color')d.setAttribute('data-ht-mode','color');if(localStorage.getItem('ht-still')==='1')d.setAttribute('data-ht-still','')}catch(e){}setTimeout(function(){if(!d.classList.contains('booted'))d.classList.add('reduced')},5000)})(document.documentElement);</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Muhammad Tsaqif Mukhayyar","alternateName":"Tsaqif Mukhayyar","url":"https://mukhayyar.my.id","jobTitle":"Software Engineer","email":"mailto:m3g3nz2@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Surabaya","addressCountry":"ID"},"worksFor":[{"@type":"Organization","name":"OptiControl"},{"@type":"Organization","name":"Fotoo.id"}],"alumniOf":{"@type":"EducationalOrganization","name":"Politeknik Elektronika Negeri Surabaya"},"sameAs":["https://linkedin.com/in/tsaqifmukhayyar","https://github.com/mukhayyar"],"knowsAbout":["Software Engineering","Embedded Firmware","Aerospace","CanSat","Computer Vision","IoT","Cloud Infrastructure"]}</script>
 </head>
 <body>
+  <a class="skip" href="#main">Skip to content</a>
 
-<!-- Loading screen -->
-<div class="loading" id="loading">opening notebook...</div>
-
-<!-- Pencil cursor -->
-<div class="pencil-cursor" id="pencil-cursor">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3 21l1.5-4.5L17.3 3.7a1.4 1.4 0 012 0l1 1a1.4 1.4 0 010 2L7.5 19.5z" fill="#f4c542" stroke="#333" stroke-width=".7"/>
-    <path d="M3 21l1.5-4.5 3 3z" fill="#c0c0c0"/>
-    <path d="M3 21l.3-.9.6.6z" fill="#333"/>
-    <path d="M15.5 5.5l3 3" stroke="#2a6e2a" stroke-width="1" stroke-linecap="round"/>
-    <path d="M17.3 3.7l1 1a1.4 1.4 0 010 2l-.5.5-3-3 .5-.5a1.4 1.4 0 012 0z" fill="#e8a0a0" stroke="#333" stroke-width=".4"/>
-  </svg>
-</div>
-
-<!-- Back to top -->
-<div class="back-top" id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</div>
-
-<div class="desk" id="desk">
-  <div class="postit-column left" id="postits-left"></div>
-  <div class="notebook-wrapper">
-    <div class="page-tabs">
-      <div class="page-tab active" data-page="main">About Me</div>
-      <div class="page-tab" data-page="projects">Projects</div>
-      <div class="page-tab" data-page="achievements">Achievements</div>
-      <div class="page-tab" data-page="bookshelf">Bookshelf</div>
-      <div class="page-tab" data-page="blog">Blog</div>
-    </div>
-    <div class="notebook">
-      <div class="page active" id="page-main"></div>
-      <div class="page" id="page-projects"></div>
-      <div class="page" id="page-achievements"></div>
-      <div class="page" id="page-bookshelf"></div>
-      <div class="page" id="page-blog"></div>
+  <div class="preloader" aria-hidden="true">
+    <div class="preloader__inner">
+      <div class="preloader__dots"></div>
+      <div class="preloader__count">000</div>
     </div>
   </div>
-  <div class="postit-column right" id="postits-right"></div>
-</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script>
-gsap.registerPlugin(ScrollTrigger);
-const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
-async function load(f){return(await fetch('data/'+f)).json()}
+  <div class="cursor" aria-hidden="true"><span></span></div>
 
-async function init(){
-  const [profile,experience,eepisat,projects,achievements,postits,bookshelf,blogPosts]=await Promise.all([
-    load('profile.json'),load('experience.json'),load('eepisat.json'),
-    load('projects.json'),load('achievements.json'),load('postits.json'),load('bookshelf.json'),
-    fetch('blog/posts.json').then(r=>r.json()).catch(()=>[])
-  ]);
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="nav">
+    <div class="wrap nav__bar">
+      <a class="brand" href="#top" aria-label="Tsaqif Mukhayyar — home">
+        <svg class="brand__mark" viewBox="0 0 18 18" aria-hidden="true"><circle cx="3" cy="3" r="1"/><circle cx="9" cy="3" r="1.4"/><circle cx="15" cy="3" r="1.8"/><circle cx="3" cy="9" r="1.4"/><circle cx="9" cy="9" r="1.8"/><circle cx="15" cy="9" r="2.2"/><circle cx="3" cy="15" r="1.8"/><circle cx="9" cy="15" r="2.2"/><circle cx="15" cy="15" r="2.6"/></svg>
+        <span>Tsaqif Mukhayyar</span>
+      </a>
+      <nav class="nav__links" aria-label="Sections">
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#projects">Projects</a>
+        <a href="#recognition">Recognition</a>
+        <a href="#writing">Writing</a>
+      </nav>
+      <div class="nav__meta">
+        <span class="nav__clock mono" data-clock="short">SUB --:--</span>
+        <div class="mode" role="group" aria-label="Graphics color">
+          <button class="mode__btn" type="button" data-mode="mono" aria-pressed="true" aria-label="Mono graphics" title="Mono graphics"><i class="mode__ico mode__ico--mono" aria-hidden="true"></i>Mono</button>
+          <button class="mode__btn" type="button" data-mode="color" aria-pressed="false" aria-label="Color graphics" title="Color graphics"><i class="mode__ico mode__ico--color" aria-hidden="true"></i>Color</button>
+        </div>
+        <button class="still-btn" type="button" aria-pressed="false" title="Pause or play the animations"><i class="still-btn__ico" aria-hidden="true"></i><span class="still-btn__text sr-only">Pause motion</span></button>
+        <a class="btn nav__cta" href="mailto:m3g3nz2@gmail.com" data-magnetic><span class="dot dot--live"></span>Available for work</a>
+        <button class="nav__menu" type="button" aria-expanded="false" aria-controls="sheet">Menu</button>
+      </div>
+    </div>
+    <div class="nav__progress" aria-hidden="true"></div>
+  </header>
 
-  // Hide loading
-  setTimeout(()=>$('#loading').classList.add('done'),300);
+  <div class="sheet" id="sheet" inert>
+    <nav class="sheet__links" aria-label="Sections">
+      <a href="#about"><span>01</span>About</a>
+      <a href="#log"><span>02</span>Flight log</a>
+      <a href="#work"><span>03</span>Experience</a>
+      <a href="#link"><span>04</span>Fig. 01</a>
+      <a href="#projects"><span>05</span>Projects</a>
+      <a href="#help"><span>06</span>Working together</a>
+      <a href="#recognition"><span>07</span>Recognition</a>
+      <a href="#writing"><span>08</span>Writing</a>
+      <a href="#contact"><span>09</span>Contact</a>
+    </nav>
+    <div class="sheet__paint">
+      <span class="mono">Paint the graphics</span>
+      <div class="mode mode--lg" role="group" aria-label="Graphics color">
+        <button class="mode__btn" type="button" data-mode="mono" aria-pressed="true"><i class="mode__ico mode__ico--mono" aria-hidden="true"></i>Mono</button>
+        <button class="mode__btn" type="button" data-mode="color" aria-pressed="false"><i class="mode__ico mode__ico--color" aria-hidden="true"></i>Color</button>
+      </div>
+    </div>
+    <div class="sheet__foot mono"><span data-clock="short">SUB --:--</span><button class="still-btn still-btn--text" type="button" aria-pressed="false"><i class="still-btn__ico" aria-hidden="true"></i><span class="still-btn__text">Pause motion</span></button><a href="mailto:m3g3nz2@gmail.com">m3g3nz2@gmail.com</a></div>
+  </div>
 
-  // ===== DESK DECORATIONS =====
-  if(window.innerWidth>900){
-    const desk=$('#desk');
-    [{cls:'pin pin-red',style:'top:28px;left:calc(50% - 370px)'},{cls:'pin pin-blue',style:'top:28px;left:calc(50% + 355px)'},
-     {cls:'coffee-ring',style:'bottom:80px;left:25px'},{cls:'coffee-ring',style:'top:150px;right:15px;width:60px;height:60px'},
-     {cls:'tape',style:'top:45px;right:35px;--tape-rot:-6deg'},{cls:'tape',style:'bottom:250px;left:10px;--tape-rot:10deg;width:55px'},
-     {cls:'paper-clip',style:'top:200px;right:20px',html:'<svg width="18" height="45" viewBox="0 0 20 50"><path d="M5 0v35a7 7 0 0014 0V10a5 5 0 00-10 0v25" fill="none" stroke="#aaa" stroke-width="1.5"/></svg>'},
-     {cls:'paper-clip',style:'top:420px;left:5px;transform:rotate(15deg)',html:'<svg width="18" height="45" viewBox="0 0 20 50"><path d="M5 0v35a7 7 0 0014 0V10a5 5 0 00-10 0v25" fill="none" stroke="#c0a060" stroke-width="1.5"/></svg>'},
-     {cls:'doodle',style:'top:100px;right:55px;transform:rotate(12deg)',html:'&#9733;'},
-     {cls:'doodle',style:'bottom:350px;left:55px;transform:rotate(-8deg)',html:'&#9786;'},
-     {cls:'doodle',style:'top:550px;right:25px;font-size:1.5em',html:'&#10084;'},
-    ].forEach(d=>{const el=document.createElement('div');el.className=d.cls;el.setAttribute('style',d.style);if(d.html)el.innerHTML=d.html;desk.appendChild(el)});
-    gsap.utils.toArray('.pin').forEach(p=>{gsap.from(p,{scale:0,duration:.4,delay:1.2,ease:'back.out(3)'})});
-    gsap.utils.toArray('.coffee-ring').forEach(c=>{gsap.from(c,{scale:0,opacity:0,duration:1,delay:1.8})});
-    gsap.utils.toArray('.tape').forEach(t=>{gsap.from(t,{scaleX:0,duration:.3,delay:1.5})});
-    gsap.utils.toArray('.paper-clip').forEach(p=>{gsap.from(p,{y:-20,opacity:0,duration:.4,delay:2})});
-    gsap.utils.toArray('.doodle').forEach((d,i)=>{gsap.from(d,{scale:0,rotation:360,duration:.5,delay:2.2+i*.15,ease:'back.out(2)'})});
-    // Parallax on scroll
-    window.addEventListener('scroll',()=>{const s=window.scrollY;document.querySelectorAll('.doodle').forEach((d,i)=>{d.style.transform=d.style.transform.replace(/translateY\([^)]+\)/,'')+` translateY(${s*(.02+i*.01)}px)`})});
-  }
+  <main id="main">
+    <div class="home">
 
-  // ===== POST-ITS =====
-  function renderPostits(items,container){
-    container.innerHTML=items.map(p=>{
-      if(p.color==='cta')return`<a href="${p.link}" class="postit postit-cta" style="transform:rotate(${p.rot}deg);text-decoration:none;border:none"><div class="pt">${p.title}</div><div class="pb">${p.body.replace(/\n/g,'<br>')}</div></a>`;
-      return`<div class="postit postit-${p.color}" style="transform:rotate(${p.rot}deg)"><div class="pt">${p.title}</div><div class="pb">${p.body.replace(/\n/g,'<br>')}</div></div>`;
-    }).join('');
-  }
-  renderPostits(postits.left,$('#postits-left'));
-  renderPostits(postits.right,$('#postits-right'));
+      <!-- ============ HERO ============ -->
+      <section class="hero" id="top" aria-label="Introduction">
+        <div class="hero__grid" aria-hidden="true"></div>
+        <canvas class="hero__canvas" id="hero-canvas" aria-hidden="true"></canvas>
+        <div class="wrap hero__inner">
+          <div class="hero__body">
+            <a class="hero__pill" href="https://rekafab.mukhayyar.my.id" target="_blank" rel="noopener" data-intro data-cursor="Open"><span class="hero__pill-tag mono">New</span><span>rekafab — PCB design in the browser</span><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M3 9l6-6M4.5 3H9v4.5"/></svg></a>
+            <p class="hero__eyebrow mono" data-intro><span class="dot dot--accent"></span>Software engineer — deep tech, aerospace, full-stack</p>
+            <div class="hero__titlewrap">
+              <h1 class="hero__title"><span class="sr-only">Tsaqif Mukhayyar, software engineer: </span>
+                <span class="line"><span>Firmware to cloud,</span></span>
+                <span class="line"><span>ground to <em class="serif">sky.</em></span></span>
+              </h1>
+              <p class="hero__title hero__title--tone" aria-hidden="true">
+                <span class="line"><span>Firmware to cloud,</span></span>
+                <span class="line"><span>ground to <em class="serif">sky.</em></span></span>
+              </p>
+            </div>
+            <p class="hero__lede" data-intro>I’m <strong>Tsaqif Mukhayyar</strong>, a software engineer in Surabaya building deep tech — flight firmware for CanSats and rockets, ground stations, industrial inspection software, and the cloud behind it. I ship MVPs in weeks, not months.</p>
+            <div class="hero__actions" data-intro>
+              <a class="btn" href="mailto:m3g3nz2@gmail.com" data-magnetic><span class="dot dot--live"></span>Start a project</a>
+              <a class="btn btn--ghost" href="#projects" data-magnetic>See the work
+                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M7 2v10M3 8l4 4 4-4"/></svg></a>
+            </div>
+          </div>
+          <div class="hero__scroll" aria-hidden="true"><i></i><i></i><i></i></div>
+          <dl class="hero__stats">
+            <div class="stat" data-intro><dt class="sr-only">AAS CanSat Competition</dt><dd class="stat__num">3<sup>rd</sup> ×2</dd><dd class="stat__label mono">AAS CanSat Competition USA, ’23&nbsp;&amp; ’26</dd></div>
+            <div class="stat" data-intro><dt class="sr-only">TEKNOFEST 2026</dt><dd class="stat__num">Best Rocket</dd><dd class="stat__label mono">TEKNOFEST ’26 · ROKETSAN</dd></div>
+            <div class="stat" data-intro><dt class="sr-only">Edge OTA pipeline</dt><dd class="stat__num">45 → 5 min</dd><dd class="stat__label mono">OTA rollout per edge unit</dd></div>
+            <div class="stat" data-intro><dt class="sr-only">Research</dt><dd class="stat__num">IEEE ’26</dd><dd class="stat__label mono">GCCE paper, edge computer vision</dd></div>
+          </dl>
+        </div>
+      </section>
 
-  // Phone + Laptop in blank space
-  if(window.innerWidth>900){
-    // Phone (left column, below post-its)
-    const phone=document.createElement('div');
-    phone.style.cssText='margin-top:10px;opacity:.7;transform:rotate(-5deg);transition:transform .3s';
-    phone.innerHTML=`<svg width="90" height="160" viewBox="0 0 90 160" xmlns="http://www.w3.org/2000/svg">
-      <rect x="5" y="5" width="80" height="150" rx="12" fill="#1a1a2e" stroke="#333" stroke-width="2"/>
-      <rect x="10" y="20" width="70" height="110" rx="2" fill="#2a2a4e"/>
-      <text x="45" y="70" text-anchor="middle" fill="#0f0" font-family="monospace" font-size="8">$ npm run</text>
-      <text x="45" y="82" text-anchor="middle" fill="#0f0" font-family="monospace" font-size="8">  dev</text>
-      <text x="45" y="98" text-anchor="middle" fill="#4af" font-family="monospace" font-size="7">ready in 0.3s</text>
-      <circle cx="45" cy="145" r="5" fill="none" stroke="#555" stroke-width="1"/>
-      <rect x="30" y="8" width="30" height="4" rx="2" fill="#333"/>
-    </svg>`;
-    phone.onmouseenter=()=>{phone.style.transform='rotate(0deg) scale(1.05)'};
-    phone.onmouseleave=()=>{phone.style.transform='rotate(-5deg)'};
-    $('#postits-left').appendChild(phone);
+      <!-- ============ 01 ABOUT ============ -->
+      <section class="section wrap" id="about" aria-labelledby="about-title">
+        <div class="section-head mono"><span class="section-head__idx">(01)</span><span class="section-head__label">About</span><span class="section-head__note" data-bind="location">Surabaya, Indonesia</span></div>
+        <h2 class="section-title" id="about-title" data-split>Deep in software, <em class="serif">deep in hardware.</em></h2>
+        <div class="grid">
+          <p class="about__statement" data-reveal>A π-shaped engineer: two deep specialties joined by systems thinking. I helped take a satellite team from <span class="muted">22nd in the world</span> to the podium, wrote an edge-vision paper for IEEE GCCE 2026, and ship production software for industrial inspection, logistics, defense — and photobooths.</p>
+        </div>
+        <div class="grid about__body">
+          <div class="about__visual" data-reveal>
+            <canvas id="pi-canvas" aria-hidden="true"></canvas>
+            <button class="pi-label mono" type="button" data-pi="systems"><span class="dot"></span>Systems thinking</button>
+            <button class="pi-label mono" type="button" data-pi="software"><span class="dot"></span>Software</button>
+            <button class="pi-label mono" type="button" data-pi="hardware"><span class="dot"></span>Hardware</button>
+          </div>
+          <dl class="about__facts" id="about-facts"></dl>
+        </div>
+        <div class="grid about__skills">
+          <p class="skills__label mono">Toolbox</p>
+          <ul class="skills" id="skills" aria-label="Skills"></ul>
+        </div>
+      </section>
 
-    // Laptop (right column, below post-its)
-    const laptop=document.createElement('div');
-    laptop.style.cssText='margin-top:10px;opacity:.7;transform:rotate(3deg);transition:transform .3s';
-    laptop.innerHTML=`<svg width="180" height="120" viewBox="0 0 180 120" xmlns="http://www.w3.org/2000/svg">
-      <rect x="20" y="5" width="140" height="90" rx="6" fill="#2a2a3e" stroke="#555" stroke-width="1.5"/>
-      <rect x="25" y="10" width="130" height="75" rx="2" fill="#1e1e2e"/>
-      <text x="90" y="35" text-anchor="middle" fill="#e94560" font-family="monospace" font-size="9" font-weight="bold">mukhayyar.my.id</text>
-      <text x="90" y="50" text-anchor="middle" fill="#888" font-family="monospace" font-size="7">vim index.html</text>
-      <text x="40" y="65" fill="#0f0" font-family="monospace" font-size="6">  1 &lt;!DOCTYPE html&gt;</text>
-      <text x="40" y="73" fill="#4af" font-family="monospace" font-size="6">  2 &lt;html lang="en"&gt;</text>
-      <rect x="10" y="95" width="160" height="8" rx="2" fill="#aaa"/>
-      <rect x="60" y="103" width="60" height="4" rx="1" fill="#999"/>
-      <circle cx="90" cy="8" r="2" fill="#555"/>
-    </svg>`;
-    laptop.onmouseenter=()=>{laptop.style.transform='rotate(0deg) scale(1.05)'};
-    laptop.onmouseleave=()=>{laptop.style.transform='rotate(3deg)'};
-    $('#postits-right').appendChild(laptop);
+      <!-- ============ 02 FLIGHT LOG — pinned horizontal scroll ============ -->
+      <section class="log" id="log" aria-labelledby="log-title">
+        <div class="wrap">
+          <div class="section-head mono"><span class="section-head__idx">(02)</span><span class="section-head__label">Flight log</span><span class="section-head__note">2019 — now · keep scrolling</span></div>
+          <h2 class="section-title" id="log-title" data-split>Ground to sky, <em class="serif">year by year.</em></h2>
+        </div>
+        <div class="log__pin">
+          <ol class="log__track" id="log-track"></ol>
+          <div class="log__rail" aria-hidden="true">
+            <div class="wrap">
+              <div class="log__line"><i class="log__fill"></i><i class="log__dot"></i></div>
+              <div class="log__ticks mono" id="log-ticks"></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    gsap.from(phone,{y:30,opacity:0,duration:.6,delay:1.8,ease:'power2.out'});
-    gsap.from(laptop,{y:30,opacity:0,duration:.6,delay:2,ease:'power2.out'});
-  }
+      <!-- ============ 03 WORK ============ -->
+      <section class="section wrap" id="work" aria-labelledby="work-title">
+        <div class="section-head mono"><span class="section-head__idx">(03)</span><span class="section-head__label">Experience</span><span class="section-head__note" id="work-note"></span></div>
+        <h2 class="section-title" id="work-title" data-split>Where I’ve <em class="serif">shipped.</em></h2>
+        <div class="rows" id="exp"></div>
+        <div class="rows__group">
+          <div class="rows__group-head"><h3>EEPISAT</h3><p class="mono">Satellite &amp; rocketry team · PENS · 2022 — 2026</p></div>
+          <div class="rows" id="eepisat" style="margin-top:0"></div>
+        </div>
+      </section>
 
-  // ===== PAGES =====
-  const pinColors=['pin-red','pin-blue','pin-green','pin-yellow'];
-  $('#page-main').innerHTML=`
-    <h1>${profile.name}</h1>
-    <p class="subtitle">${profile.title} &mdash; ${profile.location}</p>
-    <p>${profile.bio} <span class="crossed">PHP dev</span> <span class="arrow">&rarr;</span> full-stack engineer with aerospace dreams.</p>
-    <div class="links"><a href="${profile.links.linkedin}">LinkedIn</a><a href="${profile.links.github}">GitHub</a><a href="mailto:${profile.links.email}">Email</a></div>
-    <hr class="divider"><h2>About</h2><p>${profile.bio_extra}</p><p>Open to: ${profile.open_to}.</p>
-    <hr class="divider"><h2>Skills</h2><p>${profile.skills.map(s=>`<span class="tag">${s}</span>`).join('')}</p>
-    <hr class="divider"><h2>Experience</h2>
-    ${experience.map(e=>`<div class="exp-item"><p><span class="role">${e.role}</span> @ <span class="company">${e.company}</span></p><p class="dates">${e.dates} &middot; ${e.location}</p>${e.wins.map(w=>`<p class="win">~ ${w}</p>`).join('')}</div>`).join('')}
-    <hr class="divider"><h2>EEPISAT <span style="font-size:.7em;color:#999">(3y 10m)</span></h2>
-    ${eepisat.map(e=>`<div class="exp-item"><p><span class="role">${e.role}</span> <span class="dates">${e.dates}</span></p>${e.wins.map(w=>`<p class="win">~ ${w}</p>`).join('')}</div>`).join('')}
-    <hr class="divider"><h2>Education</h2>
-    ${profile.education.map(e=>`<div class="exp-item"><p><span class="role">${e.degree}</span></p><p class="company">${e.school}</p><p class="dates">${e.dates}</p></div>`).join('')}
-    <hr class="divider"><h2>Contact</h2>
-    <div class="contact-grid"><p>Email: <a href="mailto:${profile.links.email}">${profile.links.email}</a></p><p>GitHub: <a href="${profile.links.github}">mukhayyar</a></p><p>LinkedIn: <a href="${profile.links.linkedin}">tsaqifmukhayyar</a></p><p>Location: ${profile.location}</p></div>
-    <hr class="divider"><h2>Try Me</h2>
-    <div class="typing-game" id="typing-game"><p style="font-size:.9em;color:#888;margin-bottom:8px">Type what you see. How fast can you write?</p><div class="prompt" id="game-prompt"></div><input type="text" id="game-input" placeholder="start typing..." autocomplete="off"><div class="result" id="game-result"></div></div>
-    <div class="footer"><p>~ written on a notebook, 2026 ~</p></div>`;
+      <!-- ============ 04 FIG ============ -->
+      <section class="section wrap fig-section" id="link" aria-labelledby="link-title">
+        <div class="section-head mono"><span class="section-head__idx">(04)</span><span class="section-head__label">Field notes · Fig. 01</span><span class="section-head__note">CanSat Competition 2023</span></div>
+        <h2 class="section-title" id="link-title" data-split>A $15 antenna, <em class="serif">a 4 km link.</em></h2>
+        <div class="grid fig-section__body">
+          <div class="fig-section__text" data-reveal>
+            <p>We needed a reliable link between a falling payload and the ground station. Stock antennas topped out around 3 km. So we built a Moxon–Yagi: a bent-aluminum Moxon rectangle as reflector and driven element, plus a straight dipole-style director, all taped to a PVC boom — and held a <strong>4.2 km</strong> link with <strong>99%</strong> of packets received in flight.</p>
+            <p>Slide the CanSat along the rail: the meter reads the free-space link budget at 915 MHz.</p>
+            <dl class="fig-spec">
+              <div><dt class="mono">Radio</dt><dd>XBee-PRO 900HP · 24 dBm</dd></div>
+              <div><dt class="mono">Antenna</dt><dd>Moxon–Yagi · 3 elements · ≈ $15</dd></div>
+              <div><dt class="mono">Field test</dt><dd>4.2 km · 99% packets</dd></div>
+            </dl>
+            <p><a class="ul" href="#/blog/4km-radio-link">Read the build log →</a></p>
+          </div>
+          <div class="fig-section__figure" data-reveal>
+            <div class="iso" data-theme="light" id="fig-link"></div>
+          </div>
+        </div>
+      </section>
 
-  $('#page-projects').innerHTML=`<h1>Projects</h1><p class="subtitle">Things I shipped</p><hr class="divider">
-    <div class="project-grid">${projects.map((p,i)=>`<div class="project-card"><div class="card-pin pin ${pinColors[i%4]}"></div><h3>${p.url?`<a href="${p.url}" style="border:none">${p.name}</a>`:p.name}</h3><p class="desc">${p.desc}</p><p class="tech">${p.tech}</p></div>`).join('')}</div>
-    <div class="footer"><p>~ flip to another page &uarr; ~</p></div>`;
+      <!-- ============ 05 PROJECTS ============ -->
+      <section class="section wrap" id="projects" aria-labelledby="projects-title">
+        <div class="section-head mono"><span class="section-head__idx">(05)</span><span class="section-head__label">Selected projects</span><span class="section-head__note" id="projects-note"></span></div>
+        <h2 class="section-title" id="projects-title" data-split>Things I’ve <em class="serif">built.</em></h2>
+        <div id="feature"></div>
+        <ol class="projects" id="projects-list"></ol>
+      </section>
+      <div class="preview" aria-hidden="true"><canvas id="preview-canvas"></canvas><span class="preview__no mono"></span><span class="preview__tag mono"></span></div>
 
-  function renderAch(items){return items.map(a=>`<div class="achievement"><div class="medal">${a.medal}</div><div class="details"><p class="title">${a.title}</p><p class="meta">${a.meta}</p></div></div>`).join('')}
-  $('#page-achievements').innerHTML=`<h1>Achievements</h1><p class="subtitle">Competitions, awards, milestones</p><hr class="divider">
-    <h2>Competition Results</h2>${renderAch(achievements.competitions)}
-    <hr class="divider"><h2>International Presentations</h2>${renderAch(achievements.presentations)}
-    <hr class="divider"><h2>Certifications</h2><p>${profile.certifications.map(c=>`<span class="tag">${c}</span>`).join('')}</p>
-    <hr class="divider"><h2>Industry Partnerships</h2>${renderAch(achievements.partnerships)}
-    <div class="footer"><p>~ flip to another page &uarr; ~</p></div>`;
+      <!-- ============ 06 NOTES ============ -->
+      <section class="section wrap" id="help" aria-labelledby="help-title">
+        <div class="section-head mono"><span class="section-head__idx">(06)</span><span class="section-head__label">Working together</span><span class="section-head__note">Remote · UTC+7</span></div>
+        <h2 class="section-title" id="help-title" data-split>How I can <em class="serif">help.</em></h2>
+        <div class="notes" id="notes"></div>
+      </section>
 
-  const books=bookshelf.filter(b=>b.type==='book'),pods=bookshelf.filter(b=>b.type==='podcast');
-  function shelfItem(item){const icon=item.type==='book'?'\ud83d\udcd6':'\ud83c\udfa7';return`<div class="shelf-item"><div class="shelf-icon">${icon}</div><div class="shelf-details"><p class="title">${item.title} <span class="shelf-tag shelf-tag-${item.tag}">${item.tag}</span></p><p class="author">${item.author}</p><p class="note">"${item.note}"</p></div></div>`}
-  $('#page-bookshelf').innerHTML=`<h1>Bookshelf</h1><p class="subtitle">Books and podcasts that shaped how I think</p><hr class="divider">
-    <div class="shelf-section-title">\ud83d\udcda Books</div>${books.map(shelfItem).join('')}
-    <hr class="divider"><div class="shelf-section-title">\ud83c\udfa7 Podcasts</div>${pods.map(shelfItem).join('')}
-    <div class="footer"><p>~ add more in data/bookshelf.json ~</p></div>`;
+      <!-- ============ 07 RECOGNITION ============ -->
+      <section class="section wrap" id="recognition" aria-labelledby="rec-title">
+        <div class="section-head mono"><span class="section-head__idx">(07)</span><span class="section-head__label">Recognition</span><span class="section-head__note">Competitions · stages</span></div>
+        <h2 class="section-title" id="rec-title" data-split>On the <em class="serif">record.</em></h2>
+        <div class="awards" id="awards"></div>
+      </section>
 
-  // Blog
-  function renderBlogList(){
-    const sorted=[...blogPosts].sort((a,b)=>b.date.localeCompare(a.date));
-    $('#page-blog').innerHTML=`<h1>Blog</h1><p class="subtitle">Notes, stories, lessons</p><hr class="divider">
-      <div class="blog-list">${sorted.map(p=>`<div class="blog-card" data-slug="${p.slug}"><h3>${p.title}</h3><p class="blog-date">${p.date}</p><p class="blog-excerpt">${p.excerpt}</p><p class="blog-tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join(' ')}</p></div>`).join('')}</div>
-      <hr class="divider"><div class="footer"><p>~ add posts: create blog/your-slug.md + update blog/posts.json ~</p></div>`;
-    $('#page-blog').querySelectorAll('.blog-card').forEach(card=>{card.addEventListener('click',()=>openPost(card.dataset.slug))});
-    initReveals($('#page-blog'));
-  }
-  renderBlogList();
-  async function openPost(slug){
-    try{const res=await fetch('blog/'+slug+'.md');if(!res.ok)throw new Error('Not found');const md=await res.text();const post=blogPosts.find(p=>p.slug===slug);
-      const fixedMd=md.replace(/!\[([^\]]*)\]\((?!http)([^)]+)\)/g,'![$1](blog/images/$2)');
-      $('#page-blog').innerHTML=`<div class="blog-back" id="blog-back">&larr; back to all posts</div><div class="blog-post"><p class="blog-date">${post?.date||''} &middot; ${(post?.tags||[]).map(t=>`<span class="tag">${t}</span>`).join(' ')}</p>${marked.parse(fixedMd)}</div>`;
-      $('#blog-back').addEventListener('click',()=>{renderBlogList()});window.scrollTo({top:0,behavior:'smooth'});
-    }catch(e){$('#page-blog').innerHTML=`<h1>Post not found</h1><p>${e.message}</p><div class="blog-back" id="blog-back">&larr; back</div>`;$('#blog-back').addEventListener('click',()=>{renderBlogList()})}
-  }
-  if(location.hash.startsWith('#/blog/')){const slug=location.hash.replace('#/blog/','');$$('.page-tab').forEach(t=>t.classList.remove('active'));$$('.page').forEach(p=>p.classList.remove('active'));document.querySelector('[data-page="blog"]').classList.add('active');$('#page-blog').classList.add('active');setTimeout(()=>openPost(slug),300)}
+      <!-- ============ 08 WRITING ============ -->
+      <section class="section wrap" id="writing" aria-labelledby="writing-title">
+        <div class="section-head mono"><span class="section-head__idx">(08)</span><span class="section-head__label">Writing</span><span class="section-head__note" id="writing-note"></span></div>
+        <h2 class="section-title" id="writing-title" data-split>Notes from <em class="serif">the bench.</em></h2>
+        <ol class="posts" id="posts"></ol>
+      </section>
+    </div>
 
-  // ===== TABS =====
-  $$('.page-tab').forEach(tab=>{tab.addEventListener('click',()=>{$$('.page-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');$$('.page').forEach(p=>p.classList.remove('active','page-flip-enter'));const pg=$('#page-'+tab.dataset.page);pg.classList.add('active','page-flip-enter');window.scrollTo({top:0,behavior:'smooth'});setTimeout(()=>initReveals(pg),100)})});
+    <!-- ============ ARTICLE VIEW (#/blog/slug) ============ -->
+    <article class="article wrap" id="article">
+      <a class="article__back mono" href="#writing">← All writing</a>
+      <header class="article__head">
+        <p class="article__meta mono" id="article-meta"></p>
+        <h1 class="article__title" id="article-title" tabindex="-1"></h1>
+      </header>
+      <div class="article__cover"><canvas id="article-cover" aria-hidden="true"></canvas></div>
+      <div class="prose" id="article-body"></div>
+      <div class="article__end mono"><a class="ul" href="#writing">← All writing</a><a class="ul" href="mailto:m3g3nz2@gmail.com">Reply by email</a></div>
+    </article>
 
-  // ===== PENCIL CURSOR =====
-  const pencil=$('#pencil-cursor');
-  if(pencil&&window.innerWidth>900){
-    let mx=0,my=0,px=0,py=0;
-    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;pencil.style.opacity='1'});
-    document.addEventListener('mouseleave',()=>{pencil.style.opacity='0'});
-    function followMouse(){px+=(mx-px)*.12;py+=(my-py)*.12;pencil.style.left=(px-2)+'px';pencil.style.top=(py-22)+'px';requestAnimationFrame(followMouse)}
-    followMouse();
-    const hint=document.createElement('div');hint.className='scroll-hint';hint.textContent='\u2193 scroll to reveal \u2193';document.body.appendChild(hint);
-    window.addEventListener('scroll',()=>{
-      if(hint.parentNode)gsap.to(hint,{opacity:0,duration:.4,onComplete:()=>hint.remove()});
-      const active=document.querySelector('.notebook .page.active');if(!active)return;
-      active.querySelectorAll('.ink-reveal:not(.written)').forEach(el=>{if(el.getBoundingClientRect().top<window.innerHeight*.85)el.classList.add('written')});
-    });
-  }
+    <noscript>
+      <section class="section wrap">
+        <p>Muhammad Tsaqif Mukhayyar — software engineer in Surabaya. Email <a href="mailto:m3g3nz2@gmail.com">m3g3nz2@gmail.com</a> · <a href="https://github.com/mukhayyar">GitHub</a> · <a href="https://linkedin.com/in/tsaqifmukhayyar">LinkedIn</a>.</p>
+      </section>
+    </noscript>
+  </main>
 
-  // Back to top
-  window.addEventListener('scroll',()=>{const btn=$('#back-top');if(btn)btn.classList.toggle('show',window.scrollY>400)});
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer night" id="contact">
+    <div class="wrap footer__cta">
+      <div class="footer__eyebrow mono"><span>(09) Contact</span><span>Replies within a day</span></div>
+      <h2 class="footer__title" data-split><span class="br">Have a hard problem?</span> <em class="serif br">Let’s build it.</em></h2>
+      <div class="footer__mailrow">
+        <a class="footer__mail" href="mailto:m3g3nz2@gmail.com" data-bind="email">m3g3nz2@gmail.com</a>
+        <button class="copy" type="button" data-copy="m3g3nz2@gmail.com">Copy email</button>
+        <span class="sr-only" id="copy-status" aria-live="polite"></span>
+      </div>
+    </div>
 
-  // Post-it entrance
-  gsap.utils.toArray('.postit').forEach((p,i)=>{gsap.from(p,{opacity:0,scale:.7,rotation:i%2?15:-15,duration:.5,delay:.3+i*.1,ease:'back.out(1.7)',scrollTrigger:{trigger:p,start:'top 95%'}})});
+    <div class="wrap grid footer__cols">
+      <div class="fcol fcol--brand">
+        <a class="brand" href="#top"><svg class="brand__mark" viewBox="0 0 18 18" aria-hidden="true"><circle cx="3" cy="3" r="1"/><circle cx="9" cy="3" r="1.4"/><circle cx="15" cy="3" r="1.8"/><circle cx="3" cy="9" r="1.4"/><circle cx="9" cy="9" r="1.8"/><circle cx="15" cy="9" r="2.2"/><circle cx="3" cy="15" r="1.8"/><circle cx="9" cy="15" r="2.2"/><circle cx="15" cy="15" r="2.6"/></svg><span>Tsaqif Mukhayyar</span></a>
+        <p>Software engineer building deep tech in Indonesia. Firmware to cloud, ground to sky.</p>
+        <div class="socials">
+          <a href="https://github.com/mukhayyar" aria-label="GitHub" rel="me noopener" target="_blank"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 .2a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.22 1.88.87 2.34.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.66 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 8 .2Z"/></svg></a>
+          <a href="https://linkedin.com/in/tsaqifmukhayyar" aria-label="LinkedIn" rel="me noopener" target="_blank"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3.6 5.6H.9V15h2.7V5.6ZM2.25 1A1.56 1.56 0 1 0 2.27 4.1 1.56 1.56 0 0 0 2.25 1ZM15.1 9.7c0-2.53-.55-4.3-3.47-4.3-1.4 0-2.35.77-2.73 1.5h-.04V5.6H6.27V15h2.7v-4.65c0-1.23.23-2.42 1.75-2.42 1.5 0 1.52 1.4 1.52 2.5V15h2.7l.01-5.3Z"/></svg></a>
+          <a href="mailto:m3g3nz2@gmail.com" aria-label="Email"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><rect x="1.5" y="3" width="13" height="10" rx="1.5"/><path d="m2 4 6 5 6-5"/></svg></a>
+        </div>
+      </div>
+      <nav class="fcol fcol--index" aria-labelledby="f-index">
+        <h3 id="f-index">Index</h3>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#log">Flight log</a></li>
+          <li><a href="#work">Experience</a></li>
+          <li><a href="#link">Fig. 01</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#help">Working together</a></li>
+          <li><a href="#recognition">Recognition</a></li>
+          <li><a href="#writing">Writing</a></li>
+        </ul>
+      </nav>
+      <nav class="fcol fcol--else" aria-labelledby="f-else">
+        <h3 id="f-else">Elsewhere</h3>
+        <ul>
+          <li><a href="https://github.com/mukhayyar" target="_blank" rel="noopener">GitHub<span class="arr">↗</span></a></li>
+          <li><a href="https://linkedin.com/in/tsaqifmukhayyar" target="_blank" rel="noopener">LinkedIn<span class="arr">↗</span></a></li>
+          <li><a href="https://rekafab.mukhayyar.my.id" target="_blank" rel="noopener">rekafab<span class="arr">↗</span></a></li>
+          <li><a href="mailto:m3g3nz2@gmail.com">Email<span class="arr">↗</span></a></li>
+        </ul>
+      </nav>
+      <div class="fcol fcol--now">
+        <h3 id="f-now">Now</h3>
+        <div id="footer-now">
+          <p><strong>Software Engineer</strong> at OptiControl</p>
+          <p><strong>IT Implementor &amp; Support</strong> at Fotoo.id <span class="muted">(part-time)</span></p>
+        </div>
+        <p style="margin-top:14px"><span class="dot dot--live"></span>&nbsp; Open to deep tech, aerospace &amp; computer vision.</p>
+      </div>
+    </div>
 
-  // Title typewriter
-  const title=$('#page-main h1');const tt=title.textContent;title.textContent='';let ci=0;
-  function typeIt(){if(ci<tt.length){title.textContent+=tt[ci++];setTimeout(typeIt,50+Math.random()*30)}}
-  setTimeout(typeIt,400);
+    <div class="footer__scene">
+      <canvas id="night-canvas" aria-hidden="true"></canvas>
+      <div class="footer__mode">
+        <span class="mono">Paint it</span>
+        <div class="mode" role="group" aria-label="Graphics color">
+            <button class="mode__btn" type="button" data-mode="mono" aria-pressed="true" aria-label="Mono graphics" title="Mono graphics"><i class="mode__ico mode__ico--mono" aria-hidden="true"></i>Mono</button>
+            <button class="mode__btn" type="button" data-mode="color" aria-pressed="false" aria-label="Color graphics" title="Color graphics"><i class="mode__ico mode__ico--color" aria-hidden="true"></i>Color</button>
+          </div>
+      </div>
+      <div class="footer__bar">
+        <div class="wrap mono">
+          <span>© <span data-year>2026</span> Muhammad Tsaqif Mukhayyar</span>
+          <span class="footer__coords">7.2575° S, 112.7521° E · <span data-clock="long">--:--:-- WIB</span></span>
+          <span>Rendered live in <span id="dotcount">—</span> dots</span>
+          <button class="still-btn still-btn--text" type="button" aria-pressed="false"><i class="still-btn__ico" aria-hidden="true"></i><span class="still-btn__text">Pause motion</span></button>
+          <a class="footer__top" href="#top">Back to top <i aria-hidden="true">↑</i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-  initReveals($('#page-main'));
-
-  // Typing game
-  const phrases=['ship mvps in weeks not months','deep in software deep in hardware','first principles engineering','from 22nd to 11th worldwide','99 percent data integrity','build measure learn repeat','legacy code meets modern stack','4km radio link duct tape antenna'];
-  let gp='',gs=0,ga=false;
-  function np(){const el=$('#game-prompt'),inp=$('#game-input'),res=$('#game-result');if(!el||!inp)return;gp=phrases[Math.floor(Math.random()*phrases.length)];el.textContent=gp;inp.value='';res.textContent='';res.className='result';ga=false}
-  setTimeout(()=>{const inp=$('#game-input');if(!inp)return;np();inp.addEventListener('input',()=>{if(!ga){gs=Date.now();ga=true}const v=inp.value.toLowerCase();if(v===gp){const w=Math.round((gp.split(' ').length/((Date.now()-gs)/1000))*60);$('#game-result').textContent=`Done! ${w} WPM.`;$('#game-result').className='result';setTimeout(np,2000)}else if(!gp.startsWith(v)){$('#game-result').textContent='typo!';$('#game-result').className='result wrong'}else{$('#game-result').textContent=''}})},1000);
-}
-
-function initReveals(c){
-  const els=c.querySelectorAll('h2,.exp-item,.links,.contact-grid,.footer,.project-card,.achievement,.shelf-item,.shelf-section-title,.typing-game,.blog-card');
-  const ink=window.innerWidth>900;
-  els.forEach((el,i)=>{el.classList.remove('active','written');
-    if(ink){el.classList.add('ink-reveal');if(i<4)setTimeout(()=>el.classList.add('written'),200+i*150)}
-    else{el.classList.add('reveal');setTimeout(()=>el.classList.add('active'),60*i)}
-  });
-  c.querySelectorAll('.tag').forEach((t,i)=>{t.style.opacity=0;t.style.transform='scale(0.8)';gsap.to(t,{opacity:1,scale:1,duration:.2,delay:.6+i*.03,ease:'back.out(1.7)'})});
-}
-
-init();
-</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js" defer></script>
+  <script src="assets/js/halftone.js" defer></script>
+  <script src="assets/js/scenes/planet.js" defer></script>
+  <script src="assets/js/scenes/pi.js" defer></script>
+  <script src="assets/js/scenes/projects.js" defer></script>
+  <script src="assets/js/scenes/night.js" defer></script>
+  <script src="assets/js/scenes/pcb.js" defer></script>
+  <script src="assets/js/scenes/image.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>

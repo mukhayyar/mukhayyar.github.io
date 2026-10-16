@@ -1,32 +1,32 @@
 [
   {
     "role": "R&D Project Manager",
-    "dates": "Sep 2025 \u2013 Present",
+    "dates": "Sep 2025 – Sep 2026",
     "wins": [
-      "CanSat firmware (Teensy 4.1) \u2014 paragliding mission, autonomous servo control",
-      "Rocket avionics firmware (Teensy 4.0 + Arduino Nano)",
-      "Portable GCS on Raspberry Pi with Flutter-pi",
-      "Launch pad controller (ESP32 + relays)"
+      "Led the aerospace & avionics team to 3rd Place at the AAS Student CanSat Competition 2026 (USA)",
+      "Best Rocket Award at TEKNOFEST 2026 (ROKETSAN, Turkey)",
+      "Directed flight-computer and sensor design on Teensy / Arduino — live telemetry and automated parachute recovery",
+      "ESP32 launch-pad controller with fail-safe switches for reliable ignition",
+      "Portable, battery-powered Ground Control Station: Flutter on a compact Linux device"
     ]
   },
   {
     "role": "Team Leader",
-    "dates": "Sep 2024 \u2013 Sep 2025",
+    "dates": "Sep 2024 – Aug 2025",
     "wins": [
-      "22nd \u2192 11th place worldwide CanSat Competition",
-      "Teknofest 2025 Top 15 Finalist (Model Satellite)",
-      "CanSat Kit \u2014 Top 4 Indonesia Aerospace Hackathon",
-      "Presented at APRSAF-30 in Perth, Australia",
-      "Secured partnership with PT Pasifik Satelit Nusantara"
+      "Managed a 20+ member team across software, avionics and mechanical divisions",
+      "Global rank 22nd (2024) → 12th (2025) at the AAS CanSat Competition, USA",
+      "Top 15 Finalist on our first TEKNOFEST Model Satellite entry",
+      "Modular CanSat educational kit — Top 4 at Indonesia Aerospace Hackathon, presented at APRSAF-30 in Perth"
     ]
   },
   {
     "role": "Head of Software",
-    "dates": "Sep 2022 \u2013 Sep 2023",
+    "dates": "Sep 2022 – Sep 2023",
     "wins": [
-      "Ground station app (C# + WPF) for telemetry",
-      "Moxon Yagi Antenna \u2014 4km stable link (XBee Pro S3B)",
-      "99% data integrity during flight",
+      "3rd place worldwide at the AAS CanSat Competition 2023 (USA)",
+      "Ground station app (C# + WPF) for live telemetry",
+      "Moxon–Yagi antenna on XBee-PRO S3B radios: 4.2 km link, 99% of packets received in flight",
       "Presented at APRSAF-29 in Jakarta"
     ]
   }

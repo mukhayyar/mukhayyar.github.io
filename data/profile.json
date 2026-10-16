@@ -1,9 +1,9 @@
 {
   "name": "Muhammad Tsaqif Mukhayyar",
-  "title": "Software Engineer",
+  "title": "Full-Stack Software Engineer",
   "location": "Surabaya, Indonesia",
   "bio": "Engineer across software, hardware, and research. Building deep tech in Indonesia.",
-  "bio_extra": "\u03c0-shaped career \u2014 deep in software, deep in hardware, systems thinking connecting them.",
+  "bio_extra": "π-shaped career — deep in software, deep in hardware, systems thinking connecting them.",
   "open_to": "deep tech, aerospace, computer vision, first-principles engineering",
   "links": {
     "linkedin": "https://linkedin.com/in/tsaqifmukhayyar",
@@ -11,29 +11,70 @@
     "email": "m3g3nz2@gmail.com"
   },
   "skills": [
-    "Python", "TypeScript", "Dart", "C/C++", "React", "Next.js", "Flutter",
-    "FastAPI", "PySide6", "Hono", "Bun", "PostgreSQL", "SQLite", "Docker",
-    "GCP", "AWS", "Supabase", "Cloudflare", "Tailscale", "Tailwind",
-    "Plotly.js", "Three.js", "Embedded/RF", "Computer Vision", "IoT", "Firmware"
+    "Python",
+    "TypeScript",
+    "Go",
+    "C/C++",
+    "Dart",
+    "React",
+    "Next.js",
+    "TanStack",
+    "Flutter",
+    "Qt/QML",
+    "PySide6",
+    "FastAPI",
+    "Express.js",
+    "Hono",
+    "Bun",
+    "PostgreSQL",
+    "SQLite",
+    "Supabase",
+    "Docker",
+    "GCP",
+    "Firebase",
+    "AWS",
+    "Cloudflare",
+    "Tailscale",
+    "GitHub Actions",
+    "GitLab CI",
+    "Tailwind",
+    "Three.js",
+    "Raspberry Pi",
+    "ESP32",
+    "Teensy",
+    "XBee RF",
+    "Embedded Linux",
+    "Computer Vision",
+    "IoT",
+    "Firmware"
   ],
   "languages": [
-    { "lang": "Indonesian", "level": "native" },
-    { "lang": "English", "level": "professional" }
+    {
+      "lang": "Indonesian",
+      "level": "native"
+    },
+    {
+      "lang": "English",
+      "level": "professional"
+    }
   ],
   "education": [
     {
-      "degree": "B.ASc Informatics Engineering (GPA: 3.83/4.00)",
+      "degree": "B.ASc Informatics Engineering (GPA: 3.84/4.00)",
       "school": "Politeknik Elektronika Negeri Surabaya (PENS)",
-      "dates": "Aug 2022 \u2013 Aug 2026"
+      "dates": "2022 – 2026"
     },
     {
       "degree": "High School Diploma, Software Engineering",
       "school": "SMK Telekomunikasi Darul 'Ulum",
-      "dates": "Jun 2019 \u2013 2022"
+      "dates": "Jun 2019 – 2022"
     }
   ],
   "certifications": [
-    "AWS Generative AI", "AWS Security", "AWS Compute",
-    "HackerRank Problem Solving", "Cyber Security 101"
+    "AWS Generative AI",
+    "AWS Security",
+    "AWS Compute",
+    "HackerRank Problem Solving",
+    "Cyber Security 101"
   ]
 }

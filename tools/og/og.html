@@ -1,0 +1,38 @@
+<!doctype html>
+<!-- Social card source. Render to /og-image.png at 1200x630 (see tools/og/README.md). -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>OG card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; }
+  body { width: 1200px; height: 630px; overflow: hidden; background: #F1F0EB; color: #0E0E0C; font-family: Geist, sans-serif;
+    --ht-ink: #0E0E0C; --ht-accent: #FF4A1C; --ht-muted: #9B9A93; --ht-faint: #C9C7BF; position: relative; }
+  canvas { position: absolute; right: -40px; top: -10px; width: 700px; height: 650px; }
+  .t { position: absolute; left: 64px; top: 58px; bottom: 56px; display: flex; flex-direction: column; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 12px; font-weight: 550; font-size: 22px; letter-spacing: -.02em; }
+  .brand svg { width: 24px; height: 24px; }
+  h1 { margin: 0; font-weight: 500; font-size: 104px; line-height: .88; letter-spacing: -.058em; color: #fff; mix-blend-mode: difference; }
+  h1 em { font-family: "Instrument Serif", serif; font-weight: 400; letter-spacing: -.03em; }
+  .m { font: 450 15px/1.4 "Geist Mono", monospace; letter-spacing: .07em; text-transform: uppercase; color: #55554F; display: flex; gap: 28px; }
+  .m b { color: #FF4A1C; font-weight: 500; }
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<div class="t">
+  <div class="brand"><svg viewBox="0 0 18 18"><circle cx="3" cy="3" r="1"/><circle cx="9" cy="3" r="1.4"/><circle cx="15" cy="3" r="1.8"/><circle cx="3" cy="9" r="1.4"/><circle cx="9" cy="9" r="1.8" fill="#FF4A1C"/><circle cx="15" cy="9" r="2.2"/><circle cx="3" cy="15" r="1.8"/><circle cx="9" cy="15" r="2.2"/><circle cx="15" cy="15" r="2.6"/></svg>Tsaqif Mukhayyar</div>
+  <h1>Firmware to cloud,<br>ground to <em>sky.</em></h1>
+  <div class="m"><span><b>●</b> Software engineer</span><span>Surabaya, ID</span><span>mukhayyar.my.id</span></div>
+</div>
+<script src="../../assets/js/halftone.js"></script>
+<script src="../../assets/js/scenes/planet.js"></script>
+<script>
+  const ht = new Halftone(document.getElementById('cv'), Halftone.scenes.planet, { autoplay: false });
+  ht.onready = () => { ht.renderAt(4.2); document.fonts.ready.then(() => { window.__ready = true; }); };
+</script>
+</body>
+</html>

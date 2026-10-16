@@ -1,0 +1,44 @@
+[
+  {
+    "year": "2019",
+    "tag": "Origin",
+    "title": "Started as a PHP dev",
+    "body": "Software engineering track at SMK Telekomunikasi Darul 'Ulum. First websites, first servers, first broken deploys.",
+    "art": "origin"
+  },
+  {
+    "year": "2022",
+    "tag": "Ground station",
+    "title": "1st place, then Head of Software",
+    "body": "Won Cloud Computing at LKS Wilker IV Jatim. Joined PENS and EEPISAT, building a C# / WPF ground station for live telemetry.",
+    "art": "Ground Station (WPF)"
+  },
+  {
+    "year": "2023",
+    "tag": "Competition",
+    "title": "3rd in the world",
+    "body": "EEPISAT took 3rd place at the CanSat Competition in the USA. Our $15 Moxon–Yagi — Moxon reflector and driven element, dipole director — held a 4.2 km link with 99% of packets.",
+    "art": "Moxon Yagi Antenna"
+  },
+  {
+    "year": "2024",
+    "tag": "Leadership",
+    "title": "Team leader",
+    "body": "Finalist at the CanSat Competition, 22nd worldwide. That September I took over the team — 20+ people across software, avionics and mechanical — and presented at APRSAF-30 in Perth.",
+    "art": "CanSat Firmware paraglider"
+  },
+  {
+    "year": "2025",
+    "tag": "Momentum",
+    "title": "22nd → 12th",
+    "body": "Ten places up at the CanSat Competition, Top 15 on our first TEKNOFEST entry, and Top 4 at the Indonesia Aerospace Hackathon with our CanSat Kit.",
+    "art": "CanSat Kit"
+  },
+  {
+    "year": "2026",
+    "tag": "Back on the podium",
+    "title": "3rd place & Best Rocket",
+    "body": "3rd at the AAS CanSat Competition and the Best Rocket Award at TEKNOFEST. Edge-vision research in Japan, with a paper at IEEE GCCE 2026.",
+    "art": "Rocket Avionics"
+  }
+]

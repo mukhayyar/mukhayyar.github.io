@@ -1,65 +1,75 @@
 [
   {
-    "role": "Software Engineer (Part-Time)",
+    "role": "Software Engineer",
     "company": "OptiControl",
-    "dates": "Jan 2026 \u2013 Present",
-    "location": "Penang, Malaysia",
+    "dates": "Jan 2026 – Present",
+    "location": "Petaling Jaya, Malaysia (Remote)",
     "wins": [
-      "Built OTA update system for NDT equipment GUI \u2014 push firmware + app updates remotely",
-      "Architected cloud sync pipeline: NDT equipment \u2192 server \u2192 analytics + automated report generation",
-      "Web app for syncing inspection data from field equipment to cloud for analysis",
-      "Algorithm store with .deb package management for deploying latest updates to devices",
-      "Managed full infrastructure: self-hosted GitLab, mail server, CI/CD pipelines",
-      "Custom Linux ISO with pre-installed GUI + bootloader guard (inspector-only installation)",
-      "Enterprise Tailscale deployment for remote IT support of customer devices worldwide",
-      "Landing page + SEO for product visibility"
+      "Docker-based remote deployment + OTA update pipeline for distributed edge devices — rollout cut 89%, from 45 min to under 5 min per unit",
+      "Centralized telemetry and observability over secure tunnels (Tailscale / Cloudflare): 40% faster crash detection, 60% fewer on-site service visits",
+      "Low-latency Qt/QML desktop app and web dashboards rendering real-time sensor waveforms and inspection heatmaps for multi-site NDT units",
+      "Primary technical escalation contact across 8+ client sites — resolved 15+ mission-critical hardware–software faults with zero prolonged downtime",
+      "Cloud sync pipeline: NDT equipment → server → analytics + automated report generation",
+      "Custom Linux ISO with bootloader guard, an algorithm store with .deb package management, self-hosted GitLab + CI/CD"
+    ]
+  },
+  {
+    "role": "IT Implementor & Support (Part-Time)",
+    "company": "Fotoo.id",
+    "dates": "Oct 2026 – Present",
+    "location": "Remote, Indonesia",
+    "wins": [
+      "Implementation & support for a photobooth SaaS — setting up partner booths end to end: Windows, drivers, cameras and printers",
+      "Remote troubleshooting over AnyDesk / TeamViewer, on shift for live events",
+      "Training partners and non-technical operators over Google Meet"
     ]
   },
   {
     "role": "Student Researcher (Internship)",
     "company": "Kanagawa Institute of Technology",
-    "dates": "Jan 2026 \u2013 Apr 2026",
+    "dates": "Jan 2026 – Apr 2026",
     "location": "Atsugi, Japan",
     "wins": [
-      "Designed AHD (Adaptive Hierarchical Detection) \u2014 two-phase on-device object detection on RPi 5",
-      "+0.87 avg detection gain over fixed COCO-80 baseline, zero cloud dependency",
-      "Scene-aware context DB: 388 Places365 scenes mapped to COCO-80 subsets, 78.5% vocabulary reduction",
-      "Pre-baked CLIP embeddings: context-switch latency 15s\u2192300ms",
-      "Containerized AI stack (Flask+SocketIO+React) on ARM64 with Cloudflare Tunnel + Tailscale"
+      "Designed AHD (Adaptive Hierarchical Detection) — on-device object detection on a Raspberry Pi 5 robot, cutting redundant inference by up to 78%",
+      "+0.87 avg detection gain over a fixed COCO-80 baseline, zero cloud dependency",
+      "Scene-aware context DB: 388 Places365 scenes mapped to COCO-80 subsets; pre-baked CLIP embeddings cut context switches from 15 s to 300 ms",
+      "Containerized the AI stack (Flask + Socket.IO + React) on ARM64 behind Cloudflare + Tailscale zero-trust tunnels for live field demos",
+      "Wrote a paper on edge computer-vision architectures for IEEE GCCE 2026"
     ]
   },
   {
     "role": "Product Engineer (Contract)",
     "company": "AITOMA",
-    "dates": "Dec 2025 \u2013 Jan 2026",
-    "location": "Surabaya",
+    "dates": "Dec 2025 – Jan 2026",
+    "location": "Surabaya, Indonesia",
     "wins": [
-      "AWS\u2192GCP migration (100% success), decoupled frontend to Firebase Hosting",
-      "Refactored Python + Express.js microservices, reduced codebase complexity",
-      "IoT gateway-to-cloud integration for real-time monitoring system",
-      "Modernized company website with custom CMS (Next.js)"
+      "Migrated AWS → GCP with zero downtime; frontend moved to Firebase Hosting, routing via Cloudflare",
+      "Simplified legacy Python + Express.js microservices to speed up development",
+      "Connected IoT sensors and gateways directly to the cloud for faster real-time monitoring sync",
+      "Separated development and production environments to keep internal tools off public APIs",
+      "Rebuilt the IoT & energy-monitoring product site in Next.js with a custom CMS"
     ]
   },
   {
     "role": "Product Engineer (Internship)",
     "company": "Petruck.id",
-    "dates": "Jul 2025 \u2013 Jan 2026",
-    "location": "Jakarta",
+    "dates": "Jul 2025 – Jan 2026",
+    "location": "Banten, Indonesia (Remote)",
     "wins": [
-      "AI business consultant: LLMs \u2192 dynamic SQL \u2192 Plotly.js visualization",
-      "Mission-critical \"war room\" for production incidents",
-      "Google Sheets import pipeline for partner efficiency"
+      "LLM-powered BI agent: natural-language prompts → dynamic SQL → interactive Plotly.js charts and custom components in a Sandpack sandbox",
+      "Diagnosed and resolved critical production incidents in enterprise war rooms",
+      "Google Sheets import pipeline for partner operational efficiency"
     ]
   },
   {
     "role": "Software Developer (Internship)",
     "company": "PT Infoglobal Teknologi Semesta",
-    "dates": "Jan 2025 \u2013 Jun 2025",
-    "location": "Surabaya",
+    "dates": "Jan 2025 – Jun 2025",
+    "location": "Surabaya, Indonesia",
     "wins": [
-      "Legacy system \u2192 modular architecture migration",
-      "Async FastAPI: 20% faster fetch, Zustand+React Query: 90% LCP reduction",
-      "Rebuilt UI with shadcn/ui + Tailwind for scalability"
+      "Refactored a legacy service layer to async FastAPI — 20% lower API latency, higher throughput",
+      "Cut Largest Contentful Paint by 90% with client-side caching (Zustand + React Query)",
+      "Legacy system → modular architecture; rebuilt the UI on shadcn/ui + Tailwind as a design system"
     ]
   }
 ]

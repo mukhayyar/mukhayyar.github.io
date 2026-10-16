@@ -1,20 +1,76 @@
 {
   "competitions": [
-    { "medal": "\ud83e\udd49", "title": "3rd Place \u2014 CanSat Competition USA 2023", "meta": "Worldwide \u00b7 Virginia, USA" },
-    { "medal": "\ud83c\udfc6", "title": "Finalist \u2014 CanSat Competition USA 2025", "meta": "Worldwide \u00b7 Virginia, USA" },
-    { "medal": "\ud83c\udfc6", "title": "Finalist \u2014 Teknofest 2025 Model Satellite (Top 15)", "meta": "First-time entry \u00b7 Turkey" },
-    { "medal": "\ud83e\udd47", "title": "1st Place \u2014 Cloud Computing LKS Wilker IV Jatim 2022", "meta": "Regional \u00b7 East Java" },
-    { "medal": "\ud83e\udd49", "title": "3rd Place \u2014 Computer Networking \u2014 PNB IT Competition 2023", "meta": "Politeknik Negeri Bali" },
-    { "medal": "\u2b50", "title": "Best Team Member \u2014 Project BEE 2023", "meta": "Pusan National University \u00b7 Bandung" },
-    { "medal": "\ud83e\udd49", "title": "3rd Place Team \u2014 Project BEE 2023", "meta": "IoT Aquaculture Challenge" },
-    { "medal": "\ud83d\udce1", "title": "Top 4 \u2014 Indonesia Aerospace Hackathon 2025", "meta": "CanSat Kit \u00b7 Asosiasi Satelit Indonesia" }
+    {
+      "medal": "🥉",
+      "title": "3rd Place — AAS CanSat Competition 2026",
+      "meta": "USA · worldwide"
+    },
+    {
+      "medal": "🚀",
+      "title": "Best Rocket Award — TEKNOFEST 2026",
+      "meta": "Turkey · ROKETSAN"
+    },
+    {
+      "medal": "🏆",
+      "title": "Finalist — AAS CanSat Competition 2025",
+      "meta": "USA · 12th worldwide"
+    },
+    {
+      "medal": "🏆",
+      "title": "Top 15 Finalist — TEKNOFEST Model Satellite 2025",
+      "meta": "Turkey · first-time entry"
+    },
+    {
+      "medal": "📡",
+      "title": "Top 4 — Indonesia Aerospace Hackathon 2025",
+      "meta": "CanSat Kit · Asosiasi Satelit Indonesia"
+    },
+    {
+      "medal": "🏆",
+      "title": "Finalist — AAS CanSat Competition 2024",
+      "meta": "USA · 22nd worldwide"
+    },
+    {
+      "medal": "🥉",
+      "title": "3rd Place — AAS CanSat Competition 2023",
+      "meta": "Virginia, USA · worldwide"
+    },
+    {
+      "medal": "🥉",
+      "title": "3rd Place — Computer Networking, PNB IT Competition 2023",
+      "meta": "Politeknik Negeri Bali"
+    },
+    {
+      "medal": "⭐",
+      "title": "Best Team Member — Project BEE 2023",
+      "meta": "Pusan National University · Bandung"
+    },
+    {
+      "medal": "🥉",
+      "title": "3rd Place — Project BEE (team) 2023",
+      "meta": "IoT aquaculture challenge"
+    },
+    {
+      "medal": "🥇",
+      "title": "1st Place — Cloud Computing, LKS Wilker IV East Java 2022",
+      "meta": "Regional skills competition"
+    }
   ],
   "presentations": [
-    { "medal": "\ud83c\udf0f", "title": "APRSAF-30 \u2014 Perth, Australia", "meta": "Space Education 4 All \u00b7 2025" },
-    { "medal": "\ud83c\udf0f", "title": "APRSAF-29 \u2014 Jakarta", "meta": "CanSat Research \u00b7 2023" }
-  ],
-  "partnerships": [
-    { "medal": "\ud83e\udd1d", "title": "PT Pasifik Satelit Nusantara (PSN)", "meta": "Funding + study tours + networking" },
-    { "medal": "\ud83e\udd1d", "title": "Antarexxa Indonesia", "meta": "Industry partnership for EEPISAT" }
+    {
+      "medal": "📄",
+      "title": "IEEE GCCE 2026 — Edge computer-vision paper",
+      "meta": "Global Conference on Consumer Electronics"
+    },
+    {
+      "medal": "🌏",
+      "title": "APRSAF-30 — Perth, Australia",
+      "meta": "Space Education 4 All · 2024"
+    },
+    {
+      "medal": "🌏",
+      "title": "APRSAF-29 — Jakarta",
+      "meta": "CanSat research · 2023"
+    }
   ]
 }

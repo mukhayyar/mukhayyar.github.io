@@ -26,6 +26,16 @@ Put images in `blog/images/`. Reference in markdown:
 ```
 Auto-resolves to `blog/images/my-image.png`.
 
+Every image is drawn as a halftone (dots) to match the site; hover shows the
+original photo, and the alt text becomes the caption. Strong orange/red areas
+pick up the accent colour.
+
+## Cover
+
+`"cover": "photo.png"` in `posts.json` renders that image as the halftone
+header of the post. Leave it `""` and a generated dot illustration is picked
+from the post's title and tags (antenna, rocket, CanSat, …).
+
 ## Direct links
 
 Share posts via: `https://mukhayyar.my.id/#/blog/your-slug`
