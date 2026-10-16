@@ -36,9 +36,18 @@ pick up the accent colour.
 header of the post. Leave it `""` and a generated dot illustration is picked
 from the post's title and tags (antenna, rocket, CanSat, …).
 
-## Direct links
+## Sharing (WhatsApp, LinkedIn, X, Telegram, Facebook, Discord, Slack …)
 
-Share posts via: `https://mukhayyar.my.id/#/blog/your-slug`
+Share a post with its own page: `https://mukhayyar.my.id/blog/your-slug/`
+
+That page has the post's own title, excerpt and card image, so chat apps and social sites show a
+proper preview. It is generated — with `blog/your-slug/og.png` and the sitemap — by
+`tools/og/build.mjs`, which the **Social cards** GitHub Action runs automatically on every push
+that touches `blog/`. To build locally: `npm install --prefix tools/og && node tools/og/build.mjs`.
+
+The article view on the home page (`/#/blog/your-slug`) has share buttons that use the same link.
+WhatsApp and Facebook cache previews; after changing a card, re-check with the
+[Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/).
 
 ## Delete a post
 

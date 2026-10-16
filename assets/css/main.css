@@ -484,6 +484,14 @@ ul, ol { padding: 0; list-style: none; }
 .prose figcaption { margin-top: 10px; font: 450 11px/1.4 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
 .article__end { max-width: 680px; margin: clamp(56px, 7vw, 96px) auto 0; display: flex; justify-content: space-between; gap: 16px; padding-top: 18px; border-top: 1px solid var(--line); }
 
+/* share row (article view + generated post pages) */
+.share { align-items: center; flex-wrap: wrap; }
+.share__row { display: flex; flex-wrap: wrap; gap: 6px; }
+.share__btn { display: inline-flex; align-items: center; height: 32px; padding: 0 12px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line-2); font: 450 11px/1 var(--f-mono); letter-spacing: .07em; text-transform: uppercase; color: var(--ink-2); transition: background-color .25s, color .25s, box-shadow .25s; }
+.share__btn:hover { background: var(--ink); color: var(--paper); box-shadow: none; }
+.share__btn.is-done { background: var(--accent); color: var(--night); box-shadow: none; }
+.post-foot { display: flex; justify-content: space-between; gap: 16px; max-width: 680px; margin: 80px auto 48px; color: var(--ink-3); }
+
 /* ---------- footer (night) ---------- */
 .footer { position: relative; margin-top: clamp(120px, 16vw, 240px); background: var(--night); color: var(--night-ink); overflow: clip; }
 .footer a { transition: color .25s; }

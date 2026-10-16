@@ -365,6 +365,33 @@
     } else if (target) requestAnimationFrame(() => scrollToEl(target, opts.initial));
   }
 
+  // Share links point at the generated /blog/<slug>/ page, which carries the post's own card.
+  function renderShare(post) {
+    const row = $('#article-share');
+    if (!row) return;
+    const url = `${location.origin}/blog/${encodeURIComponent(post.slug)}/`;
+    const u = encodeURIComponent(url), t = encodeURIComponent(post.title);
+    const links = [
+      ['WhatsApp', `https://wa.me/?text=${encodeURIComponent(post.title + ' ' + url)}`],
+      ['LinkedIn', `https://www.linkedin.com/sharing/share-offsite/?url=${u}`],
+      ['X', `https://twitter.com/intent/tweet?text=${t}&url=${u}`],
+      ['Telegram', `https://t.me/share/url?url=${u}&text=${t}`],
+      ['Facebook', `https://www.facebook.com/sharer/sharer.php?u=${u}`],
+    ];
+    row.innerHTML = (navigator.share ? '<button class="share__btn" type="button" data-share>Share…</button>' : '') +
+      links.map(([n, h]) => `<a class="share__btn" href="${esc(h)}" target="_blank" rel="noopener">${n}</a>`).join('') +
+      '<button class="share__btn" type="button" data-link>Copy link</button>';
+    const native = $('[data-share]', row);
+    if (native) native.addEventListener('click', () => navigator.share({ title: post.title, text: post.excerpt || '', url }).catch(() => {}));
+    const copy = $('[data-link]', row);
+    copy.addEventListener('click', async () => {
+      clearTimeout(copy._t);
+      try { await navigator.clipboard.writeText(url); copy.textContent = 'Copied ✓'; } catch (e) { copy.textContent = url; }
+      copy.classList.add('is-done');
+      copy._t = setTimeout(() => { copy.textContent = 'Copy link'; copy.classList.remove('is-done'); }, 1800);
+    });
+  }
+
   function dropArticleEngines() {
     if (coverHt) { coverHt.destroy(); engines.delete(coverHt); coverHt = null; }
     articleEngines.forEach((ht) => { ht.destroy(); engines.delete(ht); });
@@ -388,6 +415,7 @@
     dropArticleEngines();
     if (lenis) { lenis.resize(); lenis.scrollTo(0, { immediate: true }); } else window.scrollTo(0, 0);
     if (!post) {
+      if ($('#article-share')) $('#article-share').innerHTML = '';
       title.textContent = 'Post not found';
       meta.innerHTML = '';
       cover.hidden = true;
@@ -399,6 +427,7 @@
     }
     cover.hidden = false;
     title.textContent = post.title;
+    renderShare(post);
     const metaBase = `<span>${esc(fmtDate(post.date))}</span><span>${(post.tags || []).map(esc).join('\u00a0· ')}</span>`;
     meta.innerHTML = metaBase;
     body.innerHTML = '';
