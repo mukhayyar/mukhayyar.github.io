@@ -5,10 +5,11 @@
 //
 // Writes, from blog/posts.json + blog/<slug>.md:
 //   og-image.png                 home share card (tools/og/og.html)
+//   me/og.png                    the long page's card (tools/og/og.html?v=me)
 //   blog/<slug>/og.png           per-post share card (tools/og/post.html)
 //   blog/<slug>/index.html       a real page per post: its own Open Graph / Twitter tags (so WhatsApp,
 //                                LinkedIn, X, Telegram … show the post's card) and the full article
-//   sitemap.xml                  home + every post page
+//   sitemap.xml                  home, /me/ and every post page
 // The GitHub Action in .github/workflows/social-cards.yml runs this on every push that touches blog/.
 
 import { createServer } from 'node:http';
@@ -62,6 +63,9 @@ const posts = JSON.parse(await readFile(join(ROOT, 'blog/posts.json'), 'utf8'));
 
 await card('/tools/og/og.html', join(ROOT, 'og-image.png'));
 console.log('og-image.png');
+await mkdir(join(ROOT, 'me'), { recursive: true });
+await card('/tools/og/og.html?v=me', join(ROOT, 'me', 'og.png'));
+console.log('me/og.png');
 
 const ICON = `<svg class="brand__mark" viewBox="0 0 22 22" aria-hidden="true"><circle cx="2.2" cy="2.2" r="1.95"/><circle cx="6.6" cy="2.2" r="1.95"/><circle class="a" cx="11" cy="2.2" r="1.95"/><circle cx="15.4" cy="2.2" r="1.95"/><circle cx="19.8" cy="2.2" r="1.95"/><circle cx="2.2" cy="6.6" r="1.68"/><circle class="s" cx="6.6" cy="6.6" r="0.97"/><circle cx="11" cy="6.6" r="1.95"/><circle class="s" cx="15.4" cy="6.6" r="0.97"/><circle cx="19.8" cy="6.6" r="1.68"/><circle cx="2.2" cy="11" r="1.68"/><circle cx="11" cy="11" r="1.95"/><circle cx="19.8" cy="11" r="1.68"/><circle cx="2.2" cy="15.4" r="1.68"/><circle cx="11" cy="15.4" r="1.95"/><circle cx="19.8" cy="15.4" r="1.68"/><circle cx="2.2" cy="19.8" r="1.68"/><circle cx="11" cy="19.8" r="1.95"/><circle cx="19.8" cy="19.8" r="1.68"/></svg>`;
 
@@ -130,12 +134,12 @@ ${(p.tags || []).map((t) => `  <meta property="article:tag" content="${esc(t)}">
   <header class="nav is-solid" id="nav">
     <div class="wrap nav__bar">
       <a class="brand" href="/">${ICON}<span>Tsaqif Mukhayyar</span></a>
-      <a class="btn btn--ghost" href="/#writing">All writing</a>
+      <a class="btn btn--ghost" href="/me/#writing">All writing</a>
     </div>
   </header>
   <main id="main">
     <article class="article wrap" id="article">
-      <a class="article__back mono" href="/#writing">← All writing</a>
+      <a class="article__back mono" href="/me/#writing">← All writing</a>
       <header class="article__head">
         <p class="article__meta mono"><span>${esc(fmtDate(p.date))}</span><span>${(p.tags || []).map(esc).join('&nbsp;· ')}</span><span>${minutes} min read</span></p>
         <h1 class="article__title">${esc(p.title)}</h1>
@@ -166,7 +170,8 @@ ${(p.tags || []).map((t) => `  <meta property="article:tag" content="${esc(t)}">
 `;
 }
 
-const urls = [{ loc: SITE + '/', lastmod: new Date().toISOString().slice(0, 10), priority: '1.0' }];
+const today = new Date().toISOString().slice(0, 10);
+const urls = [{ loc: SITE + '/', lastmod: today, priority: '1.0' }, { loc: SITE + '/me/', lastmod: today, priority: '0.9' }];
 for (const p of posts) {
   if (!p.slug) continue;
   const md = await readFile(join(ROOT, 'blog', p.slug + '.md'), 'utf8').catch(() => null);

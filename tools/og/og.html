@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Social card source. Render to /og-image.png at 1200x630 (see tools/og/README.md). -->
+<!-- Social card source, 1200x630: /og-image.png (home) and, with ?v=me, /me/og.png. Rendered by tools/og/build.mjs. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -25,12 +25,18 @@
 <canvas id="cv"></canvas>
 <div class="t">
   <div class="brand"><svg viewBox="0 0 22 22"><circle cx="2.20" cy="2.20" r="1.95"/><circle cx="6.60" cy="2.20" r="1.95"/><circle class="a" fill="#FF4A1C" cx="11.00" cy="2.20" r="1.95"/><circle cx="15.40" cy="2.20" r="1.95"/><circle cx="19.80" cy="2.20" r="1.95"/><circle cx="2.20" cy="6.60" r="1.68"/><circle class="s" cx="6.60" cy="6.60" r="0.97"/><circle cx="11.00" cy="6.60" r="1.95"/><circle class="s" cx="15.40" cy="6.60" r="0.97"/><circle cx="19.80" cy="6.60" r="1.68"/><circle cx="2.20" cy="11.00" r="1.68"/><circle cx="11.00" cy="11.00" r="1.95"/><circle cx="19.80" cy="11.00" r="1.68"/><circle cx="2.20" cy="15.40" r="1.68"/><circle cx="11.00" cy="15.40" r="1.95"/><circle cx="19.80" cy="15.40" r="1.68"/><circle cx="2.20" cy="19.80" r="1.68"/><circle cx="11.00" cy="19.80" r="1.95"/><circle cx="19.80" cy="19.80" r="1.68"/></svg>Tsaqif Mukhayyar</div>
-  <h1>Firmware to cloud,<br>ground to <em>sky.</em></h1>
-  <div class="m"><span><b>●</b> Software engineer</span><span>Surabaya, ID</span><span>mukhayyar.my.id</span></div>
+  <h1 id="h">Ideas into<br>shipped <em>software.</em></h1>
+  <div class="m" id="m"><span><b>●</b> Product engineer</span><span>Web, mobile &amp; AI</span><span>mukhayyar.my.id</span></div>
 </div>
 <script src="../../assets/js/halftone.js"></script>
 <script src="../../assets/js/scenes/planet.js"></script>
 <script>
+  // og.html → /og-image.png (home); og.html?v=me → /me/og.png (the long page)
+  if (new URLSearchParams(location.search).get('v') !== 'me') document.getElementById('h').style.fontSize = '92px';
+  if (new URLSearchParams(location.search).get('v') === 'me') {
+    document.getElementById('h').innerHTML = 'Firmware to cloud,<br>ground to <em>sky.</em>';
+    document.getElementById('m').innerHTML = '<span><b>●</b> Software engineer</span><span>Surabaya, ID</span><span>mukhayyar.my.id/me</span>';
+  }
   const ht = new Halftone(document.getElementById('cv'), Halftone.scenes.planet, { autoplay: false });
   ht.onready = () => { ht.renderAt(4.2); document.fonts.ready.then(() => { window.__ready = true; }); };
 </script>

@@ -32,15 +32,15 @@
 
   /* ---------------------------------------------------------------- data */
   const DATA = Promise.all([
-    getJSON('data/profile.json', {}),
-    getJSON('data/experience.json', []),
-    getJSON('data/eepisat.json', []),
-    getJSON('data/projects.json', []),
-    getJSON('data/achievements.json', {}),
-    getJSON('data/postits.json', {}),
-    getJSON('blog/posts.json', []),
-    getJSON('data/milestones.json', []),
-    getJSON('data/toolbox.json', []),
+    getJSON('/data/profile.json', {}),
+    getJSON('/data/experience.json', []),
+    getJSON('/data/eepisat.json', []),
+    getJSON('/data/projects.json', []),
+    getJSON('/data/achievements.json', {}),
+    getJSON('/data/postits.json', {}),
+    getJSON('/blog/posts.json', []),
+    getJSON('/data/milestones.json', []),
+    getJSON('/data/toolbox.json', []),
   ]).then(([profile, experience, eepisat, projects, achievements, postits, posts, milestones, toolbox]) =>
     ({ profile, experience, eepisat, projects, achievements, postits, posts, milestones, toolbox }));
 
@@ -106,7 +106,7 @@
         if (!e.isIntersecting) return;
         io.unobserve(e.target);
         const t = e.target, icon = t.dataset.icon;
-        const src = icon ? 'assets/icons/tools/' + icon + '.svg' : '';
+        const src = icon ? '/assets/icons/tools/' + icon + '.svg' : '';
         mount($('canvas', t), scene('logo', src, t.dataset.hex, t.dataset.short), { interactTarget: t, revealDuration: 0.9 });
       });
     }, { rootMargin: '300px 0px' });
@@ -432,14 +432,14 @@
     meta.innerHTML = metaBase;
     body.innerHTML = '';
     document.title = post.title + ' — Tsaqif Mukhayyar';
-    const sc = post.cover ? scene('image', post.cover.includes('/') ? post.cover : 'blog/images/' + post.cover) : scene('projectArt', post.title, (post.tags || []).join(' '));
+    const sc = post.cover ? scene('image', /^(https?:|\/)/.test(post.cover) ? post.cover : '/' + (post.cover.includes('/') ? post.cover : 'blog/images/' + post.cover)) : scene('projectArt', post.title, (post.tags || []).join(' '));
     coverHt = mount($('#article-cover'), sc);
     try {
-      const res = await fetch('blog/' + encodeURIComponent(slug) + '.md', ac ? { signal: ac.signal } : undefined);
+      const res = await fetch('/blog/' + encodeURIComponent(slug) + '.md', ac ? { signal: ac.signal } : undefined);
       if (!res.ok) throw new Error('missing');
       const raw = await res.text();
       if (my !== navSeq || !articleOpen) return;
-      const md = raw.replace(/!\[([^\]]*)\]\((?!https?:|\/|blog\/)([^)]+)\)/g, '![$1](blog/images/$2)');
+      const md = raw.replace(/!\[([^\]]*)\]\((?!https?:|\/)(?:blog\/)?(?:images\/)?([^)]+)\)/g, '![$1](/blog/images/$2)');
       body.innerHTML = window.marked ? window.marked.parse(md) : `<pre>${esc(md)}</pre>`;
       const words = body.textContent.trim().split(/\s+/).length;
       meta.innerHTML = metaBase + `<span>${Math.max(1, Math.round(words / 220))} min read</span>`;
@@ -779,7 +779,7 @@
     const host = document.getElementById('fig-link');
     if (!host) return;
     let figP = null;
-    const load = loadFig = () => figP || (figP = import(new URL('assets/js/fig-link.js', document.baseURI).href)
+    const load = loadFig = () => figP || (figP = import(new URL('/assets/js/fig-link.js', document.baseURI).href)
       .then(() => new Promise((r) => requestAnimationFrame(() => { refresh(); if (lenis) lenis.resize(); r(); })))
       .catch((e) => console.warn('fig-link', e)));
     if (!('IntersectionObserver' in window)) { load(); return; }
