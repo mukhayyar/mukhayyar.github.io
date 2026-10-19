@@ -24,8 +24,8 @@
   },
   {
     "name": "OptiControl NDT GUI",
-    "desc": "Industrial inspection app with 9+ modes. A-Scan, B-Scan, 2D corrosion heatmap. FPGA data at 3 ms over UDP. Offline HMAC licensing.",
-    "tech": "Python · PySide6 · PyQtGraph · QThread · FPGA · pytest"
+    "desc": "Industrial inspection app with 9+ modes. A-Scan, B-Scan, 2D corrosion heatmap. A network call every 3 ms. Offline HMAC licensing.",
+    "tech": "Python · PySide6 · PyQtGraph · QThread · pytest"
   },
   {
     "name": "CanSat Firmware",
