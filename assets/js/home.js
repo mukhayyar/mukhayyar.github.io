@@ -52,6 +52,7 @@
     { name: 'AHD — Adaptive Hierarchical Detection', tech: 'Python · CLIP', tag: 'Edge computer vision', text: 'Scene-aware detection on a Raspberry Pi 5, no cloud. IEEE GCCE ’26.' },
     { name: 'OptiControl NDT GUI', tech: 'Python · PySide6', tag: 'Industrial software', text: 'Ultrasonic inspection for OptiControl — a network call every 3 ms.' },
     { name: 'Infoglobal Migration', tech: 'FastAPI · React', tag: 'Modernization', text: 'A defense-sector legacy app rebuilt — page load cut by 90%.' },
+    { name: 'PKM Explorer', tech: 'map', tag: 'Data product', text: '23,000+ funded PKM titles, searchable, with a map of 900+ campuses — pkm.mukhayyar.my.id.' },
     { name: 'Portable GCS', tech: 'Flutter-pi · RPi', tag: 'Mobile & embedded UI', text: 'A Flutter ground-control app on a Raspberry Pi for live telemetry.' },
   ];
   function initShow() {

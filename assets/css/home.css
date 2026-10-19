@@ -119,6 +119,8 @@ html[data-ht-mode="color"] .h-bonus .pict { color: #B8692A; }
 .h-cases { margin-top: clamp(48px, 6vw, 88px); border-top: 1px solid var(--ink); }
 .h-case { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); align-items: baseline; padding: 22px 0; border-bottom: 1px solid var(--line); }
 .h-case__who { grid-column: 1 / span 3; color: var(--ink-3); }
+a.h-case__who { justify-self: start; color: var(--ink); }
+a.h-case__who:hover { color: var(--accent-ink); }
 .h-case__what { grid-column: 4 / span 3; font-size: clamp(20px, 1.6vw, 26px); line-height: 1.1; letter-spacing: -.035em; font-weight: 500; }
 .h-case__out { grid-column: 7 / span 4; color: var(--ink-2); font-size: 15.5px; line-height: 1.5; }
 .h-case__stack { grid-column: 11 / span 2; text-align: right; color: var(--ink-3); }

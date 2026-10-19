@@ -18,6 +18,12 @@
     "url": "https://rekafab.mukhayyar.my.id"
   },
   {
+    "name": "PKM Explorer",
+    "desc": "A searchable database of 23,000+ funded PKM proposal titles from 9 years: smart search, campus and lecturer rankings, a map of 900+ campuses, trend analysis and title tips. The whole database runs in the browser.",
+    "tech": "React · SQLite (WASM) · Leaflet · Vite · Cloudflare",
+    "url": "https://pkm.mukhayyar.my.id"
+  },
+  {
     "name": "AHD — Adaptive Hierarchical Detection",
     "desc": "On-device object detection for RPi 5. Two-phase framework with a scene-aware context DB: +0.87 avg detections vs a fixed COCO-80 baseline, 78.5% smaller class vocabulary, context switch 15 s → 300 ms. Paper at IEEE GCCE 2026.",
     "tech": "Python · CLIP · COCO-80 · Places365 · Flask · React · ARM64 · Docker"
